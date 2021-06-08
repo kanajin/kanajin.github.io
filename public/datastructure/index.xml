@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DataStructures on Suzuki&#39;s Blog</title>
+    <link>http://example.org/datastructure/</link>
+    <description>Recent content in DataStructures on Suzuki&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Jun 2021 18:07:03 +0800</lastBuildDate><atom:link href="http://example.org/datastructure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>归并排序</title>
+      <link>http://example.org/datastructure/mergesort/</link>
+      <pubDate>Mon, 07 Jun 2021 18:07:03 +0800</pubDate>
+      
+      <guid>http://example.org/datastructure/mergesort/</guid>
+      <description>简介 归并排序使用的是“分而治之”的方法，思路简单，速度仅次于快速排序，一般用于总体无序但各子项相对有序的数组。
+1、基本思想 归并排序使用的是分治思想，分治模式在每一层递归上有三个步骤。
+ 分解（Divide）：将n个元素分成 $\frac{2}{n}$个元素的子序列。 解决（Conquer）：用合并排序法对两个子序列递归地排序。 合并（Combine）：合并两个已排序的子序列以得到排序结果。  </description>
+    </item>
+    
+    <item>
+      <title>插入排序</title>
+      <link>http://example.org/datastructure/insertsort/</link>
+      <pubDate>Mon, 07 Jun 2021 11:24:43 +0800</pubDate>
+      
+      <guid>http://example.org/datastructure/insertsort/</guid>
+      <description>插入排序 从左到右开始，先将第一个数标记为已排序，然后将他的下一个数取出，逐个与前面的数字比较。如果取出的数字更小，则继续往左比较，直到遇到一个比他小的数字，将取出的数插入到这个数的右边
+代码： void insert(int *a, int size){ for(int i = 1; i &amp;lt; size; i++){ int temp = a[i]; int j = i - 1; for(; j &amp;gt;= 0 &amp;amp;&amp;amp; a[j] &amp;gt; temp; j--){ a[j + 1] = a[j]; //是将这个更大的数字右移一格  } a[j + 1] = temp; } } 注意 程序中的 a[j + 1] = a[j] 的意思是将更大的数字右移一格</description>
+    </item>
+    
+    <item>
+      <title>选择排序</title>
+      <link>http://example.org/datastructure/selectionsort/</link>
+      <pubDate>Mon, 07 Jun 2021 11:00:36 +0800</pubDate>
+      
+      <guid>http://example.org/datastructure/selectionsort/</guid>
+      <description>选择排序： 遍历一遍数组，选择最小的数（做法：先指定遍历的第一个数为最小，遍历一遍数组，如果发现比他小的，则记录这个最小值），将最小的数与遍历的第一个数对调，完成一次操作。然后从下一个数开始遍历，直到完成。
+内循环： 遍历一遍数组，找到最小值（第n次遍历就从数组第n个数开始），然后将最小值与遍历的第一个数对调
+外循环： 指定内循环次数，值为数组长度。
+代码： void sort(int *a, int size){ for(int i = 0; i &amp;lt; size; i++){ int temp = a[i]; int probe = i; for(int j = i + 1; j &amp;lt; size; j++){ if(a[j] &amp;lt; temp){ temp = a[j]; probe = j; } } swap(&amp;amp;a[i], &amp;amp;a[probe]); } } </description>
+    </item>
+    
+    <item>
+      <title>冒泡排序</title>
+      <link>http://example.org/datastructure/bubblesort/</link>
+      <pubDate>Mon, 07 Jun 2021 10:38:35 +0800</pubDate>
+      
+      <guid>http://example.org/datastructure/bubblesort/</guid>
+      <description>冒泡排序 逐步比较相邻的两个数，如果前一个比后一个大，就对调他们的位置。
+内循环： 遍历一次数组，比较a[n]与a[n+1]的大小，根据情况执行对调，然后n+1，重复
+外循环： 需要遍历几次数组（执行几次内循环）才可以完成冒泡排序。值为数组长度（上界）
+代码： void sort(int *a, int size){ for(int j = 0; j &amp;lt; size -1; j++){ for(int i = 0; i &amp;lt; size - 1; i++){ if(a[i] &amp;gt; a[i + 1]){ swap(a + i, a + i + 1); } } } } </description>
+    </item>
+    
+  </channel>
+</rss>
