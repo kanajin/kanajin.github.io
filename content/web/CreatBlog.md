@@ -41,7 +41,7 @@ hugo new site D:\WebSite
 ```
 hugo将会在D盘自动生成一个名为WebSite的文件夹，里面存放了建立网站需要的资源。包括`content`目录以及`config.toml`文件，前者用于存放你写的md文件，后者则是网站的配置文件。
 ## 建立本地仓库并连接到github
-如果要使用github托管网站，现在就先将这个网站文件夹建成git仓库。在当前目录下使用命令`git init`建立仓库，之后的步骤与[初次使用Git]({{< ref "Git\start.md" >}})这篇文章相同，不再赘述。
+如果要使用github托管网站，现在就先将这个网站文件夹建成git仓库。在当前目录下使用命令`git init`建立仓库，之后的步骤与[初次使用Git]({{< ref "Git/start.md" >}})这篇文章相同，不再赘述。
 ## 下载一个主题
 Hugo必须选定主题后才能正常使用，因此先去主题站<https://themes.gohugo.io>选择一个你喜欢的主题，并前往该主题的github页面，根据`README`的指导安装主题，命令行格式为：
 ```
