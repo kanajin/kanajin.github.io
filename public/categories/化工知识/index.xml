@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>化工知识 on Suzuki&#39;s Blog</title>
-    <link>http://example.org/categories/%E5%8C%96%E5%B7%A5%E7%9F%A5%E8%AF%86/</link>
+    <link>https://kanajin.github.io/categories/%E5%8C%96%E5%B7%A5%E7%9F%A5%E8%AF%86/</link>
     <description>Recent content in 化工知识 on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jun 2021 12:54:45 +0800</lastBuildDate><atom:link href="http://example.org/categories/%E5%8C%96%E5%B7%A5%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Jun 2021 12:54:45 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E5%8C%96%E5%B7%A5%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>光气中毒机理及应急药物</title>
-      <link>http://example.org/chemicalindustry/phosgene/</link>
+      <link>https://kanajin.github.io/chemicalindustry/phosgene/</link>
       <pubDate>Tue, 08 Jun 2021 12:54:45 +0800</pubDate>
       
-      <guid>http://example.org/chemicalindustry/phosgene/</guid>
+      <guid>https://kanajin.github.io/chemicalindustry/phosgene/</guid>
       <description>中毒机理 光气分子中的羰基$\ce{C=O}$可与呼吸道和肺上皮细胞中的蛋白质、酶类发生酰化反应，产生以下几点后果：
  干扰细胞正常代谢 损伤细胞结构 破坏肺泡表面活性物质，使肺泡萎陷、顺应性降低  肺间质血管可受到同样损伤，导致血浆外渗，引起肺水肿（潜伏期2~24h），血容量降低，逐渐粘稠，心脏负荷加重，最终导致心力衰竭、休克。
 遇水分解成盐酸，对皮肤和呼吸道有刺激、腐蚀性。
