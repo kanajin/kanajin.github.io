@@ -1,4 +1,99 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 09 Jun 2021 17:31:17 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 09 Jun 2021 21:57:29 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>链表题目本</title><link>https://kanajin.github.io/datastructure/linkedlistquestion/</link><pubDate>Wed, 09 Jun 2021 21:57:29 +0800</pubDate><guid>https://kanajin.github.io/datastructure/linkedlistquestion/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/linkedlistquestion/ -&lt;h1 id="反转链表">反转链表&lt;/h1>
+&lt;h2 id="题目">题目&lt;/h2>
+&lt;p>定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。&lt;/p>
+&lt;h2 id="示例">示例&lt;/h2>
+&lt;pre>&lt;code>输入: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;NULL
+输出: 5-&amp;gt;4-&amp;gt;3-&amp;gt;2-&amp;gt;1-&amp;gt;NULL
+&lt;/code>&lt;/pre>&lt;h2 id="解法">解法&lt;/h2>
+&lt;p>此题有两种解法——迭代法和递归法，分别介绍。&lt;/p>
+&lt;h3 id="迭代法">迭代法&lt;/h3>
+&lt;p>思路：遍历链表，在遍历过程中逐个改变所遍历到的节点的指针域，使其指向前一个节点。&lt;br>
+实现方法：使用三指针法。图片与解法摘自&lt;a href="http://c.biancheng.net/view/8105.html">http://c.biancheng.net/view/8105.html&lt;/a>
+首先定义三个指针并分别命名为beg、mid、end，初始指向如下图：&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_1.gif" alt="reverselist_loop_1">&lt;/p>
+&lt;p>遍历方式为：三个指针各自向后移动一个节点，直至mid指针指向最后一个节点(此时end指针指向NULL)。在指针移动前，将mid所指节点的指针域指向节点指向beg指针指向的节点，如下图&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_2.gif" alt="reverselist_loop_2">&lt;/p>
+&lt;p>一开始mid指向的值改为初始beg指向(即为NULL)，然后三个指针右移。接下来同理：&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_3.gif" alt="reverselist_loop_2">&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_4.gif" alt="reverselist_loop_2">&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_5.gif" alt="reverselist_loop_2">&lt;/p>
+&lt;p>最后改变head指针指向，使其与mid相同，反转完成。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">reverseList&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#75715e">//如果是空链表或只有一个元素，无需操作直接返回
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#75715e">//定义三个指针
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> beg &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> mid &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> end &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+&lt;span style="color:#75715e">//遍历链表
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">while&lt;/span>(&lt;span style="color:#ae81ff">1&lt;/span>){
+&lt;span style="color:#75715e">//使mid指针域指向beg
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> mid &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> beg;
+&lt;span style="color:#66d9ef">if&lt;/span>(end &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+&lt;span style="color:#75715e">//使指针后移一位
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> beg &lt;span style="color:#f92672">=&lt;/span> mid;
+mid &lt;span style="color:#f92672">=&lt;/span> end;
+end &lt;span style="color:#f92672">=&lt;/span> end &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#75715e">//重新定义头结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> mid;
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="递归法">递归法&lt;/h3>
+&lt;p>递归法可以理解成从尾节点开始，依次向前遍历，过程中改变节点指向，使其指向前一个节点.&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">reverseList&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#75715e">//当为空链表或抵达递归出口(尾结点)时，递归结束
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#75715e">//递归至尾节点，根据递归出口，此时head指针指向最后一个节点，在原本链表尾部定义一个新的头结点ptr
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> reverseList(head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next);
+&lt;span style="color:#75715e">//使head指针指向的节点的指针域指向head
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#75715e">//将head节点的指针域指空，否则会出现互指的情况
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#960050;background-color:#1e0010">返回新的头结点供递归使用&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> ptr;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="链表中倒数第k个节点">链表中倒数第k个节点&lt;/h1>
+&lt;h2 id="题目-1">题目&lt;/h2>
+&lt;p>输入一个链表，输出该链表中倒数第k个节点。&lt;br>
+为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。&lt;br>
+例如：一个链表有&lt;code>6&lt;/code>个节点，从头节点开始，它们的值依次是&lt;code>1、2、3、4、5、6&lt;/code>。这个链表的倒数第&lt;code>3&lt;/code>个节点是值为&lt;code>4&lt;/code>的节点。&lt;/p>
+&lt;h2 id="示例-1">示例&lt;/h2>
+&lt;pre>&lt;code>给定一个链表: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, 和 k = 2。
+返回链表 4-&amp;gt;5。
+&lt;/code>&lt;/pre>&lt;h2 id="解法-1">解法&lt;/h2>
+&lt;h3 id="正向遍历法">正向遍历法&lt;/h3>
+&lt;p>先遍历一次链表，获得链表长度&lt;code>n&lt;/code>，然后再遍历到第&lt;code>n - k + 1&lt;/code>个位置，即为倒数第k个。
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">getKthFromEnd&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> k){
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#75715e">//遍历链表，查看长度
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#66d9ef">while&lt;/span>(head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+i&lt;span style="color:#f92672">++&lt;/span>;
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#75715e">//算出正数第几个，正攻。
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> i &lt;span style="color:#f92672">-&lt;/span> k; j&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(ptr &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ptr;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="双指针法">双指针法&lt;/h3>
+&lt;p>本解法参考&lt;a href="https://zhuanlan.zhihu.com/p/59564074">https://zhuanlan.zhihu.com/p/59564074&lt;/a>，代码不再赘述。
+思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。&lt;/p>
+- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
 &lt;p>&lt;strong>快速排序&lt;/strong>(Quicksort)，又称&lt;strong>分区交换排序&lt;/strong>(partition-exchange sort)，简称&lt;strong>快排&lt;/strong>。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p>
 &lt;h1 id="思路">思路&lt;/h1>
 &lt;ul>
@@ -6,16 +101,16 @@
 &lt;li>&lt;del>当然你可以选择数组中的任意一个数，但为了自己思路以及代码的简明，我们选择以数组的第一个数为锚点&lt;/del>&lt;/li>
 &lt;li>从将数组划分为以2个元素为一组的子数组开始，递归地完成上面的步骤。&lt;/li>
 &lt;/ul>
-&lt;h1 id="做法">做法：&lt;/h1>
+&lt;h1 id="做法">做法&lt;/h1>
 &lt;ul>
-&lt;li>首先记录a[0]的值为p,然后设定一个变量m用来做分界线(a[1]~a[m-1]用来存放小于p的数，a[m]~a[n]用于存放大于等于p的数)。&lt;/li>
-&lt;li>显而易见的，我们需要一个循环参数用来探索数组，将它指向的数与p作比较，根据比较结果判断这个数应该放在1~m-1中还是m~n中。我们定义这个参数为k，随着&lt;code>k++&lt;/code>，它探索着数组。&lt;br>
-图解：&lt;br>
-&lt;img src="https://kanajin.github.io/QuickSort/partition1.png" alt="partition1">&lt;br>
-当a[k]大于等于p时，什么也不做，k继续向右移动。&lt;br>
-&lt;img src="https://kanajin.github.io/QuickSort/partition2.png" alt="partition2">&lt;br>
-当a[k]小于p时，左边区域的成员应该增加，所以我们将m的值+1，把右边一个大于p的数囊括进来，然后让a[k]和它交换位置，这样就完成了分类。&lt;/li>
+&lt;li>首先记录a[0]的值为p,然后设定一个变 量m用来做分界线(a[1]~a[m-1]用来存放小于p的数，a[m]~a[n]用于存放大于等于p的数)。&lt;/li>
+&lt;li>显而易见的，我们需要一个循环参数用来探索数组，将它指向的数与p作比较，根据比较结果判断这个数应该放在1~m-1中还是m~n中。我们定义这个参数为k，随着&lt;code>k++&lt;/code>，它探索着数组。&lt;/li>
 &lt;/ul>
+&lt;p>图解：&lt;br>
+&lt;img src="https://kanajin.github.io/QuickSort/partition1.png" alt="partition1">&lt;br>
+当a[k]大于等于p时，什么也不做，k继续向右移动。&lt;/p>
+&lt;p>&lt;img src="https://kanajin.github.io/QuickSort/partition2.png" alt="partition2">&lt;br>
+当a[k]小于p时，左边区域的成员应该增加，所以我们将m的值+1，把右边一个大于p的数囊括进来，然后让a[k]和它交换位置，这样就完成了分类。&lt;/p>
 &lt;h1 id="代码">代码&lt;/h1>
 &lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//交换函数
 &lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">swap&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>b){
@@ -346,20 +441,4 @@ probe &lt;span style="color:#f92672">=&lt;/span> j;
 swap(&lt;span style="color:#f92672">&amp;amp;&lt;/span>a[i], &lt;span style="color:#f92672">&amp;amp;&lt;/span>a[probe]);
 }
 }
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/selectionsort/ -</description></item><item><title>冒泡排序</title><link>https://kanajin.github.io/datastructure/bubblesort/</link><pubDate>Mon, 07 Jun 2021 10:38:35 +0800</pubDate><guid>https://kanajin.github.io/datastructure/bubblesort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/bubblesort/ -&lt;h1 id="冒泡排序">冒泡排序&lt;/h1>
-&lt;p>逐步比较相邻的两个数，如果前一个比后一个大，就对调他们的位置。&lt;/p>
-&lt;h2 id="内循环">内循环：&lt;/h2>
-&lt;p>遍历一次数组，比较a[n]与a[n+1]的大小，根据情况执行对调，然后n+1，重复&lt;/p>
-&lt;h2 id="外循环">外循环：&lt;/h2>
-&lt;p>需要遍历几次数组（执行几次内循环）才可以完成冒泡排序。值为数组长度（上界）&lt;/p>
-&lt;h2 id="代码">代码：&lt;/h2>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>; j&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">if&lt;/span>(a[i] &lt;span style="color:#f92672">&amp;gt;&lt;/span> a[i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>]){
-swap(a &lt;span style="color:#f92672">+&lt;/span> i, a &lt;span style="color:#f92672">+&lt;/span> i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>);
-}
-}
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/bubblesort/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/selectionsort/ -</description></item></channel></rss>
