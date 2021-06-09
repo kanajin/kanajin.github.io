@@ -60,8 +60,7 @@ draft: true
 &lt;ol>
 &lt;li>在github中新建一个仓库&lt;br>
 仓库名字严格使用&amp;lt;你的github名字&amp;gt;.github.io，这是托管网站的前提条件。&lt;/li>
-&lt;li>将你的网站目录push到该仓库的master分支下。&lt;/li>
-&lt;li>转到仓库中的Actions标签下，选择&lt;code>New workflow→set up a workflow yourself&lt;/code>，在出现的代码输入框中填入以下信息并命名为&lt;code>main.yml&lt;/code>：&lt;/li>
+&lt;li>在网站目录下新建一个文件夹&lt;code>.github&lt;/code>，在其中创建一个新文件&lt;code>main.yml&lt;/code>并填写如下内容：&lt;/li>
 &lt;/ol>
 &lt;pre>&lt;code>name: github pages
 on:
@@ -90,10 +89,12 @@ if: github.ref == 'refs/heads/master'
 with:
 github_token: ${{ secrets.GITHUB_TOKEN }}
 publish_dir: ./public
-&lt;/code>&lt;/pre>&lt;blockquote>
+&lt;/code>&lt;/pre>&lt;ol start="3">
+&lt;li>保存后将本地网站仓库push到github仓库上，在github仓库下选择标签&lt;code>Actions&lt;/code>，脚本自动开始运行&lt;/li>
+&lt;/ol>
+&lt;blockquote>
 &lt;p>此处内容编写借鉴了&lt;a href="https://gohugo.io/hosting-and-deployment/hosting-on-github">Hugo官方文档&lt;/a>以及P3TERX佬的这篇教程&lt;a href="https://p3terx.com/archives/github-actions-started-tutorial.html">GitHub Actions 入门教程&lt;/a>，最后yml文件由L君编写，&lt;del>跪谢。&lt;/del>&lt;/p>
 &lt;/blockquote>
-&lt;p>然后点击&lt;code>Start conmmit&lt;/code>按钮，Actions开始运作。&lt;/p>
 &lt;h2 id="最后一步">最后一步&lt;/h2>
 &lt;p>当Actions运行成功后，你的仓库应该多了一个名为&lt;code>gh-pages&lt;/code>的新分支。转到仓库的设置界面，在page标签下，Sorce中选择这个新分支，点击Save，上方出现如下提示：&lt;br>
 &lt;img src="https://kanajin.github.io/CreateBlog/CreateSuccess.jpg" alt="image">&lt;br>
