@@ -2,7 +2,7 @@
 title: "iPadApp收集"
 date: 2021-06-07T13:27:38+08:00
 draft: false
-categories: ["实用软件收集"]
+categories: ["iPad相关"]
 ---
 
 # 工具类

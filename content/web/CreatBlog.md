@@ -2,6 +2,7 @@
 title: "使用 Github Pages 搭建个人博客"
 date: 2021-06-08T23:22:43+08:00
 draft: false
+categories: ["网站搭建"]
 enableMathJax: false
 ---
 
@@ -74,8 +75,7 @@ draft: true
 # 使用github托管你的网站
 1. 在github中新建一个仓库  
 仓库名字严格使用<你的github名字>.github.io，这是托管网站的前提条件。  
-2. 将你的网站目录push到该仓库的master分支下。
-3. 转到仓库中的Actions标签下，选择`New workflow→set up a workflow yourself`，在出现的代码输入框中填入以下信息并命名为`main.yml`：
+2. 在网站目录下新建一个文件夹`.github`，在其中创建一个新文件`main.yml`并填写如下内容：
 
 ```
 name: github pages
@@ -111,9 +111,8 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
 ```
+3. 保存后将本地网站仓库push到github仓库上，在github仓库下选择标签`Actions`，脚本自动开始运行
 > 此处内容编写借鉴了[Hugo官方文档](https://gohugo.io/hosting-and-deployment/hosting-on-github)以及P3TERX佬的这篇教程[GitHub Actions 入门教程](https://p3terx.com/archives/github-actions-started-tutorial.html)，最后yml文件由L君编写，~~跪谢。~~
-
-然后点击`Start conmmit`按钮，Actions开始运作。  
 ## 最后一步
 当Actions运行成功后，你的仓库应该多了一个名为`gh-pages`的新分支。转到仓库的设置界面，在page标签下，Sorce中选择这个新分支，点击Save，上方出现如下提示：  
 ![image](/CreateBlog/CreateSuccess.jpg)  

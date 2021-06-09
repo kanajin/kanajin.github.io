@@ -1,6 +1,7 @@
 ---
 title: "动设备知识"
 date: 2021-06-08T13:21:35+08:00
+categories: ["化工知识"]
 draft: false
 ---
 
