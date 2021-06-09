@@ -77,7 +77,6 @@ void merge_sort_recursive(int *a, int *b, int start, int end){
     int end1 = mid;
     int start2 = mid +1;
     int end2 = end;
-//第一个递归：将左边分成
     merge_sort_recursive(a, b, start1, end1);
     merge_sort_recursive(a, b, start2, end2);
     int k = start;
