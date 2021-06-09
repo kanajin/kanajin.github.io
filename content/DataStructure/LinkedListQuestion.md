@@ -113,5 +113,29 @@ struct ListNode* getKthFromEnd(struct ListNode* head, int k){
 }
 ```
 ### 双指针法
-本解法参考<https://zhuanlan.zhihu.com/p/59564074>，代码不再赘述。
-思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。
+本解法参考<https://zhuanlan.zhihu.com/p/59564074>
+思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。  
+代码：
+```C
+struct ListNode* getKthFromEnd(struct ListNode* head, int k){
+    if(head == NULL){
+        return NULL;
+    }
+    if(k == 0){
+        return NULL;
+    }
+    struct ListNode* ptr_1 = head;
+    struct ListNode* ptr_2 = head;
+    for(int i = 0; i < k; i++){
+        if(ptr_1 == NULL){
+            return NULL;
+        }
+        ptr_1 = ptr_1 -> next;
+    }
+    while(ptr_1 != NULL){
+        ptr_1 = ptr_1 -> next;
+        ptr_2 = ptr_2 -> next;
+    }
+    return ptr_2;
+}
+```
