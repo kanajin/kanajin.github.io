@@ -52,8 +52,7 @@
     <span style=color:#66d9ef>int</span> end1 <span style=color:#f92672>=</span> mid;
     <span style=color:#66d9ef>int</span> start2 <span style=color:#f92672>=</span> mid <span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>;
     <span style=color:#66d9ef>int</span> end2 <span style=color:#f92672>=</span> end;
-<span style=color:#75715e>//第一个递归：将左边分成
-</span><span style=color:#75715e></span>    merge_sort_recursive(a, b, start1, end1);
+    merge_sort_recursive(a, b, start1, end1);
     merge_sort_recursive(a, b, start2, end2);
     <span style=color:#66d9ef>int</span> k <span style=color:#f92672>=</span> start;
     <span style=color:#66d9ef>while</span> (start1 <span style=color:#f92672>&lt;=</span> end1 <span style=color:#f92672>&amp;&amp;</span> start2 <span style=color:#f92672>&lt;=</span> end2)
