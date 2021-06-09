@@ -91,9 +91,31 @@ ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672
 &lt;span style="color:#66d9ef">return&lt;/span> ptr;
 }
 &lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="双指针法">双指针法&lt;/h3>
-&lt;p>本解法参考&lt;a href="https://zhuanlan.zhihu.com/p/59564074">https://zhuanlan.zhihu.com/p/59564074&lt;/a>，代码不再赘述。
-思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。&lt;/p>
-- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
+&lt;p>本解法参考&lt;a href="https://zhuanlan.zhihu.com/p/59564074">https://zhuanlan.zhihu.com/p/59564074&lt;/a>
+思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">getKthFromEnd&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> k){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(k &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr_1 &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr_2 &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k; i&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(ptr_1 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+ptr_1 &lt;span style="color:#f92672">=&lt;/span> ptr_1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">while&lt;/span>(ptr_1 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+ptr_1 &lt;span style="color:#f92672">=&lt;/span> ptr_1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+ptr_2 &lt;span style="color:#f92672">=&lt;/span> ptr_2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ptr_2;
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
 &lt;p>&lt;strong>快速排序&lt;/strong>(Quicksort)，又称&lt;strong>分区交换排序&lt;/strong>(partition-exchange sort)，简称&lt;strong>快排&lt;/strong>。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p>
 &lt;h1 id="思路">思路&lt;/h1>
 &lt;ul>
