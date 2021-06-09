@@ -5,9 +5,69 @@
     <description>Recent content on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jun 2021 23:22:43 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 09 Jun 2021 17:31:17 +0800</lastBuildDate>
     
         <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>快速排序</title>
+        <link>https://kanajin.github.io/datastructure/quicksort/</link>
+        <pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate>
+        
+        <guid>https://kanajin.github.io/datastructure/quicksort/</guid>
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;快速排序&lt;/strong&gt;(Quicksort)，又称&lt;strong&gt;分区交换排序&lt;/strong&gt;(partition-exchange sort)，简称&lt;strong&gt;快排&lt;/strong&gt;。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p&gt;
+&lt;h1 id=&#34;思路&#34;&gt;思路&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;在数组中选择一个锚点p，一般为数组的第一个数，把数组分为 &amp;lt;p 和 &amp;gt;=p 两部分。&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;当然你可以选择数组中的任意一个数，但为了自己思路以及代码的简明，我们选择以数组的第一个数为锚点&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;从将数组划分为以2个元素为一组的子数组开始，递归地完成上面的步骤。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;做法&#34;&gt;做法：&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;首先记录a[0]的值为p,然后设定一个变量m用来做分界线(a[1]~a[m-1]用来存放小于p的数，a[m]~a[n]用于存放大于等于p的数)。&lt;/li&gt;
+&lt;li&gt;显而易见的，我们需要一个循环参数用来探索数组，将它指向的数与p作比较，根据比较结果判断这个数应该放在1~m-1中还是m~n中。我们定义这个参数为k，随着&lt;code&gt;k++&lt;/code&gt;，它探索着数组。&lt;br&gt;
+图解：&lt;br&gt;
+&lt;img src=&#34;https://kanajin.github.io/QuickSort/partition1.png&#34; alt=&#34;ifa[k]&gt;=p&#34;&gt;&lt;br&gt;
+当a[k]&amp;gt;=p时，什么也不做，k继续向右移动。&lt;br&gt;
+&lt;img src=&#34;https://kanajin.github.io/QuickSort/partition2.png&#34; alt=&#34;ifa[k]&lt;p&#34;&gt;&lt;br&gt;
+当a[k]&amp;lt;p时，左边区域的成员应该增加，所以我们将m的值+1，把右边一个大于p的数囊括进来，然后让a[k]和它交换位置，这样就完成了分类。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;代码&#34;&gt;代码&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//交换函数
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;swap&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;b){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a;
+    &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;b;
+    &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; temp;
+}
+&lt;span style=&#34;color:#75715e&#34;&gt;//执行段，执行上述图解的内容
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quick&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; end){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start];
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;start;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end; k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a[k] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; p){
+            m&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+            swap(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a[m], &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a[k]);
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;;
+    }
+    swap(&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a[start], &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;a[m]);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; m;
+}
+&lt;span style=&#34;color:#75715e&#34;&gt;//递归段，将数组分解成更小的子数组，从只含两个元素的子数组开始排序，直到最后将整个数组排序
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;quick_sort&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; end){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; quick(a, start, end);
+&lt;span style=&#34;color:#75715e&#34;&gt;//跳出条件
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(m &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; end){
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+    }
+    quick_sort(a, start, m&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+    quick_sort(a, m &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, end);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;- https://kanajin.github.io/datastructure/quicksort/ - </description>
+        </item>
     
     
     
@@ -79,8 +139,7 @@ draft: true
 &lt;ol&gt;
 &lt;li&gt;在github中新建一个仓库&lt;br&gt;
 仓库名字严格使用&amp;lt;你的github名字&amp;gt;.github.io，这是托管网站的前提条件。&lt;/li&gt;
-&lt;li&gt;将你的网站目录push到该仓库的master分支下。&lt;/li&gt;
-&lt;li&gt;转到仓库中的Actions标签下，选择&lt;code&gt;New workflow→set up a workflow yourself&lt;/code&gt;，在出现的代码输入框中填入以下信息并命名为&lt;code&gt;main.yml&lt;/code&gt;：&lt;/li&gt;
+&lt;li&gt;在网站目录下新建一个文件夹&lt;code&gt;.github&lt;/code&gt;，在其中创建一个新文件&lt;code&gt;main.yml&lt;/code&gt;并填写如下内容：&lt;/li&gt;
 &lt;/ol&gt;
 &lt;pre&gt;&lt;code&gt;name: github pages
 
@@ -114,10 +173,12 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;保存后将本地网站仓库push到github仓库上，在github仓库下选择标签&lt;code&gt;Actions&lt;/code&gt;，脚本自动开始运行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
 &lt;p&gt;此处内容编写借鉴了&lt;a href=&#34;https://gohugo.io/hosting-and-deployment/hosting-on-github&#34;&gt;Hugo官方文档&lt;/a&gt;以及P3TERX佬的这篇教程&lt;a href=&#34;https://p3terx.com/archives/github-actions-started-tutorial.html&#34;&gt;GitHub Actions 入门教程&lt;/a&gt;，最后yml文件由L君编写，&lt;del&gt;跪谢。&lt;/del&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;然后点击&lt;code&gt;Start conmmit&lt;/code&gt;按钮，Actions开始运作。&lt;/p&gt;
 &lt;h2 id=&#34;最后一步&#34;&gt;最后一步&lt;/h2&gt;
 &lt;p&gt;当Actions运行成功后，你的仓库应该多了一个名为&lt;code&gt;gh-pages&lt;/code&gt;的新分支。转到仓库的设置界面，在page标签下，Sorce中选择这个新分支，点击Save，上方出现如下提示：&lt;br&gt;
 &lt;img src=&#34;https://kanajin.github.io/CreateBlog/CreateSuccess.jpg&#34; alt=&#34;image&#34;&gt;&lt;br&gt;
@@ -179,7 +240,8 @@ jobs:
         <pubDate>Mon, 07 Jun 2021 18:07:03 +0800</pubDate>
         
         <guid>https://kanajin.github.io/datastructure/mergesort/</guid>
-        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/mergesort/ -&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/mergesort/ -&lt;p&gt;本文摘抄自&lt;code&gt;developer1024&lt;/code&gt;的知乎文章&lt;a href=&#34;https://zhuanlan.zhihu.com/p/124356219&#34;&gt;【算法】排序算法之归并排序&lt;/a&gt;。&lt;/p&gt;
+&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
 &lt;p&gt;归并排序使用的是“分而治之”的方法，思路简单，速度仅次于快速排序，一般用于总体无序但各子项相对有序的数组。&lt;/p&gt;
 &lt;h1 id=&#34;1基本思想&#34;&gt;1、基本思想&lt;/h1&gt;
 &lt;p&gt;归并排序使用的是分治思想，分治模式在每一层递归上有三个步骤。&lt;/p&gt;
@@ -188,7 +250,99 @@ jobs:
 &lt;li&gt;解决（Conquer）：用合并排序法对两个子序列递归地排序。&lt;/li&gt;
 &lt;li&gt;合并（Combine）：合并两个已排序的子序列以得到排序结果。&lt;/li&gt;
 &lt;/ul&gt;
-- https://kanajin.github.io/datastructure/mergesort/ - </description>
+&lt;h1 id=&#34;2实现逻辑&#34;&gt;2、实现逻辑&lt;/h1&gt;
+&lt;h2 id=&#34;21迭代法&#34;&gt;2.1、迭代法&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;申请空间，使其大小为两个已经排序数列之和，该空间用来存放合并后的数列。&lt;/li&gt;
+&lt;li&gt;设定两个指针，最初位置分别为两个已经排序子数列的起始位置。&lt;/li&gt;
+&lt;li&gt;比较两个指针所指向元素，选择相对小的元素放到合并空间，并移动指针到下一个位置。&lt;/li&gt;
+&lt;li&gt;重复步骤3，直到某一指针打到子数列尾。&lt;/li&gt;
+&lt;li&gt;将另一序列剩下的所有元素直接复制到合并序列尾。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;22递归法&#34;&gt;2.2、递归法&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;将序列每相邻两个数字进行归并操作，形成$floor(\frac{n}{2})$个序列，排序后每个序列将包含两个元素。&lt;/li&gt;
+&lt;li&gt;将上述序列再次归并，形成$floor(\frac{n}{4})$个序列，每个序列包含四个元素。&lt;/li&gt;
+&lt;li&gt;重复步骤2，直到所有元素排序完毕。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;3代码实现&#34;&gt;3、代码实现&lt;/h1&gt;
+&lt;h2 id=&#34;迭代法&#34;&gt;迭代法：&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;min&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; x : y;
+}
+&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;merge_sort&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; arr[], &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; len) {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; arr;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;) malloc(len &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;));
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; seg, start;
+&lt;span style=&#34;color:#75715e&#34;&gt;//外循环：步长成倍提升，并通过内循环将主数列从分成n个子数列，下次循环分成n/2个...直到只分成2个
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (seg &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; seg &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; len; seg &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; seg) {
+&lt;span style=&#34;color:#75715e&#34;&gt;//内循环：创建子数列，并将子数列排序。
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (start &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; start &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; len; start &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; seg &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; seg) {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; low &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start, mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; min(start &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; seg, len), high &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; min(start &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; seg &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; seg, len);
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; low;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; low, end1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid, end2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; high;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; end1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; start2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; end2)
+                b[k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start1] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; a[start2] &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; a[start1&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; a[start2&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;];
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; end1)
+                b[k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start1&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;];
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; end2)
+                b[k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start2&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;];
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a;
+        a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b;
+        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; temp;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; arr) {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; len; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;)
+            b[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[i];
+        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a;
+    }
+    free(b);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;递归法&#34;&gt;递归法：&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;merge_sort_recursive&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;b, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; end){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(start &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; end){
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ((end &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; start) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; start;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; end1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; start2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mid &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; end2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; end;
+    merge_sort_recursive(a, b, start1, end1);
+    merge_sort_recursive(a, b, start2, end2);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; start2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end2)
+    {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a[start1] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; a[start2]){
+            b[k] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start1];
+            start1&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+        }
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;{
+            b[k] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start2];
+            start2&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+        }
+        k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end1)
+    {
+        b[k] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start1];
+        k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+        start1&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (start2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end2)
+    {
+        b[k] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[start2];
+        k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+        start2&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; start; k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; end; k&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){
+        a[k] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b[k];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;- https://kanajin.github.io/datastructure/mergesort/ - </description>
         </item>
     
     
