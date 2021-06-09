@@ -123,7 +123,8 @@ publish_dir: ./public
 &lt;li>氨茶碱&lt;/li>
 &lt;li>庆大霉素&lt;/li>
 &lt;/ul>
-- https://kanajin.github.io/chemicalindustry/phosgene/ -</description></item><item><title>归并排序</title><link>https://kanajin.github.io/datastructure/mergesort/</link><pubDate>Mon, 07 Jun 2021 18:07:03 +0800</pubDate><guid>https://kanajin.github.io/datastructure/mergesort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/mergesort/ -&lt;h1 id="简介">简介&lt;/h1>
+- https://kanajin.github.io/chemicalindustry/phosgene/ -</description></item><item><title>归并排序</title><link>https://kanajin.github.io/datastructure/mergesort/</link><pubDate>Mon, 07 Jun 2021 18:07:03 +0800</pubDate><guid>https://kanajin.github.io/datastructure/mergesort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/mergesort/ -&lt;p>本文摘抄自&lt;code>developer1024&lt;/code>的知乎文章&lt;a href="https://zhuanlan.zhihu.com/p/124356219">【算法】排序算法之归并排序&lt;/a>。&lt;/p>
+&lt;h1 id="简介">简介&lt;/h1>
 &lt;p>归并排序使用的是“分而治之”的方法，思路简单，速度仅次于快速排序，一般用于总体无序但各子项相对有序的数组。&lt;/p>
 &lt;h1 id="1基本思想">1、基本思想&lt;/h1>
 &lt;p>归并排序使用的是分治思想，分治模式在每一层递归上有三个步骤。&lt;/p>
@@ -132,7 +133,100 @@ publish_dir: ./public
 &lt;li>解决（Conquer）：用合并排序法对两个子序列递归地排序。&lt;/li>
 &lt;li>合并（Combine）：合并两个已排序的子序列以得到排序结果。&lt;/li>
 &lt;/ul>
-- https://kanajin.github.io/datastructure/mergesort/ -</description></item><item><title>iPadApp收集</title><link>https://kanajin.github.io/ipad/apps/</link><pubDate>Mon, 07 Jun 2021 13:27:38 +0800</pubDate><guid>https://kanajin.github.io/ipad/apps/</guid><description>Suzuki's Blog https://kanajin.github.io/ipad/apps/ -&lt;h1 id="工具类">工具类&lt;/h1>
+&lt;h1 id="2实现逻辑">2、实现逻辑&lt;/h1>
+&lt;h2 id="21迭代法">2.1、迭代法&lt;/h2>
+&lt;ol>
+&lt;li>申请空间，使其大小为两个已经排序数列之和，该空间用来存放合并后的数列。&lt;/li>
+&lt;li>设定两个指针，最初位置分别为两个已经排序子数列的起始位置。&lt;/li>
+&lt;li>比较两个指针所指向元素，选择相对小的元素放到合并空间，并移动指针到下一个位置。&lt;/li>
+&lt;li>重复步骤3，直到某一指针打到子数列尾。&lt;/li>
+&lt;li>将另一序列剩下的所有元素直接复制到合并序列尾。&lt;/li>
+&lt;/ol>
+&lt;h2 id="22递归法">2.2、递归法&lt;/h2>
+&lt;ol>
+&lt;li>将序列每相邻两个数字进行归并操作，形成$floor(\frac{n}{2})$个序列，排序后每个序列将包含两个元素。&lt;/li>
+&lt;li>将上述序列再次归并，形成$floor(\frac{n}{4})$个序列，每个序列包含四个元素。&lt;/li>
+&lt;li>重复步骤2，直到所有元素排序完毕。&lt;/li>
+&lt;/ol>
+&lt;h1 id="3代码实现">3、代码实现&lt;/h1>
+&lt;h2 id="迭代法">迭代法：&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">min&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> x, &lt;span style="color:#66d9ef">int&lt;/span> y) {
+&lt;span style="color:#66d9ef">return&lt;/span> x &lt;span style="color:#f92672">&amp;lt;&lt;/span> y &lt;span style="color:#f92672">?&lt;/span> x : y;
+}
+&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">merge_sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> arr[], &lt;span style="color:#66d9ef">int&lt;/span> len) {
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> a &lt;span style="color:#f92672">=&lt;/span> arr;
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> b &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span>) malloc(len &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#66d9ef">sizeof&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span>));
+&lt;span style="color:#66d9ef">int&lt;/span> seg, start;
+&lt;span style="color:#75715e">//外循环：步长成倍提升，并通过内循环将主数列从分成n个子数列，下次循环分成n/2个...直到只分成2个
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> (seg &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; seg &lt;span style="color:#f92672">&amp;lt;&lt;/span> len; seg &lt;span style="color:#f92672">+=&lt;/span> seg) {
+&lt;span style="color:#75715e">//内循环：创建子数列，并将子数列排序。
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> (start &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; start &lt;span style="color:#f92672">&amp;lt;&lt;/span> len; start &lt;span style="color:#f92672">+=&lt;/span> seg &lt;span style="color:#f92672">+&lt;/span> seg) {
+&lt;span style="color:#66d9ef">int&lt;/span> low &lt;span style="color:#f92672">=&lt;/span> start, mid &lt;span style="color:#f92672">=&lt;/span> min(start &lt;span style="color:#f92672">+&lt;/span> seg, len), high &lt;span style="color:#f92672">=&lt;/span> min(start &lt;span style="color:#f92672">+&lt;/span> seg &lt;span style="color:#f92672">+&lt;/span> seg, len);
+&lt;span style="color:#66d9ef">int&lt;/span> k &lt;span style="color:#f92672">=&lt;/span> low;
+&lt;span style="color:#66d9ef">int&lt;/span> start1 &lt;span style="color:#f92672">=&lt;/span> low, end1 &lt;span style="color:#f92672">=&lt;/span> mid;
+&lt;span style="color:#66d9ef">int&lt;/span> start2 &lt;span style="color:#f92672">=&lt;/span> mid, end2 &lt;span style="color:#f92672">=&lt;/span> high;
+&lt;span style="color:#66d9ef">while&lt;/span> (start1 &lt;span style="color:#f92672">&amp;lt;&lt;/span> end1 &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> start2 &lt;span style="color:#f92672">&amp;lt;&lt;/span> end2)
+b[k&lt;span style="color:#f92672">++&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> a[start1] &lt;span style="color:#f92672">&amp;lt;&lt;/span> a[start2] &lt;span style="color:#f92672">?&lt;/span> a[start1&lt;span style="color:#f92672">++&lt;/span>] &lt;span style="color:#f92672">:&lt;/span> a[start2&lt;span style="color:#f92672">++&lt;/span>];
+&lt;span style="color:#66d9ef">while&lt;/span> (start1 &lt;span style="color:#f92672">&amp;lt;&lt;/span> end1)
+b[k&lt;span style="color:#f92672">++&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> a[start1&lt;span style="color:#f92672">++&lt;/span>];
+&lt;span style="color:#66d9ef">while&lt;/span> (start2 &lt;span style="color:#f92672">&amp;lt;&lt;/span> end2)
+b[k&lt;span style="color:#f92672">++&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> a[start2&lt;span style="color:#f92672">++&lt;/span>];
+}
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">*&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> a;
+a &lt;span style="color:#f92672">=&lt;/span> b;
+b &lt;span style="color:#f92672">=&lt;/span> temp;
+}
+&lt;span style="color:#66d9ef">if&lt;/span> (a &lt;span style="color:#f92672">!=&lt;/span> arr) {
+&lt;span style="color:#66d9ef">int&lt;/span> i;
+&lt;span style="color:#66d9ef">for&lt;/span> (i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> len; i&lt;span style="color:#f92672">++&lt;/span>)
+b[i] &lt;span style="color:#f92672">=&lt;/span> a[i];
+b &lt;span style="color:#f92672">=&lt;/span> a;
+}
+free(b);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="递归法">递归法：&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">merge_sort_recursive&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>b, &lt;span style="color:#66d9ef">int&lt;/span> start, &lt;span style="color:#66d9ef">int&lt;/span> end){
+&lt;span style="color:#66d9ef">if&lt;/span>(start &lt;span style="color:#f92672">&amp;gt;=&lt;/span> end){
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#66d9ef">int&lt;/span> mid &lt;span style="color:#f92672">=&lt;/span> ((end &lt;span style="color:#f92672">-&lt;/span> start) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#f92672">+&lt;/span> start;
+&lt;span style="color:#66d9ef">int&lt;/span> start1 &lt;span style="color:#f92672">=&lt;/span> start;
+&lt;span style="color:#66d9ef">int&lt;/span> end1 &lt;span style="color:#f92672">=&lt;/span> mid;
+&lt;span style="color:#66d9ef">int&lt;/span> start2 &lt;span style="color:#f92672">=&lt;/span> mid &lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
+&lt;span style="color:#66d9ef">int&lt;/span> end2 &lt;span style="color:#f92672">=&lt;/span> end;
+&lt;span style="color:#75715e">//第一个递归：将左边分成
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> merge_sort_recursive(a, b, start1, end1);
+merge_sort_recursive(a, b, start2, end2);
+&lt;span style="color:#66d9ef">int&lt;/span> k &lt;span style="color:#f92672">=&lt;/span> start;
+&lt;span style="color:#66d9ef">while&lt;/span> (start1 &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end1 &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> start2 &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end2)
+{
+&lt;span style="color:#66d9ef">if&lt;/span>(a[start1] &lt;span style="color:#f92672">&amp;lt;&lt;/span> a[start2]){
+b[k] &lt;span style="color:#f92672">=&lt;/span> a[start1];
+start1&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+b[k] &lt;span style="color:#f92672">=&lt;/span> a[start2];
+start2&lt;span style="color:#f92672">++&lt;/span>;
+}
+k&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;span style="color:#66d9ef">while&lt;/span> (start1 &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end1)
+{
+b[k] &lt;span style="color:#f92672">=&lt;/span> a[start1];
+k&lt;span style="color:#f92672">++&lt;/span>;
+start1&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;span style="color:#66d9ef">while&lt;/span> (start2 &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end2)
+{
+b[k] &lt;span style="color:#f92672">=&lt;/span> a[start2];
+k&lt;span style="color:#f92672">++&lt;/span>;
+start2&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;span style="color:#66d9ef">for&lt;/span>(k &lt;span style="color:#f92672">=&lt;/span> start; k &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end; k&lt;span style="color:#f92672">++&lt;/span>){
+a[k] &lt;span style="color:#f92672">=&lt;/span> b[k];
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/mergesort/ -</description></item><item><title>iPadApp收集</title><link>https://kanajin.github.io/ipad/apps/</link><pubDate>Mon, 07 Jun 2021 13:27:38 +0800</pubDate><guid>https://kanajin.github.io/ipad/apps/</guid><description>Suzuki's Blog https://kanajin.github.io/ipad/apps/ -&lt;h1 id="工具类">工具类&lt;/h1>
 &lt;h2 id="电子笔记幕布">电子笔记：幕布&lt;/h2>
 &lt;p>&lt;code>记好的笔记可以转化为思维导图&lt;/code>&lt;/p>
 &lt;h2 id="电子教材marginnote">电子教材：Marginnote&lt;/h2>
