@@ -74,11 +74,11 @@ struct ListNode* reverseList(struct ListNode* head){
     head -> next -> next = head;
     //将head节点的指针域指空，否则会出现互指的情况
     head -> next = NULL;
-    返回新的头结点供递归使用
+    //返回新的头结点供递归使用
     return ptr;
 }
 ```
-  
+---
 # 链表中倒数第k个节点
 ## 题目
 输入一个链表，输出该链表中倒数第k个节点。  
@@ -137,5 +137,141 @@ struct ListNode* getKthFromEnd(struct ListNode* head, int k){
         ptr_2 = ptr_2 -> next;
     }
     return ptr_2;
+}
+```
+---
+# 合并两个排序的链表
+## 题目
+输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。
+## 示例
+输入：1->2->4, 1->3->4  
+输出：1->1->2->3->4->4
+
+## 解法
+与归并排序相同的思路，代码也类似。根据链表特性调整了冗余。
+代码：
+```C
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2){
+    if(l1 == NULL){
+        return l2;
+    }
+    if(l2 == NULL){
+        return l1;
+    }
+    struct ListNode* l3;
+    struct ListNode* l4;
+    if(l1 -> val <= l2 -> val){
+        l3 = l1;
+        l1 = l1 -> next;
+    }
+    else{
+        l3 = l2;
+        l2 = l2 -> next;
+    }
+    l4 = l3;
+    while(1){
+        if(l1 == NULL || l2 == NULL){
+            break;
+        }
+        if(l1 -> val <= l2 -> val){
+            l3 -> next = l1;
+            l3 = l1;
+            l1 = l1 -> next;
+        }
+        else{
+            l3 -> next = l2;
+            l3 = l2;
+            l2 = l2 -> next;
+        }
+    }
+    if(l1 != NULL){
+        l3 -> next = l1;
+    }
+    if(l2 != NULL){
+        l3 -> next = l2;
+    }
+    return l4;
+}
+```
+---
+# 链表的中间结点
+## 题目
+给定一个头结点为`head`的非空单链表，返回链表的中间结点。  
+如果有两个中间结点，则返回第二个中间结点。
+## 示例
+1. 输入：`[1,2,3,4,5]`  
+输出：此列表中的结点`3`(序列化形式：`[3,4,5]`)  
+返回的结点值为`3`。 (测评系统对该结点序列化表述是 `[3,4,5]`)。  
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：  
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+2. 输入：`[1,2,3,4,5,6]`  
+输出：此列表中的结点 4 (序列化形式：`[4,5,6]`)  
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
+
+## 解法
+### 单指针先遍历法
+先遍历一次链表求出链表长度n，然后再求出中点值。  
+代码:  
+```C
+struct ListNode* middleNode(struct ListNode* head){
+    int n = 0;
+    struct ListNode* ans = head;
+    while(head != NULL){
+        n++;
+        head = head -> next;
+    }
+    for(int i = 1; i < (n / 2) + 1; i++){
+        ans = ans -> next;
+    }
+    return ans;
+}
+```
+### 快慢指针法
+*快慢指针是极度重要的思路！*  
+定义两个指针分别遍历链表，其中一个一次遍历一个节点(慢)，另一个一次遍历两个节点(快)。这样当一个遍历到链表末端后，另一个刚好到一半。  
+代码：
+```C
+struct ListNode* middleNode(struct ListNode* head){
+    if(head == NULL || head -> next == NULL){
+        return head;
+    }
+    struct ListNode* slow = head;
+    struct ListNode* fast = head;
+    while(fast != NULL && fast -> next != NULL){
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    return slow;
+}
+```
+---
+# 删除链表的结点
+## 题目
+给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。  
+返回删除后的链表的头节点。
+## 示例
+输入: head = [4,5,1,9], val = 5  
+输出: [4,1,9]  
+解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9
+
+## 解法
+将选定值所在结点的左节点与右结点连接即可。  
+代码：
+```C
+struct ListNode* deleteNode(struct ListNode* head, int val){
+    if(head == NULL){
+        return head;
+    }
+    struct ListNode* newhead = head;
+    if(head -> val == val){
+        head = head -> next;
+        return head;
+    }
+    while((head -> next -> val != val) && head != NULL){
+        head = head -> next;
+    }
+    struct ListNode* aft = head -> next -> next;
+    head -> next = aft;
+    return newhead;
 }
 ```

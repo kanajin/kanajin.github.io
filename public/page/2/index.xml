@@ -1,0 +1,41 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Suzuki&#39;s Blog</title>
+    <link>https://kanajin.github.io/</link>
+    <description>Recent content on Suzuki&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Jun 2021 21:57:29 +0800</lastBuildDate>
+    
+        <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>冒泡排序</title>
+        <link>https://kanajin.github.io/datastructure/bubblesort/</link>
+        <pubDate>Mon, 07 Jun 2021 10:38:35 +0800</pubDate>
+        
+        <guid>https://kanajin.github.io/datastructure/bubblesort/</guid>
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/bubblesort/ -&lt;h1 id=&#34;冒泡排序&#34;&gt;冒泡排序&lt;/h1&gt;
+&lt;p&gt;逐步比较相邻的两个数，如果前一个比后一个大，就对调他们的位置。&lt;/p&gt;
+&lt;h2 id=&#34;内循环&#34;&gt;内循环：&lt;/h2&gt;
+&lt;p&gt;遍历一次数组，比较a[n]与a[n+1]的大小，根据情况执行对调，然后n+1，重复&lt;/p&gt;
+&lt;h2 id=&#34;外循环&#34;&gt;外循环：&lt;/h2&gt;
+&lt;p&gt;需要遍历几次数组（执行几次内循环）才可以完成冒泡排序。值为数组长度（上界）&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码：&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sort&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; size){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; size &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; size &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; a[i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]){
+                swap(a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; i, a &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;- https://kanajin.github.io/datastructure/bubblesort/ - </description>
+        </item>
+    
+    
+  </channel>
+</rss> 
