@@ -58,10 +58,11 @@ end &lt;span style="color:#f92672">=&lt;/span> end &lt;span style="color:#f92672
 &lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> head;
 &lt;span style="color:#75715e">//将head节点的指针域指空，否则会出现互指的情况
 &lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
-&lt;span style="color:#960050;background-color:#1e0010">返回新的头结点供递归使用&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> ptr;
+&lt;span style="color:#75715e">//返回新的头结点供递归使用
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> ptr;
 }
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="链表中倒数第k个节点">链表中倒数第k个节点&lt;/h1>
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="链表中倒数第k个节点">链表中倒数第k个节点&lt;/h1>
 &lt;h2 id="题目-1">题目&lt;/h2>
 &lt;p>输入一个链表，输出该链表中倒数第k个节点。&lt;br>
 为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。&lt;br>
@@ -114,6 +115,133 @@ ptr_1 &lt;span style="color:#f92672">=&lt;/span> ptr_1 &lt;span style="color:#f9
 ptr_2 &lt;span style="color:#f92672">=&lt;/span> ptr_2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
 }
 &lt;span style="color:#66d9ef">return&lt;/span> ptr_2;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="合并两个排序的链表">合并两个排序的链表&lt;/h1>
+&lt;h2 id="题目-2">题目&lt;/h2>
+&lt;p>输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。&lt;/p>
+&lt;h2 id="示例-2">示例&lt;/h2>
+&lt;p>输入：1-&amp;gt;2-&amp;gt;4, 1-&amp;gt;3-&amp;gt;4&lt;br>
+输出：1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;4&lt;/p>
+&lt;h2 id="解法-2">解法&lt;/h2>
+&lt;p>与归并排序相同的思路，代码也类似。根据链表特性调整了冗余。
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">mergeTwoLists&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l1, &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l2){
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> l2;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l2 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> l1;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l3;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l4;
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">&amp;lt;=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val){
+l3 &lt;span style="color:#f92672">=&lt;/span> l1;
+l1 &lt;span style="color:#f92672">=&lt;/span> l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+l3 &lt;span style="color:#f92672">=&lt;/span> l2;
+l2 &lt;span style="color:#f92672">=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+l4 &lt;span style="color:#f92672">=&lt;/span> l3;
+&lt;span style="color:#66d9ef">while&lt;/span>(&lt;span style="color:#ae81ff">1&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> l2 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">&amp;lt;=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l1;
+l3 &lt;span style="color:#f92672">=&lt;/span> l1;
+l1 &lt;span style="color:#f92672">=&lt;/span> l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l2;
+l3 &lt;span style="color:#f92672">=&lt;/span> l2;
+l2 &lt;span style="color:#f92672">=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l1;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l2 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l2;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> l4;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="链表的中间结点">链表的中间结点&lt;/h1>
+&lt;h2 id="题目-3">题目&lt;/h2>
+&lt;p>给定一个头结点为&lt;code>head&lt;/code>的非空单链表，返回链表的中间结点。&lt;br>
+如果有两个中间结点，则返回第二个中间结点。&lt;/p>
+&lt;h2 id="示例-3">示例&lt;/h2>
+&lt;ol>
+&lt;li>输入：&lt;code>[1,2,3,4,5]&lt;/code>&lt;br>
+输出：此列表中的结点&lt;code>3&lt;/code>(序列化形式：&lt;code>[3,4,5]&lt;/code>)&lt;br>
+返回的结点值为&lt;code>3&lt;/code>。 (测评系统对该结点序列化表述是 &lt;code>[3,4,5]&lt;/code>)。&lt;br>
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：&lt;br>
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.&lt;/li>
+&lt;li>输入：&lt;code>[1,2,3,4,5,6]&lt;/code>&lt;br>
+输出：此列表中的结点 4 (序列化形式：&lt;code>[4,5,6]&lt;/code>)&lt;br>
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。&lt;/li>
+&lt;/ol>
+&lt;h2 id="解法-3">解法&lt;/h2>
+&lt;h3 id="单指针先遍历法">单指针先遍历法&lt;/h3>
+&lt;p>先遍历一次链表求出链表长度n，然后再求出中点值。&lt;br>
+代码:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">middleNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#66d9ef">int&lt;/span> n &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ans &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">while&lt;/span>(head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+n&lt;span style="color:#f92672">++&lt;/span>;
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> (n &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
+ans &lt;span style="color:#f92672">=&lt;/span> ans &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ans;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="快慢指针法">快慢指针法&lt;/h3>
+&lt;p>&lt;em>快慢指针是极度重要的思路！&lt;/em>&lt;br>
+定义两个指针分别遍历链表，其中一个一次遍历一个节点(慢)，另一个一次遍历两个节点(快)。这样当一个遍历到链表末端后，另一个刚好到一半。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">middleNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> slow &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> fast &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">while&lt;/span>(fast &lt;span style="color:#f92672">!=&lt;/span> NULL &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> fast &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">!=&lt;/span> NULL){
+slow &lt;span style="color:#f92672">=&lt;/span> slow &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+fast &lt;span style="color:#f92672">=&lt;/span> fast &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> slow;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="删除链表的结点">删除链表的结点&lt;/h1>
+&lt;h2 id="题目-4">题目&lt;/h2>
+&lt;p>给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。&lt;br>
+返回删除后的链表的头节点。&lt;/p>
+&lt;h2 id="示例-4">示例&lt;/h2>
+&lt;p>输入: head = [4,5,1,9], val = 5&lt;br>
+输出: [4,1,9]&lt;br>
+解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&amp;gt; 1 -&amp;gt; 9&lt;/p>
+&lt;h2 id="解法-4">解法&lt;/h2>
+&lt;p>将选定值所在结点的左节点与右结点连接即可。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">deleteNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> val){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> newhead &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">==&lt;/span> val){
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">while&lt;/span>((head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">!=&lt;/span> val) &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> aft &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> aft;
+&lt;span style="color:#66d9ef">return&lt;/span> newhead;
 }
 &lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
 &lt;p>&lt;strong>快速排序&lt;/strong>(Quicksort)，又称&lt;strong>分区交换排序&lt;/strong>(partition-exchange sort)，简称&lt;strong>快排&lt;/strong>。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p>
