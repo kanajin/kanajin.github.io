@@ -6,7 +6,19 @@
     <description>Recent content in 数据结构 on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Jun 2021 21:57:29 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Jun 2021 21:29:43 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计一个链表</title>
+      <link>https://kanajin.github.io/datastructure/linkedlist/</link>
+      <pubDate>Sun, 13 Jun 2021 21:29:43 +0800</pubDate>
+      
+      <guid>https://kanajin.github.io/datastructure/linkedlist/</guid>
+      <description>链表可以理解为一个“按顺序保存一系列数据的容器”。除了用来记录，还要有“操作”这些数据的能力。因此我们使用一系列函数来对链表进行增加、删除等操作。
+对于用户，只需要提供如何修改链表的函数接口；而在内部，为了更方便地操作链表，我们需要定义出链表的长度、头结点、尾结点等信息，并随着用户的操作进行维护。以整数单链表为例：
+//用来记录实际链表数据 typedef struct LinkedList{ int val; struct LinkedList* next; } ListNode; //用来记录链表头、尾结点以及长度信息 typedef struct { ListNode* head; ListNode* tail; unsigned int length; } MyLinkedList;  创建链表 //当创建一个新链表时，需要创建一个用来维护链表的数据 MyLinkedList* myLinkedListCreate() { //分配空间并将头结点和尾结点设为NULL，长度为0  MyLinkedList* list = (MyLinkedList*)malloc(sizeof(MyLinkedList)); list -&amp;gt; head = NULL; list -&amp;gt; tail = NULL; list -&amp;gt; length = 0; //返回指针以供函数使用  return list; } 为链表添加元素 先定义一个创建新结点的函数供需要添加结点时使用
+//为链表创建新元素时，提供该元素数据来创建一个结点指向NULL的新结点 ListNode* ListNodeCreate(int val){ ListNode* node = (ListNode*)malloc(sizeof(ListNode)); node -&amp;gt; val = val; node -&amp;gt; next = NULL; return node; } 用户使用时并不会考虑结点是如何“插入”链表内的，用户只需要考虑在什么地方插入需要的结点。但程序实现上需要将头插、尾插和中间插区分开来，并根据用户指定的“在何处插入”来判断使用哪种方式。</description>
+    </item>
+    
     <item>
       <title>链表题目本</title>
       <link>https://kanajin.github.io/datastructure/linkedlistquestion/</link>

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html><head>
+<title>设计一个链表</title>
+
+
+
+
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="google-site-verification" content="">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="telephone=no" name="format-detection">
+<meta name="description" content="">
+<meta name="renderer" content="webkit">
+<meta name="theme-color" content="#ffffff">
+
+
+
+
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/vendor/css/bootstrap.min.css">
+<script src="/vendor/js/vue.min.js" ></script>
+
+
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="https://kanajin.github.io/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css" integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media="screen">
+
+
+
+<link rel="stylesheet" href="https://kanajin.github.io/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css" integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media="screen">
+
+
+<script src="/js/loadCSS.js"></script>
+<script>
+  loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons");
+</script>
+
+
+
+
+  
+    <script src="/js/toc.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    	<div id="app"><div ref="sideContainer" class="side-container">
+    
+    <a class="a-block nav-head false" href="https://kanajin.github.io/">
+    
+        <div class="nav-title">
+            Suzuki&#39;s Blog
+        </div>
+        
+    </a>
+
+    <div class="nav-link-list">
+        
+        
+    </div>
+
+    
+
+    <div class="nav-footer">
+        
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Suzuki&#39;s Blog
+	
+
+    </div>
+    
+</div><div ref="extraContainer" class="extra-container">
+    
+    
+    <div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%88%9b%e5%bb%ba%e9%93%be%e8%a1%a8" onclick="onNavClick(`#创建链表-nav`)" id="创建链表-nav">
+									创建链表
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%ba%e9%93%be%e8%a1%a8%e6%b7%bb%e5%8a%a0%e5%85%83%e7%b4%a0" onclick="onNavClick(`#为链表添加元素-nav`)" id="为链表添加元素-nav">
+									为链表添加元素
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e5%a4%b4%e6%8f%92%e6%b3%95" onclick="onNavClick(`#头插法-nav`)" id="头插法-nav">
+									头插法
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%b0%be%e6%8f%92%e6%b3%95" onclick="onNavClick(`#尾插法-nav`)" id="尾插法-nav">
+									尾插法
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%ad%e9%97%b4%e6%8f%92" onclick="onNavClick(`#中间插-nav`)" id="中间插-nav">
+									中间插
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%e5%88%a0%e9%99%a4%e7%bb%93%e7%82%b9" onclick="onNavClick(`#删除结点-nav`)" id="删除结点-nav">
+									删除结点
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e9%87%8a%e6%94%be%e5%86%85%e5%ad%98" onclick="onNavClick(`#释放内存-nav`)" id="释放内存-nav">
+									释放内存
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%ae%9e%e4%be%8b%e6%b5%8b%e8%af%95" onclick="onNavClick(`#实例测试-nav`)" id="实例测试-nav">
+									实例测试
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+    
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+        
+        <a class="pagination-action" v-on:click="toggleDarkMode">
+            <i class="material-icons pagination-action-icon" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons pagination-action-icon" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </a>
+        
+        
+    </div>
+</div>
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            
+            
+            
+            
+            <div class="toc">
+
+
+	<div class="toc-content">
+	
+		
+		
+		
+		<center>- CATALOG -</center>
+		
+		
+		<ul>
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%88%9b%e5%bb%ba%e9%93%be%e8%a1%a8" onclick="onNavClick(`#创建链表-nav`)" id="创建链表-nav">
+									创建链表
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%ba%e9%93%be%e8%a1%a8%e6%b7%bb%e5%8a%a0%e5%85%83%e7%b4%a0" onclick="onNavClick(`#为链表添加元素-nav`)" id="为链表添加元素-nav">
+									为链表添加元素
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+							
+								
+									<ul>
+								
+							
+						
+						
+							<li>
+								<a href="#%e5%a4%b4%e6%8f%92%e6%b3%95" onclick="onNavClick(`#头插法-nav`)" id="头插法-nav">
+									头插法
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%b0%be%e6%8f%92%e6%b3%95" onclick="onNavClick(`#尾插法-nav`)" id="尾插法-nav">
+									尾插法
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e4%b8%ad%e9%97%b4%e6%8f%92" onclick="onNavClick(`#中间插-nav`)" id="中间插-nav">
+									中间插
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+							
+								</ul>
+							
+						
+						
+						
+							<li>
+								<a href="#%e5%88%a0%e9%99%a4%e7%bb%93%e7%82%b9" onclick="onNavClick(`#删除结点-nav`)" id="删除结点-nav">
+									删除结点
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e9%87%8a%e6%94%be%e5%86%85%e5%ad%98" onclick="onNavClick(`#释放内存-nav`)" id="释放内存-nav">
+									释放内存
+								</a>
+							</li>
+						
+						
+					
+				
+			
+				
+				
+					
+						
+						
+						
+						
+						
+							<li>
+								<a href="#%e5%ae%9e%e4%be%8b%e6%b5%8b%e8%af%95" onclick="onNavClick(`#实例测试-nav`)" id="实例测试-nav">
+									实例测试
+								</a>
+							</li>
+						
+						
+					
+				
+			
+		</ul>
+	</div>
+
+</div>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="https://kanajin.github.io/">
+            Suzuki&#39;s Blog
+        </a>
+        
+        <button type="button" class="nav-darkmode-toggle" v-on:click="toggleDarkMode">
+            <i class="material-icons" v-if="isDarkMode">
+                brightness_4
+            </i>
+            <i class="material-icons" v-else="isDarkMode">
+                brightness_7
+            </i>
+        </button>
+        
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="https://kanajin.github.io/">
+        <div class="single-column-header-title">Suzuki&#39;s Blog</div>
+        
+
+    </a>
+</div>
+
+            <div id="content">
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            
+            
+            
+
+            <div class="post-head-wrapper-text-only"
+                
+            >
+                <div class="post-title">
+                    设计一个链表
+                    
+                    <div class="post-meta">
+                        
+                        <time itemprop="datePublished">
+                            2021-06-13 21:29
+                        </time>
+                        
+
+                        
+                            <i class="material-icons" style="">folder</i>
+                                <a href="/categories/">[数据结构]</a>
+                                &nbsp;
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-body-wrapper">
+                
+                <div class="post-body" v-pre>
+                
+                    <blockquote>
+<p>链表可以理解为一个“按顺序保存一系列数据的容器”。除了用来记录，还要有“操作”这些数据的能力。因此我们使用一系列函数来对链表进行增加、删除等操作。<br>
+对于用户，只需要提供如何修改链表的函数接口；而在内部，为了更方便地操作链表，我们需要定义出链表的<code>长度</code>、<code>头结点</code>、<code>尾结点</code>等信息，并随着用户的操作进行维护。以整数单链表为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//用来记录实际链表数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> LinkedList{
+    <span style="color:#66d9ef">int</span> val;
+    <span style="color:#66d9ef">struct</span> LinkedList<span style="color:#f92672">*</span> next;
+} ListNode;
+<span style="color:#75715e">//用来记录链表头、尾结点以及长度信息
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+    ListNode<span style="color:#f92672">*</span> head;
+    ListNode<span style="color:#f92672">*</span> tail;
+    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> length;
+} MyLinkedList;
+</code></pre></div></blockquote>
+<h1 id="创建链表">创建链表</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//当创建一个新链表时，需要创建一个用来维护链表的数据
+</span><span style="color:#75715e"></span>MyLinkedList<span style="color:#f92672">*</span> <span style="color:#a6e22e">myLinkedListCreate</span>() {
+<span style="color:#75715e">//分配空间并将头结点和尾结点设为NULL，长度为0
+</span><span style="color:#75715e"></span>    MyLinkedList<span style="color:#f92672">*</span> list <span style="color:#f92672">=</span> (MyLinkedList<span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(MyLinkedList));
+    list <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">=</span> NULL;
+    list <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">=</span> NULL;
+    list <span style="color:#f92672">-&gt;</span> length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#75715e">//返回指针以供函数使用
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> list;
+}
+</code></pre></div><h1 id="为链表添加元素">为链表添加元素</h1>
+<p>先定义一个创建新结点的函数供需要添加结点时使用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//为链表创建新元素时，提供该元素数据来创建一个结点指向NULL的新结点
+</span><span style="color:#75715e"></span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">ListNodeCreate</span>(<span style="color:#66d9ef">int</span> val){
+    ListNode<span style="color:#f92672">*</span> node <span style="color:#f92672">=</span> (ListNode<span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(ListNode));
+    node <span style="color:#f92672">-&gt;</span> val <span style="color:#f92672">=</span> val;
+    node <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> NULL;
+    <span style="color:#66d9ef">return</span> node;
+}
+</code></pre></div><p>用户使用时并不会考虑结点是如何“插入”链表内的，用户只需要考虑在什么地方插入需要的结点。但程序实现上需要将<code>头插</code>、<code>尾插</code>和<code>中间插</code>区分开来，并根据用户指定的“在何处插入”来判断使用哪种方式。</p>
+<h2 id="头插法">头插法</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myLinkedListAddAtHead</span>(MyLinkedList<span style="color:#f92672">*</span> obj, <span style="color:#66d9ef">int</span> val) {
+    <span style="color:#75715e">//使用了创建结点的函数，之后不再赘述
+</span><span style="color:#75715e"></span>    ListNode<span style="color:#f92672">*</span> new_head <span style="color:#f92672">=</span> ListNodeCreate(val);
+    <span style="color:#75715e">//定义新头结点
+</span><span style="color:#75715e"></span>    new_head <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+    <span style="color:#75715e">//如果是空链表，则同时将第一个结点定义为尾结点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">==</span> NULL){
+        obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">=</span> new_head;
+    }
+    <span style="color:#75715e">//更改头结点为新结点
+</span><span style="color:#75715e"></span>    obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">=</span> new_head;
+    <span style="color:#75715e">//最后记得维护链表长度
+</span><span style="color:#75715e"></span>    obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">++</span>;
+}
+</code></pre></div><h2 id="尾插法">尾插法</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myLinkedListAddAtTail</span>(MyLinkedList<span style="color:#f92672">*</span> obj, <span style="color:#66d9ef">int</span> val) {
+    ListNode<span style="color:#f92672">*</span> new_tail <span style="color:#f92672">=</span> ListNodeCreate(val);
+    <span style="color:#75715e">//如果是空链表并被指定了尾插（虽然一般不会出现这种情况），则定义头尾结点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">==</span> NULL <span style="color:#f92672">&amp;&amp;</span> obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">==</span> NULL){
+        obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">=</span> new_tail;
+        obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">=</span> new_tail;
+    }
+    <span style="color:#75715e">//让原本的尾结点指向新尾结点，并更改尾结点数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span>{
+        obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> new_tail;
+        obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">=</span> new_tail;
+    }
+    <span style="color:#75715e">//维护长度
+</span><span style="color:#75715e"></span>    obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">++</span>;
+}
+</code></pre></div><h2 id="中间插">中间插</h2>
+<p>和数列相同，链表的第一个结点序号为<code>0</code>。因此索引值<code>index</code>也最好代表需要插入的位置的序号。如果需要面向用户，则在外部程序中引入新变量让其等于<code>index + 1</code>就好了。<br>
+同时记得维护长度</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myLinkedListAddAtIndex</span>(MyLinkedList<span style="color:#f92672">*</span> obj, <span style="color:#66d9ef">int</span> index, <span style="color:#66d9ef">int</span> val) {
+    <span style="color:#75715e">//索引小于0，错误
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>){
+        printf(<span style="color:#e6db74">&#34;error!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//索引等于0，头插
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+        myLinkedListAddAtHead(obj, val);
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//索引等于长度，尾插
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> obj <span style="color:#f92672">-&gt;</span> length){
+        myLinkedListAddAtTail(obj, val);
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//索引大于长度，不做任何事，也可以返回一个错误
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">&gt;</span> obj <span style="color:#f92672">-&gt;</span> length){
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//分类讨论结束后，最后的情况为从中间某个结点插入
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span>{
+        ListNode<span style="color:#f92672">*</span> new_node <span style="color:#f92672">=</span> ListNodeCreate(val);
+        ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+        <span style="color:#75715e">//使指针遍历到要插入的结点的上一个结点
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>){
+            pre <span style="color:#f92672">=</span> pre <span style="color:#f92672">-&gt;</span> next;
+        }
+        <span style="color:#75715e">//将pre结点指向的结点与pre结点断开，然后重新连接成pre-&gt;new_node-&gt;aft
+</span><span style="color:#75715e"></span>        ListNode<span style="color:#f92672">*</span> aft <span style="color:#f92672">=</span> pre <span style="color:#f92672">-&gt;</span> next;
+        pre <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> new_node;
+        new_node <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> aft;
+        obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">++</span>;
+    }
+}
+</code></pre></div><h1 id="删除结点">删除结点</h1>
+<blockquote>
+<p>与插入结点一样，删除结点也需要考虑是否是删除头尾结点。<br>
+需要注意每次删除结点后，都要释放掉删除的结点的内存。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myLinkedListDeleteAtIndex</span>(MyLinkedList<span style="color:#f92672">*</span> obj, <span style="color:#66d9ef">int</span> index) {
+    <span style="color:#75715e">//如果索引不在这个链表所有序号的集合中，报错
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&gt;=</span> obj <span style="color:#f92672">-&gt;</span> length){
+        printf(<span style="color:#e6db74">&#34;error! cannot delete!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//删除头部，直接将头部右移
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+        ListNode<span style="color:#f92672">*</span> free_head <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+        obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">-&gt;</span> next;
+        free(free_head);
+        obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">--</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#75715e">//删除尾部，将尾部指针左移，方法为遍历到尾结点的前一个结点，然后定义其为尾结点
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> obj <span style="color:#f92672">-&gt;</span> length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>){
+        ListNode<span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+        ListNode<span style="color:#f92672">*</span> free_tail <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> tail;
+        <span style="color:#66d9ef">while</span>(ptr <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">!=</span> obj <span style="color:#f92672">-&gt;</span> tail){
+            ptr <span style="color:#f92672">=</span> ptr <span style="color:#f92672">-&gt;</span> next;
+        }
+        ptr <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> NULL;
+        obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">=</span> ptr;
+        free(free_tail);
+        obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">--</span>;
+    }
+    <span style="color:#75715e">//删除中间结点，将要删除的结点的左节点的next指向它的右结点即可
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">else</span>{
+        ListNode<span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> index<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>){
+        ptr <span style="color:#f92672">=</span> ptr <span style="color:#f92672">-&gt;</span> next;
+        }
+        ListNode<span style="color:#f92672">*</span> free_del <span style="color:#f92672">=</span> ptr <span style="color:#f92672">-&gt;</span> next;
+        ListNode<span style="color:#f92672">*</span> aft <span style="color:#f92672">=</span> ptr <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">-&gt;</span> next;
+        ptr <span style="color:#f92672">-&gt;</span> next <span style="color:#f92672">=</span> aft;
+        free(free_del);
+        obj <span style="color:#f92672">-&gt;</span> length<span style="color:#f92672">--</span>;
+    }
+}
+</code></pre></div><h1 id="释放内存">释放内存</h1>
+<p>链表使用完之后，及时将它的马飞掉</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myLinkedListFree</span>(MyLinkedList<span style="color:#f92672">*</span> obj) {
+    ListNode<span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+    <span style="color:#66d9ef">while</span>(obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">!=</span> NULL){
+        ptr <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+        obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">-&gt;</span> next;
+        free(ptr);
+    }
+    free(obj);
+}
+</code></pre></div><h1 id="实例测试">实例测试</h1>
+<p>为了验证写的这些功能是否正确，写一个main函数来跑跑看测试一下。<br>
+比如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//写一个打印链表的函数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printMyLinkedList</span>(MyLinkedList<span style="color:#f92672">*</span> obj){
+    ListNode<span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> obj <span style="color:#f92672">-&gt;</span> head;
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> obj <span style="color:#f92672">-&gt;</span> length; i<span style="color:#f92672">++</span>){
+        printf(<span style="color:#e6db74">&#34;%d &#34;</span>, ptr <span style="color:#f92672">-&gt;</span> val);
+        ptr <span style="color:#f92672">=</span> ptr <span style="color:#f92672">-&gt;</span> next;
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+    <span style="color:#75715e">//从上到下依次把注释去掉，运行一次，观察长度、头尾节点、打印链表的输出，来判断函数是否正常工作
+</span><span style="color:#75715e"></span>    MyLinkedList<span style="color:#f92672">*</span> obj <span style="color:#f92672">=</span> myLinkedListCreate();
+    myLinkedListAddAtHead(obj, <span style="color:#ae81ff">2</span>);
+    <span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 1);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtHead(obj, 2);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtHead(obj, 7);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtHead(obj, 3);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtHead(obj, 2);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtHead(obj, 5);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListAddAtTail(obj, 5);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//int a = myLinkedListGet(obj, 5);printf(&#34;get: %d\n&#34;, a);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 6);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 4);
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;length: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, obj <span style="color:#f92672">-&gt;</span> length);
+    printf(<span style="color:#e6db74">&#34;head: %d, tail: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, obj <span style="color:#f92672">-&gt;</span> head <span style="color:#f92672">-&gt;</span> val, obj <span style="color:#f92672">-&gt;</span> tail <span style="color:#f92672">-&gt;</span> val);
+    printMyLinkedList(obj);
+    myLinkedListFree(obj);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>
+                    
+                    <HR width="100%" id="EOF">
+		    <p style="color:#777;">Last modified on 2021-06-13</p>
+                    
+                </div>
+            </div>
+            
+            
+            <nav class="post-pagination">
+
+                
+                <a class="newer-posts">
+			Next<br>No newer posts.
+                </a>
+                
+                
+                
+                <a class="older-posts" href="https://kanajin.github.io/datastructure/linkedlistquestion/">
+			Previous<br>链表题目本
+                </a>
+                
+            </nav>
+            <div class="post-comment-wrapper">
+                
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div><div id="single-column-footer">
+Hugo Theme <a href="https://github.com/amazingrise/hugo-theme-diary">Diary</a> by <a href="https://amazingrise.net">Rise</a>
+<br>
+Ported from <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a>'s <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> <br>
+<br>
+
+&copy;
+	
+	2021 Suzuki&#39;s Blog
+	
+</div>
+            </div>
+    <script>
+let app;
+
+app = new Vue({
+    el: '#app',
+    data: {
+        scrollY: 0,
+        navOpacity: 0,
+        isDrawerOpen: false,
+        mounted: false,
+        isDarkMode: false
+    },
+    methods: {
+            sgn(t, x) {
+                let k = 1. / (1. - 2 * t);
+                if (x <= t) return 0;
+                else if (x >= 1 - t) return 1;
+                else {
+                    return k * (x - t);
+                }
+            },
+            handleScroll() {
+                this.scrollY = window.scrollY;
+                this.navOpacity = this.sgn(.0, Math.min(1, Math.max(0, window.scrollY / (this.pageHeadHeight() - this.navBarHeight() * 0.8))));
+                const {navBar, navBackground, navTitle, extraContainer, streamContainer} = this.$refs;
+
+                if (this.navOpacity >= 1) {
+                    navBackground.style.opacity = 1;
+                    navTitle.style.opacity = 1;
+                } else {
+                    navBackground.style.opacity = 0;
+                    navTitle.style.opacity = 0;
+                }
+            },
+            handleResize() {
+                const {navBar, navBackground, navTitle, extraContainer, streamContainer} = this.$refs;
+                extraContainer.style.left = (streamContainer.offsetWidth - extraContainer.offsetWidth) + 'px';
+            },
+            navBarHeight() {
+                return this.$refs.navBar.offsetHeight;
+            },
+            pageHeadHeight() {
+                return this.$refs.pageHead.offsetHeight;
+            },
+            toggleDrawer() {
+                this.isDrawerOpen = !this.isDrawerOpen;
+                document.getElementsByTagName('html')[0].style.overflow = this.isDrawerOpen ? 'hidden' : 'unset';
+            },
+            closeDrawer() {
+                this.isDrawerOpen = false;
+                document.getElementsByTagName('html')[0].style.overflow = this.isDrawerOpen ? 'hidden' : 'unset';
+            },
+            toggleDarkMode() {
+                this.isDarkMode = !this.isDarkMode;
+                if (this.isDarkMode==true){
+                    document.cookie = "night=1;path=/";
+                    document.body.classList.add("night");
+                } else {
+                    document.cookie = "night=0;path=/";
+                    document.body.classList.remove("night");
+                }
+            },
+            debounce(func, wait, options) {
+                let lastArgs,
+                    lastThis,
+                    maxWait,
+                    result,
+                    timerId,
+                    lastCallTime
+
+                let lastInvokeTime = 0
+                let leading = false
+                let maxing = false
+                let trailing = true
+
+                
+                const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function')
+
+                if (typeof func !== 'function') {
+                    throw new TypeError('Expected a function')
+                }
+                function isObject(value) {
+                    const type = typeof value
+                    return value != null && (type === 'object' || type === 'function')
+                }
+
+                wait = +wait || 0
+                if (isObject(options)) {
+                    leading = !!options.leading
+                    maxing = 'maxWait' in options
+                    maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait
+                    trailing = 'trailing' in options ? !!options.trailing : trailing
+                }
+
+                function invokeFunc(time) {
+                    const args = lastArgs
+                    const thisArg = lastThis
+
+                    lastArgs = lastThis = undefined
+                    lastInvokeTime = time
+                    result = func.apply(thisArg, args)
+                    return result
+                }
+
+                function startTimer(pendingFunc, wait) {
+                    if (useRAF) {
+                    root.cancelAnimationFrame(timerId)
+                    return root.requestAnimationFrame(pendingFunc)
+                    }
+                    return setTimeout(pendingFunc, wait)
+                }
+
+                function cancelTimer(id) {
+                    if (useRAF) {
+                    return root.cancelAnimationFrame(id)
+                    }
+                    clearTimeout(id)
+                }
+
+                function leadingEdge(time) {
+                    
+                    lastInvokeTime = time
+                    
+                    timerId = startTimer(timerExpired, wait)
+                    
+                    return leading ? invokeFunc(time) : result
+                }
+
+                function remainingWait(time) {
+                    const timeSinceLastCall = time - lastCallTime
+                    const timeSinceLastInvoke = time - lastInvokeTime
+                    const timeWaiting = wait - timeSinceLastCall
+
+                    return maxing
+                    ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke)
+                    : timeWaiting
+                }
+
+                function shouldInvoke(time) {
+                    const timeSinceLastCall = time - lastCallTime
+                    const timeSinceLastInvoke = time - lastInvokeTime
+
+                    
+                    
+                    
+                    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+                    (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait))
+                }
+
+                function timerExpired() {
+                    const time = Date.now()
+                    if (shouldInvoke(time)) {
+                    return trailingEdge(time)
+                    }
+                    
+                    timerId = startTimer(timerExpired, remainingWait(time))
+                }
+
+                function trailingEdge(time) {
+                    timerId = undefined
+
+                    
+                    
+                    if (trailing && lastArgs) {
+                    return invokeFunc(time)
+                    }
+                    lastArgs = lastThis = undefined
+                    return result
+                }
+
+                function cancel() {
+                    if (timerId !== undefined) {
+                    cancelTimer(timerId)
+                    }
+                    lastInvokeTime = 0
+                    lastArgs = lastCallTime = lastThis = timerId = undefined
+                }
+
+                function flush() {
+                    return timerId === undefined ? result : trailingEdge(Date.now())
+                }
+
+                function pending() {
+                    return timerId !== undefined
+                }
+
+                function debounced(...args) {
+                    const time = Date.now()
+                    const isInvoking = shouldInvoke(time)
+
+                    lastArgs = args
+                    lastThis = this
+                    lastCallTime = time
+
+                    if (isInvoking) {
+                    if (timerId === undefined) {
+                        return leadingEdge(lastCallTime)
+                    }
+                    if (maxing) {
+                        
+                        timerId = startTimer(timerExpired, wait)
+                        return invokeFunc(lastCallTime)
+                    }
+                    }
+                    if (timerId === undefined) {
+                    timerId = startTimer(timerExpired, wait)
+                    }
+                    return result
+                }
+                debounced.cancel = cancel
+                debounced.flush = flush
+                debounced.pending = pending
+                return debounced
+                }
+
+    },
+    created() {
+        window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('resize', this.handleResize);
+        window._nonDesktop = function () {
+            let check = false;
+            (function (a) {
+                if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) check = true;
+            })(navigator.userAgent || navigator.vendor || window.opera);
+            return check;
+        };
+        
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (night==""){
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                
+            }
+        }else{
+            
+            if (night=="1") {
+                this.toggleDarkMode();
+            }
+        }
+    },
+    mounted() {
+        this.handleScroll();
+        this.handleResize();
+        this.mounted = true;
+
+        
+        
+        
+
+        document.querySelectorAll("table").forEach(function(elem){
+            elem.classList.add("table-striped");
+            elem.classList.add("table");
+            elem.classList.add("table-responsive");
+            elem.classList.add("table-hover");
+        })
+
+        
+        spy();
+        window.addEventListener('scroll', this.debounce(spy, 250, { 'maxWait': 250 }), false);
+        
+        
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('resize', this.handleResize);
+    }
+});
+
+
+
+</script>
+    </body>
+</html>
