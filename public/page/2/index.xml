@@ -5,9 +5,48 @@
     <description>Recent content on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Jun 2021 14:13:59 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jun 2021 21:17:25 +0800</lastBuildDate>
     
         <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>初次使用Git</title>
+        <link>https://kanajin.github.io/git/start/</link>
+        <pubDate>Mon, 07 Jun 2021 13:13:28 +0800</pubDate>
+        
+        <guid>https://kanajin.github.io/git/start/</guid>
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/git/start/ -&lt;h1 id=&#34;初次使用git&#34;&gt;初次使用git：&lt;/h1&gt;
+&lt;p&gt;提交用户信息，通过以下两行指令提交用户名和邮箱（蓝色字体为自定义输入）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git config --global user.name &amp;quot;Suzuki&amp;quot;
+$ git config --global user.email ekanajin@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;注意：邮箱建议和你的代码托管网站所用邮箱相同，否则commit会有问题&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;通过以下命令来确认是否提交：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git config –list
+user.name= Suzuki
+user.email=ekanajin@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这个命令会返回很多变量，也可以用
+&lt;code&gt;git config &amp;lt;key&amp;gt;&lt;/code&gt;
+指定返回变量：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git config user.name
+user.name=Suzuki
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在想要建立git仓库的空目录下执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git init
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果是一个非空文件夹，通过 git add 命令添加所需文件，并提交。例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git add *.c
+$ git add LICENSE
+$ git commit -m ‘say something’
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;添加ssh公钥使用ed25519加密&#34;&gt;添加SSH公钥（使用ed25519加密）：&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;ssh-keygen -t ed25519 -C &amp;quot;Suzuki &amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后一路回车（会要求输入密码，一般不需要，回车即可）
+然后就会在&lt;code&gt;~/.ssh/&lt;/code&gt;目录下生成两个文件，公钥&lt;code&gt;id_ed25519.pub&lt;/code&gt;和私钥&lt;code&gt;id_ed25519&lt;/code&gt;，公钥用于粘贴到代码托管网站，私钥一定不能给别人。&lt;/p&gt;
+&lt;h1 id=&#34;clone已有仓库&#34;&gt;clone已有仓库：&lt;/h1&gt;
+&lt;p&gt;在代码托管网站，找到SSH地址，然后输入以下命令（标蓝为SSH地址）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
+&lt;/code&gt;&lt;/pre&gt;- https://kanajin.github.io/git/start/ - </description>
+        </item>
     
     
     

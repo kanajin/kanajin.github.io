@@ -6,7 +6,31 @@
     <description>Recent content in ChemicalIndustries on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jun 2021 13:21:35 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/chemicalindustry/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Jun 2021 21:17:25 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/chemicalindustry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>流量检测仪表</title>
+      <link>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</link>
+      <pubDate>Thu, 17 Jun 2021 21:17:25 +0800</pubDate>
+      
+      <guid>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</guid>
+      <description>流量测量仪表 学习目标：
+ 从外观上能辨别常见仪表类型 初步判断仪表故障产生的原因  流量的定义与基本物理参数 本节先介绍几个基本物理概念
+流量的定义 体积流量：
+指单位时间内流过一定横截面积的流体的体积Q。
+质量流量：
+指单位时间内流过一定横截面积的流体的质量M。
+根据质量与体积的关系，我们有${M=Q*\rho}$——式中$\rho$为流体的密度，质量流量与体积流量也有此对应关系。
+ 扩展介绍：雷诺数 雷诺数是流体惯性力与粘性力的比值，反应了流体在管道中的流动状态，其计算式如下： $$ Re=\dfrac{du\rho}{\mu} $$ 式中：
+ $d$-管直径 $u$-平均流速 $\rho$-流体密度 $\mu$-流体动力粘度  因此，雷诺数是一个无量纲数。
+雷诺数与流体流动状态的关系为：
+Re &amp;lt; 2000 时，层流。流体流动时，流线之间没有质点交换，轨迹有条不紊，层次分明。
+2000 &amp;lt; Re &amp;lt; 4000 时，过渡态。流线波动，但流线之间仍然没有质点交换。
+Re &amp;gt; 4000 时，湍流。流体流动时，流线间有质点交换，流动迹象极不规律。
+ 流量测量仪表的分类 常见的流量计分类如下所示：
+ 速度式流量计  差压式流量计 转子流量计 涡街流量计 电磁流量计   容积式流量计  椭圆齿轮流量计 罗茨流量计 刮板流量计   质量式流量计  质量流量计 热质流量计
+接下来将选择五个常见流量计介绍其测量原理与故障分析   差压流量计</description>
+    </item>
+    
     <item>
       <title>动设备知识</title>
       <link>https://kanajin.github.io/chemicalindustry/movingequipment/</link>
