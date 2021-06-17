@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>操作系统 on Suzuki&#39;s Blog</title>
+    <link>https://kanajin.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in 操作系统 on Suzuki&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Jun 2021 14:13:59 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安装archlinux双系统</title>
+      <link>https://kanajin.github.io/os/linuxsetup/</link>
+      <pubDate>Thu, 17 Jun 2021 14:13:59 +0800</pubDate>
+      
+      <guid>https://kanajin.github.io/os/linuxsetup/</guid>
+      <description>前言： 原本打算购置一台macbook来体验类Unix系统的开发环境，谁知今年的WWDC实在令人有些失望，最后转而买了一块ssd来打算装archlinux玩。在L君的帮助下花了两天时间总算是弄下来了(说，谢谢L君)，以下记录一下折腾的过程。
+ 参考了的安装指南和知乎用户“飞我去月球”的文章2021.02. Arch Linux 安装小记。
+准备工作 分配磁盘 首先默认已经拥有可用的Windows系统
+使用原有磁盘 如果你打算在你正在使用的磁盘上安装Linux&amp;hellip;说实话我不知道，但猜想应该通过分区工具获得一块连续的分区空间，可以和下文的新磁盘同样的操作步骤，关于分区工具的使用，我没有系统地学习过，以后如果用上了再写总结。
+使用全新磁盘 提前备好塑料片和螺丝刀(我忘了买塑料片上了金属555幸好没刮花)，安装好之后右键计算机-管理-储存-磁盘管理，找到新装上去的磁盘。此时Windows会提醒你格式化，先不格式化，确认识别到了就行。
+制作启动U盘 首先下载ArchLinux辅助安装系统：下载链接
+注：往下翻到HTTP Direct Downloads这一栏，然后选择国内的链接就行。
+然后下载Windows下的PE制作工具，我个人使用Etcher。官网链接 | Github链接
+选择下载的iso镜像以及U盘，制作即可。
+进入PE系统 启动U盘制作完成之后，就可以重启电脑了。进入BIOS选择U盘启动，即可看到命令行界面(液，你已经装好Linux了(并不))。
+ 在这里我遇到了无法使用U盘启动的问题，原因BIOS是没有开启允许external drive引导，在BIOS中找到Secure Boot选项，将值设为disable即可。
+ 连接网络 此处分为有线网与无线网，强烈建议使用有线网，简单方便。我安装过程使用的有线网，关于无线网连接的方式参考知乎文章。
+有线网 插上网线，完了
+不是，还得ping一下baidu.com看看
+插上网线，输入ip link，输出值中有一个 *** state up的，是一个很奇怪的名字，就是有线网卡的名称，说明有线网卡已经起了。
+然后输入ip addr获取ipv4地址，返回值中的inet即为ipv4地址，成功后输入ping baidu.com看是否连通(记得ctrl+C退出)。
+无线网络 Archiso默认使用iwd作为无线网络管理器。
+命令行输入iwctl进入iwd命令行
+[iwd]#长这样
+输入命令：[iwd]# device list以查询网卡设备。通常无线网卡名称是wlan0，在有线网一栏ip link也可以看到它。
+使用这个命令扫描WiFi：[iwd#] station &amp;lt;devicename&amp;gt; scan，假设查到的无线网卡名称为wlan0，则命令为：[iwd#] station wlan0 scan
+输出扫描结果：[iwd#] station &amp;lt;devicename&amp;gt; get-networks
+找到要链接的WiFi的SSID，并输入：[iwd#] station &amp;lt;devicename&amp;gt; connect &amp;lt;wifi-ssid&amp;gt;，然后根据提示输入密码即可。
+退出iwd命令行：[iwd#] exit</description>
+    </item>
+    
+  </channel>
+</rss>

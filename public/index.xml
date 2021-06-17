@@ -5,9 +5,213 @@
     <description>Recent content on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Jun 2021 21:29:43 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Jun 2021 14:13:59 +0800</lastBuildDate>
     
         <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>安装archlinux双系统</title>
+        <link>https://kanajin.github.io/os/linuxsetup/</link>
+        <pubDate>Thu, 17 Jun 2021 14:13:59 +0800</pubDate>
+        
+        <guid>https://kanajin.github.io/os/linuxsetup/</guid>
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/os/linuxsetup/ -&lt;blockquote&gt;
+&lt;h1 id=&#34;前言&#34;&gt;前言：&lt;/h1&gt;
+&lt;p&gt;原本打算购置一台macbook来体验类Unix系统的开发环境，谁知今年的WWDC实在令人有些失望，最后转而买了一块ssd来打算装archlinux玩。在L君的帮助下花了两天时间总算是弄下来了(说，谢谢L君)，以下记录一下折腾的过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;参考了的&lt;a href=&#34;https://wiki.archlinux.org/title/Installation_guide&#34;&gt;安装指南&lt;/a&gt;和知乎用户“飞我去月球”的文章&lt;a href=&#34;https://zhuanlan.zhihu.com/p/348370646&#34;&gt;2021.02. Arch Linux 安装小记&lt;/a&gt;。&lt;/p&gt;
+&lt;h1 id=&#34;准备工作&#34;&gt;准备工作&lt;/h1&gt;
+&lt;h2 id=&#34;分配磁盘&#34;&gt;分配磁盘&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;首先默认已经拥有可用的Windows系统&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;使用原有磁盘&#34;&gt;使用原有磁盘&lt;/h3&gt;
+&lt;p&gt;如果你打算在你正在使用的磁盘上安装Linux&amp;hellip;说实话我不知道，但猜想应该通过分区工具获得一块连续的分区空间，可以和下文的新磁盘同样的操作步骤，关于分区工具的使用，我没有系统地学习过，以后如果用上了再写总结。&lt;/p&gt;
+&lt;h3 id=&#34;使用全新磁盘&#34;&gt;使用全新磁盘&lt;/h3&gt;
+&lt;p&gt;提前备好塑料片和螺丝刀(我忘了买塑料片上了金属555幸好没刮花)，安装好之后右键计算机-管理-储存-磁盘管理，找到新装上去的磁盘。此时Windows会提醒你格式化，先不格式化，确认识别到了就行。&lt;/p&gt;
+&lt;h2 id=&#34;制作启动u盘&#34;&gt;制作启动U盘&lt;/h2&gt;
+&lt;p&gt;首先下载ArchLinux辅助安装系统：&lt;a href=&#34;https://archlinux.org/download/&#34;&gt;下载链接&lt;/a&gt;&lt;br&gt;
+注：往下翻到&lt;code&gt;HTTP Direct Downloads&lt;/code&gt;这一栏，然后选择国内的链接就行。&lt;br&gt;
+然后下载Windows下的PE制作工具，我个人使用Etcher。&lt;a href=&#34;https://www.balena.io/etcher/&#34;&gt;官网链接&lt;/a&gt; | &lt;a href=&#34;https://github.com/balena-io/etcher&#34;&gt;Github链接&lt;/a&gt;&lt;br&gt;
+选择下载的iso镜像以及U盘，制作即可。&lt;/p&gt;
+&lt;h2 id=&#34;进入pe系统&#34;&gt;进入PE系统&lt;/h2&gt;
+&lt;p&gt;启动U盘制作完成之后，就可以重启电脑了。进入BIOS选择U盘启动，即可看到命令行界面(液，你已经装好Linux了(并不))。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在这里我遇到了无法使用U盘启动的问题，原因BIOS是没有开启允许&lt;code&gt;external drive&lt;/code&gt;引导，在BIOS中找到&lt;code&gt;Secure Boot&lt;/code&gt;选项，将值设为&lt;code&gt;disable&lt;/code&gt;即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;连接网络&#34;&gt;连接网络&lt;/h2&gt;
+&lt;p&gt;此处分为有线网与无线网，强烈建议使用有线网，简单方便。我安装过程使用的有线网，关于无线网连接的方式参考知乎文章。&lt;/p&gt;
+&lt;h3 id=&#34;有线网&#34;&gt;有线网&lt;/h3&gt;
+&lt;p&gt;&lt;del&gt;插上网线，完了&lt;/del&gt;&lt;br&gt;
+&lt;del&gt;不是，还得ping一下baidu.com看看&lt;/del&gt;&lt;br&gt;
+插上网线，输入&lt;code&gt;ip link&lt;/code&gt;，输出值中有一个 *** state up的，是一个很奇怪的名字，就是有线网卡的名称，说明有线网卡已经起了。&lt;br&gt;
+然后输入&lt;code&gt;ip addr&lt;/code&gt;获取ipv4地址，返回值中的&lt;code&gt;inet&lt;/code&gt;即为ipv4地址，成功后输入&lt;code&gt;ping baidu.com&lt;/code&gt;看是否连通(记得ctrl+C退出)。&lt;/p&gt;
+&lt;h3 id=&#34;无线网络&#34;&gt;无线网络&lt;/h3&gt;
+&lt;p&gt;Archiso默认使用iwd作为无线网络管理器。&lt;br&gt;
+命令行输入&lt;code&gt;iwctl&lt;/code&gt;进入iwd命令行&lt;br&gt;
+&lt;code&gt;[iwd]#&lt;/code&gt;长这样&lt;br&gt;
+输入命令：&lt;code&gt;[iwd]# device list&lt;/code&gt;以查询网卡设备。通常无线网卡名称是wlan0，在有线网一栏&lt;code&gt;ip link&lt;/code&gt;也可以看到它。&lt;br&gt;
+使用这个命令扫描WiFi：&lt;code&gt;[iwd#] station &amp;lt;devicename&amp;gt; scan&lt;/code&gt;，假设查到的无线网卡名称为&lt;code&gt;wlan0&lt;/code&gt;，则命令为：&lt;code&gt;[iwd#] station wlan0 scan&lt;/code&gt;&lt;br&gt;
+输出扫描结果：&lt;code&gt;[iwd#] station &amp;lt;devicename&amp;gt; get-networks&lt;/code&gt;&lt;br&gt;
+找到要链接的WiFi的SSID，并输入：&lt;code&gt;[iwd#] station &amp;lt;devicename&amp;gt; connect &amp;lt;wifi-ssid&amp;gt;&lt;/code&gt;，然后根据提示输入密码即可。&lt;br&gt;
+退出iwd命令行：&lt;code&gt;[iwd#] exit&lt;/code&gt;&lt;br&gt;
+然后执行：&lt;code&gt;# dhcpd&lt;/code&gt;分配ip，并&lt;code&gt;ping baidu.com&lt;/code&gt;看一下网络是否连上。&lt;/p&gt;
+&lt;h2 id=&#34;更新系统时间&#34;&gt;更新系统时间&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;# timedatectl set-ntp true&lt;/code&gt;&lt;br&gt;
+验证时间是否正确：&lt;br&gt;
+&lt;code&gt;# timedatectl status&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;硬盘分区&#34;&gt;硬盘分区&lt;/h2&gt;
+&lt;p&gt;使用命令&lt;code&gt;fdisk -l&lt;/code&gt;来列出所有磁盘，在这里也可以找到Windows系统的磁盘。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一般来说：&lt;br&gt;
+/dev/sd 指非NVMe的储存设备&lt;br&gt;
+/dev/nvme 指NVMe固态硬盘&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在输出的&lt;code&gt;Disk model&lt;/code&gt;中可以看到磁盘的名称，用来判断你是否是你需要的磁盘。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Linux三分区法：将一个磁盘分成三个分区&lt;br&gt;
+第一个为efi分区，用于Linux的启动引导&lt;br&gt;
+第二个为根目录分区(/)，用来存放包管理器安装的软件&lt;br&gt;
+第三个为家分区(/home)，用来存放用户个人数据&lt;br&gt;
+如果硬盘空间足够大的话，建议给efi分区1Gb的空间，根目录150Gb的空间，剩下的给家目录&lt;br&gt;
+如果购买的硬盘空间不够，或者是用原本的硬盘划过来的分区，则efi分区200Mb足够，根目录尽量保证70~100Gb的空间，剩下的再给家目录。&lt;br&gt;
+建议在操作前先规划好分区，记在纸上，一会操作方便&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当规划完分区后，输入命令&lt;code&gt;fdisk /dev/&amp;lt;yourdisk&amp;gt;&lt;/code&gt;进入fdisk命令行。&lt;!-- raw HTML omitted --&gt;指的是刚刚查出来的你的磁盘名&lt;br&gt;
+fdisk命令行大概长这样：&lt;code&gt;Command (m for help):&lt;/code&gt;&lt;br&gt;
+&lt;strong&gt;注意：在使用&lt;code&gt;w&lt;/code&gt;命令之前，所有的操作都不会被写入磁盘，但一旦执行了&lt;code&gt;w&lt;/code&gt;命令，就基本无力回天了，三思而行！&lt;/strong&gt;&lt;br&gt;
+创建GPT分区表：&lt;code&gt;Command (m for help): g&lt;/code&gt;&lt;br&gt;
+&lt;em&gt;注：MBR分区表过于古老，不再使用&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;两个概念：分区表和文件系统&lt;br&gt;
+分区表：一个在磁盘最前面的表，记录了这个磁盘被分成了几块。&lt;br&gt;
+文件系统：某个分区(由分区表记录)上记录文件的“格式”&lt;br&gt;
+以Windows磁盘分区为例，分为两个步骤：&lt;br&gt;
+第一步：在分区表里记录下磁盘这个位置(通常由用户、分区软件指定)，现在是一个独立分区&lt;br&gt;
+第二步：按照文件系统的“格式”，对新建的分区进行初始化(也就是常见到的格式化)。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;创建新分区：&lt;code&gt;Command (m for help): n&lt;/code&gt;&lt;br&gt;
+会提示你输入这个分区的序号(单纯就是序号，可以根据自己的喜欢给上述三个分区设定特定的序号)；设定完序号后会提示输入磁盘的首扇区，我没有这方面知识，默认走天下，&lt;del&gt;反正是首扇区&lt;/del&gt;；设定完首扇区后会要求输入尾扇区，这里猜测首尾扇区决定了该分区大小，但fdisk允许你在这里直接输入分区的大小，如&lt;code&gt;+1G&lt;/code&gt;。&lt;br&gt;
+当三个分区都创建完毕后(tips：最后一个分区的尾扇区可以直接使用默认值，也就是最大扇区，表示将剩余空间全部分配给该分区)，需要更改分区的类型。&lt;br&gt;
+查看目前三个分区的类型：&lt;code&gt;Command (m for help): p&lt;/code&gt;&lt;br&gt;
+目标为把efi分区的类型改为“EFI System”，根目录和家目录的类型为“Linux filesystem”。&lt;br&gt;
+查看分区类型编号：&lt;code&gt;Command (m for help): l&lt;/code&gt;&lt;br&gt;
+输出中会给出各种类型编号，找到需要的类型，记录下编号，以“EFI System”的编号为&lt;code&gt;1&lt;/code&gt;举例：&lt;br&gt;
+更改分区类型：&lt;code&gt;Command (m for help): t&lt;/code&gt;&lt;br&gt;
+然后会要求输入分区序号，这个为之前个人设定，然后输入&lt;code&gt;1&lt;/code&gt;将类型更改为“EFI System”。&lt;br&gt;
+以上操作确认完没问题后，&lt;code&gt;Command (m for help): w&lt;/code&gt;保存。&lt;strong&gt;一定三思！&lt;/strong&gt;&lt;br&gt;
+重新&lt;code&gt;fdisk -l&lt;/code&gt;可以查看到，现在你的新磁盘已经多了三个分区了，并且也有了新名字&lt;br&gt;
+然后格式化分区：&lt;code&gt;mkfs.fat -F32 /dev/&amp;lt;efi_partition&amp;gt;&lt;/code&gt;(注意加上分区号)，这个命令用于&lt;code&gt;efi&lt;/code&gt;分区，然后这个命令&lt;code&gt;mkfs.ext4 /dev/&amp;lt;rootandhome_partition&amp;gt;&lt;/code&gt;用于根目录和家目录，&lt;del&gt;不要用错，否则无力回天&lt;/del&gt;&lt;/p&gt;
+&lt;h2 id=&#34;挂载分区&#34;&gt;挂载分区&lt;/h2&gt;
+&lt;p&gt;我们目前其实处于U盘的Linux系统下，如果要对分好区、格式化完毕的新磁盘进行操作，就需要将这些分区挂载到U盘上，就要用到mount命令。&lt;br&gt;
+在U盘上创建两个文件夹：&lt;br&gt;
+&lt;code&gt;mkdir -p /mnt/boot&lt;/code&gt;以及&lt;code&gt;mkdir -p /mnt/home&lt;/code&gt;，然后执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mount /dev/efi_partition /mnt/boot
+mount /dev/root_partition /mnt
+mount /dev/home_partition /mnt/home
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;将各分区挂载到相应的文件夹。&lt;/p&gt;
+&lt;h2 id=&#34;安装archlinux&#34;&gt;安装ArchLinux&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;网上教程中会让你修改&lt;code&gt;/etc/pacman.d/mirrorlist&lt;/code&gt;这个文件，但事实上，如果使用这个方法安装ArchLinux，刚连上网络时，pacman就已经自己更新了20个最快的源，因此不需要对这个文件做任何操作。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;使用该命令安装最新软件包：&lt;code&gt;pacstrap /mnt base linux linux-firmware&lt;/code&gt;&lt;br&gt;
+因为是在线安装系统，所以会需要一点时间，等待结束后，ArchLinux就已经安装到你的新硬盘中了。但是先别急着重启，首先在U盘下对新系统进行初步配置&lt;/p&gt;
+&lt;h2 id=&#34;配置系统&#34;&gt;配置系统&lt;/h2&gt;
+&lt;h3 id=&#34;转移到新系统&#34;&gt;转移到新系统&lt;/h3&gt;
+&lt;p&gt;首先要让系统启动时把分区挂在上来，通过生成fstab文件实现&lt;br&gt;
+命令：&lt;code&gt;genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab&lt;/code&gt;&lt;br&gt;
+然后Change root进入到新安装的系统：&lt;br&gt;
+&lt;code&gt;# arch-chroot /mnt&lt;/code&gt;&lt;br&gt;
+执行完上面的命令后，你就在新的系统里了&lt;del&gt;神奇&lt;/del&gt;&lt;/p&gt;
+&lt;h3 id=&#34;时区与地区设置&#34;&gt;时区与地区设置&lt;/h3&gt;
+&lt;p&gt;设置时区(在中国，使用以下命令来设置时区)：&lt;br&gt;
+&lt;code&gt;# ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime&lt;/code&gt;&lt;br&gt;
+然后&lt;code&gt;# hwclock --systohc&lt;/code&gt;&lt;br&gt;
+由于在新系统中，没有安装vim，因此需要使用pacman进行安装：
+&lt;code&gt;# pacman -S vim&lt;/code&gt;&lt;br&gt;
+然后我们需要编辑地区：&lt;br&gt;
+&lt;code&gt;# vim /etc/locale.gen&lt;/code&gt;&lt;br&gt;
+这里个人配置为将&lt;code&gt;en_US.UTF-8&lt;/code&gt;和&lt;code&gt;zh_CN.UTF-8&lt;/code&gt;取消注释&lt;br&gt;
+然后生成locale信息：
+&lt;code&gt;# locale-gen&lt;/code&gt;&lt;br&gt;
+创建&lt;code&gt;locale.conf&lt;/code&gt;文件并编辑&lt;code&gt;LANG&lt;/code&gt;变量：&lt;br&gt;
+&lt;code&gt;# vim /etc/locale.conf&lt;/code&gt;&lt;br&gt;
+在新文件中添加一行&lt;code&gt;LANG=en_US.UTF-8&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;对于中文用户，有如下tips：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户可以设置自己的locale，详情参阅&lt;a href=&#34;https://wiki.archlinux.org/title/Locale_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E8%AE%BE%E7%BD%AE_locale&#34;&gt;Wiki内容&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;将系统&lt;code&gt;locale&lt;/code&gt;设置为&lt;code&gt;en_US.UTF-8&lt;/code&gt;，系统的log就会用英文显示，这样更容易判断和处理问题&lt;/li&gt;
+&lt;li&gt;也可以设置为&lt;code&gt;en_GB.UTF-8&lt;/code&gt;或&lt;code&gt;en_SG.UTF-8&lt;/code&gt;，优点如下：
+&lt;ul&gt;
+&lt;li&gt;进入桌面环境后以24小时制显示时间&lt;/li&gt;
+&lt;li&gt;LibreOffice等办公软件的纸张尺寸会默认为A4而非Letter(US)&lt;/li&gt;
+&lt;li&gt;可尽量避免不必要且可能造成处理麻烦的英制单位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;事实上这些优点对于编程开发几乎无用，大部分需要这些特性的情况下建议使用Windows，而本博客也正是建立在Windows和ArchLinux双系统的大前提下的。&lt;br&gt;
+&lt;strong&gt;警告&lt;/strong&gt;: 不推荐在此设置任何中文 locale，会导致 tty 乱码。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;网络配置&#34;&gt;网络配置&lt;/h3&gt;
+&lt;p&gt;创建文件：&lt;br&gt;
+&lt;code&gt;# vim /etc/hostname&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;myhostname&lt;/code&gt;(写上自己喜欢的名字即可，为本机名)&lt;br&gt;
+&lt;code&gt;# vim /etc/hosts&lt;/code&gt;并填入以下内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;127.0.0.1 localhost
+::1 localhost
+127.0.1.1 myhostname.localdomain myhostname
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中的&lt;code&gt;myhostname&lt;/code&gt;改为自己设置的。&lt;/p&gt;
+&lt;h3 id=&#34;设置root密码&#34;&gt;设置root密码&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;# passwd&lt;/code&gt;&lt;br&gt;
+按照引导输入密码，不会有回显&lt;/p&gt;
+&lt;h3 id=&#34;安装引导程序&#34;&gt;安装引导程序&lt;/h3&gt;
+&lt;h4 id=&#34;安装双系统引导&#34;&gt;安装双系统引导&lt;/h4&gt;
+&lt;p&gt;使用&lt;code&gt;grub2&lt;/code&gt;进行双系统引导&lt;br&gt;
+安装os-prober：&lt;br&gt;
+&lt;code&gt;# pacman -S os-prober&lt;/code&gt;&lt;br&gt;
+然后安装grub：&lt;br&gt;
+&lt;code&gt;# grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB&lt;/code&gt;&lt;br&gt;
+&lt;em&gt;注：&lt;code&gt;/boot&lt;/code&gt;这个位置，若之前挂载时创建文件夹使用了别的名字来做efi的挂载目录，则替换为正确的目录名&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;挂载windows启动分区&#34;&gt;挂载Windows启动分区&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;# fdisk -l&lt;/code&gt;找到Windows的efi分区，记下设备号&lt;br&gt;
+在&lt;code&gt;/mnt&lt;/code&gt;下新建一个目录，将Windows的efi分区挂载上去,示例如下：&lt;br&gt;
+&lt;code&gt;mkdir -p /mnt/winefi&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;mount /dev/&amp;lt;yourwinefi_partition&amp;gt; /mnt/winefi&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;配置引导程序&#34;&gt;配置引导程序&lt;/h4&gt;
+&lt;p&gt;编辑&lt;code&gt;/etc/default/grub&lt;/code&gt;文件：&lt;br&gt;
+&lt;code&gt;vim /etc/default/grub&lt;/code&gt;&lt;br&gt;
+在底下加入如下内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#enable osprober
+GRUB_DISABLE_OS_PROBER=false
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后执行：&lt;br&gt;
+&lt;code&gt;# grub-mkconfig -o /boot/grub/grub.cfg&lt;/code&gt;
+查看一下&lt;code&gt;grub.cfg&lt;/code&gt;文件：&lt;br&gt;
+&lt;code&gt;#vim /boot/grub/grub.cfg&lt;/code&gt;&lt;br&gt;
+应该能找到如下内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;### BEGIN /etc/grub.d/30_os-prober ###
+menuentry &#39;Windows Boot Manager (on ***)&#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的内容，说明成功了&lt;/p&gt;
+&lt;h3 id=&#34;创建普通用户&#34;&gt;创建普通用户&lt;/h3&gt;
+&lt;p&gt;通过&lt;br&gt;
+&lt;code&gt;# useradd -m -G wheel username&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;# passwd username&lt;/code&gt;&lt;br&gt;
+两个命令来创建新用户并设置密码，避免使用root登录新系统&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt;命令会在创建用户同时在&lt;code&gt;/home&lt;/code&gt;目录下创建一个与用户名同名的文件夹&lt;br&gt;
+&lt;code&gt;-G&lt;/code&gt;代表把用户加入一个组，wheel组拥有root的权限，方便sudo&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;安装网络管理软件&#34;&gt;安装网络管理软件&lt;/h3&gt;
+&lt;p&gt;&lt;del&gt;新系统中没有网络管理软件，如果此时重启进入新系统就会因为没有网络什么也做不了&lt;/del&gt;&lt;br&gt;
+&lt;code&gt;# pacman -S NetworkManager&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;# pacman -S dhcpcd&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;安装sudo&#34;&gt;安装sudo&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;# pacman -S sudo&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;尾声&#34;&gt;尾声&lt;/h2&gt;
+&lt;p&gt;至此，准备工作完成，使用命令&lt;code&gt;exit&lt;/code&gt;退出chroot，然后使用命令&lt;code&gt;poweroff&lt;/code&gt;关机或&lt;code&gt;reboot&lt;/code&gt;重启&lt;br&gt;
+拔掉U盘，进入BIOS，把grub的引导顺序调到最前，保存并重启，就可以进入grub的引导界面，选择ArchLinux，进入新系统。&lt;/p&gt;
+- https://kanajin.github.io/os/linuxsetup/ - </description>
+        </item>
     
     
     
@@ -861,31 +1065,6 @@ $ git commit -m ‘say something’
 &lt;p&gt;在代码托管网站，找到SSH地址，然后输入以下命令（标蓝为SSH地址）&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
 &lt;/code&gt;&lt;/pre&gt;- https://kanajin.github.io/git/start/ - </description>
-        </item>
-    
-    
-    
-        <item>
-        <title>插入排序</title>
-        <link>https://kanajin.github.io/datastructure/insertsort/</link>
-        <pubDate>Mon, 07 Jun 2021 11:24:43 +0800</pubDate>
-        
-        <guid>https://kanajin.github.io/datastructure/insertsort/</guid>
-        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/insertsort/ -&lt;h1 id=&#34;插入排序&#34;&gt;插入排序&lt;/h1&gt;
-&lt;p&gt;从左到右开始，先将第一个数标记为已排序，然后将他的下一个数取出，逐个与前面的数字比较。如果取出的数字更小，则继续往左比较，直到遇到一个比他小的数字，将取出的数插入到这个数的右边&lt;/p&gt;
-&lt;h2 id=&#34;代码&#34;&gt;代码：&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;insert&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; size){
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; size; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[i];
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; a[j] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; temp; j&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;){
-            a[j &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[j]; &lt;span style=&#34;color:#75715e&#34;&gt;//是将这个更大的数字右移一格
-&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        }
-        a[j &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; temp;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt; 程序中的 a[j + 1] = a[j] 的意思是将更大的数字右移一格&lt;/p&gt;
-- https://kanajin.github.io/datastructure/insertsort/ - </description>
         </item>
     
     
