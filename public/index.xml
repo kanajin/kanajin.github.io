@@ -5,9 +5,88 @@
     <description>Recent content on Suzuki&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Jun 2021 21:17:25 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 10 Jul 2021 13:57:15 +0800</lastBuildDate>
     
         <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    
+        <item>
+        <title>哈希表</title>
+        <link>https://kanajin.github.io/datastructure/hashtable/</link>
+        <pubDate>Sat, 10 Jul 2021 13:57:15 +0800</pubDate>
+        
+        <guid>https://kanajin.github.io/datastructure/hashtable/</guid>
+        <description>Suzuki&#39;s Blog https://kanajin.github.io/datastructure/hashtable/ -&lt;h1 id=&#34;简介&#34;&gt;简介&lt;/h1&gt;
+&lt;p&gt;链表散列法的哈希表本质上是一个元素为链表的数组。key值通过哈希函数转化成一个特定值，安插进数组的特定位置，当查找时，只需要计算出哈希值，就可以立刻定位到数组相对应的位置，从而实现时间复杂度为O(1)的查找。当出现计算结果一样的key值时，对应位置的链表增长。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//成员链表的结构定义，包含了要储存的内容
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; hash_ele{
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; key;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; value;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; next;
+} hash_ele;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;//数组的定义，成员为指向链表的指针
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; hash_array{
+    hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; arr[&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;];
+} hash_array;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;//哈希函数的一个示例，该函数让key值对29取模
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hashCode&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; key){
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; index &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; key &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; index;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;hash_array的用法：&lt;br&gt;
+hash_array的成员为&lt;code&gt;hash_ele* arr[30]&lt;/code&gt;，原因是哈希函数为key值对29取模，因此数组下标可取值为0~29，长度最高为30。&lt;br&gt;
+结构定义方式也可以使用&lt;code&gt;hash_ele** arr&lt;/code&gt;&lt;br&gt;
+当&lt;code&gt;hashCode(key)&lt;/code&gt;计算出值时(假设值为index)，将元素插入&lt;code&gt;arr -&amp;gt; arr[index]&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;由于成员为链表，操作方面和链表几乎一样，接下来仅记录实现过程中遇到的问题&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h1 id=&#34;注意事项&#34;&gt;注意事项&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;上述的结构体定义方式，在创建时需要使用calloc申请内存空间并初始化。如果使用malloc，将不会进行初始化，使用时会遇到segmentation fault。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//创建数组，由于成员为hash_ele*且长度为30，因此申请30*sizeof(hash_ele*)的空间并初始化
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;hash_array&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hashArrayCreate&lt;/span&gt;(){
+    hash_array&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; arr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (hash_array&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)calloc(&lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;));
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; arr;
+}
+
+&lt;span style=&#34;color:#75715e&#34;&gt;//创建元素，由于创建后会进行赋值，因此不需要使用calloc进行初始化
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hashElementCreate&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; key, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; value){
+    hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; element &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;)malloc(&lt;span style=&#34;color:#66d9ef&#34;&gt;sizeof&lt;/span&gt;(hash_ele));
+    element &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; key &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; key;
+    element &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; value &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; value;
+    element &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; next &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; NULL;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; element;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在创建并插入元素之前，应先使用search函数查找该key值是否存在。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;hashUpdate&lt;/span&gt;(hash_array&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; arr, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; key, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; value){
+    &lt;span style=&#34;color:#75715e&#34;&gt;//判断是否存在，若存在，更新值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; judge &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hashSearch(arr, key);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(judge &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; NULL){
+        printf(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;element is already exist! update it.&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;);
+        judge &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; value &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; value;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+    }
+    hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; element &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hashElementCreate(key, value);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; index &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; hashCode(key);
+    hash_ele&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ptr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; arr &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; arr[index];
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(ptr &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; NULL){
+        arr &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; arr[index] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; element;
+    }
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;{
+        element &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; next &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ptr;
+        arr &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; arr[index] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; element;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+- https://kanajin.github.io/datastructure/hashtable/ - </description>
+        </item>
     
     
     
@@ -30,7 +109,7 @@
 指单位时间内流过一定横截面积的流体的&lt;code&gt;体积Q&lt;/code&gt;。&lt;br&gt;
 质量流量：&lt;br&gt;
 指单位时间内流过一定横截面积的流体的&lt;code&gt;质量M&lt;/code&gt;。&lt;br&gt;
-根据质量与体积的关系，我们有${M=Q*\rho}$——式中$\rho$为流体的密度，质量流量与体积流量也有此对应关系。&lt;/p&gt;
+根据质量与体积的关系，我们有${M=Q\times\rho}$——式中$\rho$为流体的密度，质量流量与体积流量也有此对应关系。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;扩展介绍：雷诺数
 雷诺数是流体惯性力与粘性力的比值，反应了流体在管道中的流动状态，其计算式如下：
@@ -71,20 +150,62 @@ Re &amp;gt; 4000 时，湍流。流体流动时，流线间有质点交换，流
 &lt;li&gt;质量式流量计
 &lt;ul&gt;
 &lt;li&gt;质量流量计&lt;/li&gt;
-&lt;li&gt;热质流量计&lt;br&gt;
-接下来将选择五个常见流量计介绍其测量原理与故障分析&lt;/li&gt;
+&lt;li&gt;热质流量计&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;差压流量计&lt;br&gt;
-实物展示：&lt;br&gt;
-&lt;a href=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter1.jpg&#34;&gt;Differential_Pressure_Flowmeter1&lt;/a&gt;&lt;a href=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter2.jpg&#34;&gt;Differential_Pressure_Flowmeter2&lt;/a&gt;&lt;a href=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter3.jpg&#34;&gt;Differential_Pressure_Flowmeter3&lt;/a&gt;
-测量原理：介质流动的流量越大，在&lt;code&gt;节流件&lt;/code&gt;前后产生的压差就越大。所以差压流量计可以通过测量压差（平方根）来衡量流体流量的大小。&lt;br&gt;
-$$
-Q=K\sqrt{\dfrac{\Delta P}{\rho}}
-$$
+&lt;/ol&gt;
+&lt;p&gt;接下来将选择五个常见流量计介绍其测量原理与故障分析&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;差压流量计&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实物展示：&lt;br&gt;
+&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter1.jpg&#34; alt=&#34;Differential_Pressure_Flowmeter1&#34;&gt;&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter2.jpg&#34; alt=&#34;Differential_Pressure_Flowmeter2&#34;&gt;&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter3.jpg&#34; alt=&#34;Differential_Pressure_Flowmeter3&#34;&gt;&lt;/li&gt;
+&lt;li&gt;测量原理：介质流动的流量越大，在&lt;code&gt;节流件&lt;/code&gt;前后产生的压差就越大。所以差压流量计可以通过测量压差（平方根）来衡量流体流量的大小。&lt;br&gt;
+$Q=K\sqrt{\dfrac{\Delta P}{\rho}}$&lt;br&gt;
 式中：&lt;br&gt;
 为了避免弯管、变径、阀门等产生的压降误差，要求节流元件前后要保持一定的直管段，最小值管段长度要求如图所示：&lt;br&gt;
-[image]&lt;/li&gt;
+&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter4.jpg&#34; alt=&#34;image&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;差压流量计故障原因分析：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;介质密度发生变化&lt;/li&gt;
+&lt;li&gt;压力测量管路异常(取压装置或取压管路冻/堵，在非真空压力测量时，容易造成指示偏低。在真空测量时，容易造成指示偏高&lt;/li&gt;
+&lt;li&gt;变送器本体发生故障&lt;/li&gt;
+&lt;li&gt;工艺管线中含有大量两相流体介质（排气）&lt;/li&gt;
+&lt;li&gt;孔板安装方向错误（会导致流量值偏小）&lt;/li&gt;
+&lt;li&gt;孔板前后直管段不满足安装要求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;涡街流量计&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实物展示：&lt;br&gt;
+&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/VORTEX1.jpg&#34; alt=&#34;VORTEX1&#34;&gt;&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/VORTEX2.jpg&#34; alt=&#34;VORTEX1&#34;&gt;&lt;/li&gt;
+&lt;li&gt;测量原理：&lt;br&gt;
+卡门涡街：流体流过旋涡发生体时会产生两串规则地交错排列的旋涡，这些漩涡称为卡门涡街。实验证明：漩涡的频率$f$和流体的平均速度$u$成正比。当雷诺数在$Re = 2\times 10^{4}$ ~ $7\times 10^{6}$范围内， $S_{t}$可视为常数。&lt;br&gt;
+$f=S_{t}\dfrac{u}{d}$&lt;br&gt;
+涡街流量计基于卡门涡街原理，通常由漩涡发生体、检测器（也称传感器）和转换器组成。漩涡发生体是涡街流量计的关键部件，由它产生卡门涡街。检测器检测通过热敏式、差压式、超声波式、应变式等方法检测出漩涡频率信号，再通过转换器计算出流量大小。&lt;br&gt;
+根据流体连续性定律，涡街流量计流量与漩涡频率有如右关系：
+$Q=\dfrac{f}{K}$&lt;br&gt;
+式中$K$为流量系数，物理意义是流过每立方米体积流量产生的涡街脉冲数，此系数是仪表出厂前经实验标定得出的。&lt;br&gt;
+同样，为了保证旋涡的正常产生，涡街流量计安装也对管道有一定的要求：&lt;br&gt;
+&lt;img src=&#34;https://kanajin.github.io/static/FlowMeasurementTester/VORTEX3.jpg&#34; alt=&#34;VORTEX3&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;涡街流量计故障分析:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;实际工况（压力，流速）不满足仪表要求&lt;/li&gt;
+&lt;li&gt;涡街发生体被异物卡住（管道清洁度异常）&lt;/li&gt;
+&lt;li&gt;工艺管道的振动超出仪表的要求&lt;/li&gt;
+&lt;li&gt;安装条件（前后直管段长度、安装方向）不满足仪表要求&lt;/li&gt;
+&lt;li&gt;工艺管线中含有大量两相流体介质&lt;/li&gt;
+&lt;li&gt;流量计本体发生故障&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 - https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ - </description>
         </item>
@@ -1085,27 +1206,6 @@ jobs:
     }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;- https://kanajin.github.io/datastructure/mergesort/ - </description>
-        </item>
-    
-    
-    
-        <item>
-        <title>iPadApp收集</title>
-        <link>https://kanajin.github.io/ipad/apps/</link>
-        <pubDate>Mon, 07 Jun 2021 13:27:38 +0800</pubDate>
-        
-        <guid>https://kanajin.github.io/ipad/apps/</guid>
-        <description>Suzuki&#39;s Blog https://kanajin.github.io/ipad/apps/ -&lt;h1 id=&#34;工具类&#34;&gt;工具类&lt;/h1&gt;
-&lt;h2 id=&#34;电子笔记幕布&#34;&gt;电子笔记：幕布&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;记好的笔记可以转化为思维导图&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;电子教材marginnote&#34;&gt;电子教材：Marginnote&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;一般中文大学教材网站：鸠摩&lt;/code&gt;&lt;br&gt;
-&lt;code&gt;英文：b-ok.cc&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;手写便签post-it&#34;&gt;手写便签：Post-it&lt;/h2&gt;
-&lt;h2 id=&#34;制作单词卡quizlet&#34;&gt;制作单词卡：Quizlet&lt;/h2&gt;
-&lt;h2 id=&#34;科学计算器archimedes&#34;&gt;科学计算器：Archimedes&lt;/h2&gt;
-&lt;h2 id=&#34;制作图表vizable&#34;&gt;制作图表：Vizable&lt;/h2&gt;
-- https://kanajin.github.io/ipad/apps/ - </description>
         </item>
     
     
