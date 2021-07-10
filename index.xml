@@ -1,4 +1,69 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Jun 2021 21:17:25 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>流量检测仪表</title><link>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</link><pubDate>Thu, 17 Jun 2021 21:17:25 +0800</pubDate><guid>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</guid><description>Suzuki's Blog https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -&lt;h1 id="流量测量仪表">流量测量仪表&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 10 Jul 2021 13:57:15 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>哈希表</title><link>https://kanajin.github.io/datastructure/hashtable/</link><pubDate>Sat, 10 Jul 2021 13:57:15 +0800</pubDate><guid>https://kanajin.github.io/datastructure/hashtable/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/hashtable/ -&lt;h1 id="简介">简介&lt;/h1>
+&lt;p>链表散列法的哈希表本质上是一个元素为链表的数组。key值通过哈希函数转化成一个特定值，安插进数组的特定位置，当查找时，只需要计算出哈希值，就可以立刻定位到数组相对应的位置，从而实现时间复杂度为O(1)的查找。当出现计算结果一样的key值时，对应位置的链表增长。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//成员链表的结构定义，包含了要储存的内容
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_ele{
+&lt;span style="color:#66d9ef">int&lt;/span> key;
+&lt;span style="color:#66d9ef">int&lt;/span> value;
+&lt;span style="color:#66d9ef">struct&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> next;
+} hash_ele;
+&lt;span style="color:#75715e">//数组的定义，成员为指向链表的指针
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_array{
+hash_ele&lt;span style="color:#f92672">*&lt;/span> arr[&lt;span style="color:#ae81ff">30&lt;/span>];
+} hash_array;
+&lt;span style="color:#75715e">//哈希函数的一个示例，该函数让key值对29取模
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">hashCode&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key){
+&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> key &lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#ae81ff">29&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span> index;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>hash_array的用法：&lt;br>
+hash_array的成员为&lt;code>hash_ele* arr[30]&lt;/code>，原因是哈希函数为key值对29取模，因此数组下标可取值为0~29，长度最高为30。&lt;br>
+结构定义方式也可以使用&lt;code>hash_ele** arr&lt;/code>&lt;br>
+当&lt;code>hashCode(key)&lt;/code>计算出值时(假设值为index)，将元素插入&lt;code>arr -&amp;gt; arr[index]&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;em>&lt;strong>由于成员为链表，操作方面和链表几乎一样，接下来仅记录实现过程中遇到的问题&lt;/strong>&lt;/em>&lt;/p>
+&lt;h1 id="注意事项">注意事项&lt;/h1>
+&lt;ol>
+&lt;li>
+&lt;p>上述的结构体定义方式，在创建时需要使用calloc申请内存空间并初始化。如果使用malloc，将不会进行初始化，使用时会遇到segmentation fault。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//创建数组，由于成员为hash_ele*且长度为30，因此申请30*sizeof(hash_ele*)的空间并初始化
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_array&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashArrayCreate&lt;/span>(){
+hash_array&lt;span style="color:#f92672">*&lt;/span> arr &lt;span style="color:#f92672">=&lt;/span> (hash_array&lt;span style="color:#f92672">*&lt;/span>)calloc(&lt;span style="color:#ae81ff">30&lt;/span>, &lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele&lt;span style="color:#f92672">*&lt;/span>));
+&lt;span style="color:#66d9ef">return&lt;/span> arr;
+}
+&lt;span style="color:#75715e">//创建元素，由于创建后会进行赋值，因此不需要使用calloc进行初始化
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_ele&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashElementCreate&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
+hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> (hash_ele&lt;span style="color:#f92672">*&lt;/span>)malloc(&lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele));
+element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> key &lt;span style="color:#f92672">=&lt;/span> key;
+element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
+element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#66d9ef">return&lt;/span> element;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>在创建并插入元素之前，应先使用search函数查找该key值是否存在。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">hashUpdate&lt;/span>(hash_array&lt;span style="color:#f92672">*&lt;/span> arr, &lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
+&lt;span style="color:#75715e">//判断是否存在，若存在，更新值
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> judge &lt;span style="color:#f92672">=&lt;/span> hashSearch(arr, key);
+&lt;span style="color:#66d9ef">if&lt;/span>(judge &lt;span style="color:#f92672">!=&lt;/span> NULL){
+printf(&lt;span style="color:#e6db74">&amp;#34;element is already exist! update it.&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
+judge &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> hashElementCreate(key, value);
+&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> hashCode(key);
+hash_ele&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index];
+&lt;span style="color:#66d9ef">if&lt;/span>(ptr &lt;span style="color:#f92672">==&lt;/span> NULL){
+arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> ptr;
+arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol>
+- https://kanajin.github.io/datastructure/hashtable/ -</description></item><item><title>流量检测仪表</title><link>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</link><pubDate>Thu, 17 Jun 2021 21:17:25 +0800</pubDate><guid>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</guid><description>Suzuki's Blog https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -&lt;h1 id="流量测量仪表">流量测量仪表&lt;/h1>
 &lt;p>学习目标：&lt;/p>
 &lt;ol>
 &lt;li>从外观上能辨别常见仪表类型&lt;/li>
@@ -1014,14 +1079,4 @@ start2&lt;span style="color:#f92672">++&lt;/span>;
 a[k] &lt;span style="color:#f92672">=&lt;/span> b[k];
 }
 }
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/mergesort/ -</description></item><item><title>iPadApp收集</title><link>https://kanajin.github.io/ipad/apps/</link><pubDate>Mon, 07 Jun 2021 13:27:38 +0800</pubDate><guid>https://kanajin.github.io/ipad/apps/</guid><description>Suzuki's Blog https://kanajin.github.io/ipad/apps/ -&lt;h1 id="工具类">工具类&lt;/h1>
-&lt;h2 id="电子笔记幕布">电子笔记：幕布&lt;/h2>
-&lt;p>&lt;code>记好的笔记可以转化为思维导图&lt;/code>&lt;/p>
-&lt;h2 id="电子教材marginnote">电子教材：Marginnote&lt;/h2>
-&lt;p>&lt;code>一般中文大学教材网站：鸠摩&lt;/code>&lt;br>
-&lt;code>英文：b-ok.cc&lt;/code>&lt;/p>
-&lt;h2 id="手写便签post-it">手写便签：Post-it&lt;/h2>
-&lt;h2 id="制作单词卡quizlet">制作单词卡：Quizlet&lt;/h2>
-&lt;h2 id="科学计算器archimedes">科学计算器：Archimedes&lt;/h2>
-&lt;h2 id="制作图表vizable">制作图表：Vizable&lt;/h2>
-- https://kanajin.github.io/ipad/apps/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/mergesort/ -</description></item></channel></rss>
