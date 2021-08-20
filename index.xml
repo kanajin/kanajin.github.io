@@ -4,6 +4,7 @@
 &lt;p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。&lt;/p>
 &lt;h1 id="解法">解法&lt;/h1>
 &lt;p>逐位相加，如果加和的值大于10，则记录进一，下一次的逐位相加应加上该进位，如果最高一位溢出，则再新建一个尾结点，值为1&lt;/p>
+&lt;h2 id="自己的解法">自己的解法&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#75715e">/**
 &lt;/span>&lt;span style="color:#75715e"> * Definition for singly-linked list.
 &lt;/span>&lt;span style="color:#75715e"> * public class ListNode {
@@ -73,6 +74,38 @@ tail &lt;span style="color:#f92672">=&lt;/span> ele&lt;span style="color:#f92672
 tail&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> ele&lt;span style="color:#f92672">;&lt;/span>
 tail &lt;span style="color:#f92672">=&lt;/span> tail&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="递归法">递归法&lt;/h2>
+&lt;p>思路也是诸位相加，使用了递归&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for singly-linked list.
+&lt;/span>&lt;span style="color:#75715e"> * public class ListNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode next;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">addTwoNumbers&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode l1&lt;span style="color:#f92672">,&lt;/span> ListNode l2&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode l1&lt;span style="color:#f92672">,&lt;/span> ListNode l2&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> l2 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">(&lt;/span>addOne&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l2 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">+&lt;/span> l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/addtwonumbers/ -</description></item><item><title>数组中的第K个最大元素</title><link>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</link><pubDate>Fri, 20 Aug 2021 19:28:15 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/findkthlargest/ -&lt;h1 id="题目描述">题目描述&lt;/h1>

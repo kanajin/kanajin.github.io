@@ -48,6 +48,17 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 解法
 </a>
 </li>
+<ul>
+<li>
+<a href=#%e8%87%aa%e5%b7%b1%e7%9a%84%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#自己的解法-nav`)" id=自己的解法-nav>
+自己的解法
+</a>
+</li>
+<li>
+<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
+递归法
+</a>
+</li>
 </ul>
 </div>
 </div>
@@ -82,6 +93,17 @@ brightness_7
 <li>
 <a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>
 解法
+</a>
+</li>
+<ul>
+<li>
+<a href=#%e8%87%aa%e5%b7%b1%e7%9a%84%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#自己的解法-nav`)" id=自己的解法-nav>
+自己的解法
+</a>
+</li>
+<li>
+<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
+递归法
 </a>
 </li>
 </ul>
@@ -144,6 +166,7 @@ brightness_7
 <p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
 <h1 id=解法>解法</h1>
 <p>逐位相加，如果加和的值大于10，则记录进一，下一次的逐位相加应加上该进位，如果最高一位溢出，则再新建一个尾结点，值为1</p>
+<h2 id=自己的解法>自己的解法</h2>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Java data-lang=Java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * Definition for singly-linked list.
 </span><span style=color:#75715e> * public class ListNode {
@@ -215,6 +238,40 @@ brightness_7
         <span style=color:#f92672>}</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
+</code></pre></div><h2 id=递归法>递归法</h2>
+<p>思路也是诸位相加，使用了递归</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e> * Definition for singly-linked list.
+</span><span style=color:#75715e> * public class ListNode {
+</span><span style=color:#75715e> *     int val;
+</span><span style=color:#75715e> *     ListNode next;
+</span><span style=color:#75715e> *     ListNode() {}
+</span><span style=color:#75715e> *     ListNode(int val) { this.val = val; }
+</span><span style=color:#75715e> *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+</span><span style=color:#75715e> * }
+</span><span style=color:#75715e> */</span>
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> ListNode <span style=color:#a6e22e>addTwoNumbers</span><span style=color:#f92672>(</span>ListNode l1<span style=color:#f92672>,</span> ListNode l2<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> add<span style=color:#f92672>(</span>l1<span style=color:#f92672>,</span> l2<span style=color:#f92672>,</span> 0<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> ListNode <span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>ListNode l1<span style=color:#f92672>,</span> ListNode l2<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> addOne<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>l1 <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span> <span style=color:#f92672>&amp;&amp;</span> l2 <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>addOne <span style=color:#f92672>&gt;</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ListNode<span style=color:#f92672>(</span>addOne<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>l1 <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ListNode<span style=color:#f92672>((</span>l2<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> addOne<span style=color:#f92672>)</span> <span style=color:#f92672>%</span> 10<span style=color:#f92672>,</span> add<span style=color:#f92672>(</span><span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> l2<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>,</span> <span style=color:#f92672>(</span>addOne <span style=color:#f92672>+</span> l2<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>/</span> 10<span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>l2 <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ListNode<span style=color:#f92672>((</span>l1<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> addOne<span style=color:#f92672>)</span> <span style=color:#f92672>%</span> 10<span style=color:#f92672>,</span> add<span style=color:#f92672>(</span>l1<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#f92672>(</span>addOne <span style=color:#f92672>+</span> l1<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>/</span> 10<span style=color:#f92672>));</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> ListNode<span style=color:#f92672>((</span>l1<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> l2<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> addOne<span style=color:#f92672>)</span> <span style=color:#f92672>%</span> 10<span style=color:#f92672>,</span> add<span style=color:#f92672>(</span>l1<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>,</span> l2<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>,</span> <span style=color:#f92672>(</span>l1<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> l2<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>+</span> addOne<span style=color:#f92672>)</span> <span style=color:#f92672>/</span> 10<span style=color:#f92672>));</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
 </code></pre></div>
 <hr width=100% id=EOF>
 <p style=color:#777>Last modified on 2021-08-20</p>
