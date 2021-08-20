@@ -14,6 +14,8 @@ enableMathJax: false
 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
 # 解法
 逐位相加，如果加和的值大于10，则记录进一，下一次的逐位相加应加上该进位，如果最高一位溢出，则再新建一个尾结点，值为1
+
+## 自己的解法
 ```Java
 /**
  * Definition for singly-linked list.
@@ -86,4 +88,41 @@ class Solution {
         }
     }
 }
+```
+
+## 递归法
+思路也是诸位相加，使用了递归
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        return add(l1, l2, 0);
+    }
+
+    public ListNode add(ListNode l1, ListNode l2, int addOne) {
+        if (l1 == null && l2 == null) {
+            if (addOne > 0) {
+                return new ListNode(addOne, null);
+            }
+            return null;
+        }
+        if (l1 == null) {
+            return new ListNode((l2.val + addOne) % 10, add(null, l2.next, (addOne + l2.val) / 10));
+        }
+        if (l2 == null) {
+            return new ListNode((l1.val + addOne) % 10, add(l1.next, null, (addOne + l1.val) / 10));
+        }
+        return new ListNode((l1.val + l2.val + addOne) % 10, add(l1.next, l2.next, (l1.val + l2.val + addOne) / 10));
+    }
+}
+
 ```
