@@ -56,26 +56,26 @@ class Solution {
 接下来分析如何维护 l_sum 与 r_sum，由于是对偶的，只需分析一边即可：  
 
 对于 M 序列，其 l_sum 必定从左边界开始  
-> 如果没有蔓延到中点右边，则有 M.l_sum = L.l_sum
-> 如果蔓延到了中点右边，则有 M.l_sum = 整个 L 序列 + R.l_sum
+> 如果没有蔓延到中点右边，则有 M.l_sum = L.l_sum  
+> 如果蔓延到了中点右边，则有 M.l_sum = 整个 L 序列 + R.l_sum  
 
 因此，我们还需要维护一个表示整个序列的变量 t_sum。维护这个变量的方式很简单，当分治递归到最底层时， t_sum 即为单元素序列的元素值  
 
 至此，我们一共有了四个变量，分别为：
-> l_sum：当前序列以左边界为起点的最大子序列和
-> r_sum：当前序列以右边界为终点的最大子序列和
-> m_sum：当前序列的最大子序列和
-> t_sum：当前序列所有元素和
+> l_sum：当前序列以左边界为起点的最大子序列和  
+> r_sum：当前序列以右边界为终点的最大子序列和  
+> m_sum：当前序列的最大子序列和  
+> t_sum：当前序列所有元素和  
 
 这四个变量，开始分析算法
 
 当分治法递归到底层时，每个序列只有一个元素 n，因此，我们可以另这四个变量都等于 n，并跳出本次递归，开始合并  
 
 考察两个序列 L、R 合并成的新序列 M，考察其四个变量：
-> l_sum：M.l_sum = Max{L.l_sum, L.t_sum + R.l_sum}
-> r_sum: M.r_sum = Max{R.r_sum, l.r_sum + R.t_sum}
-> m_sum: M.m_sum = Max{Max{L.m_sum, R.m_sum}, L.r_sum + R.l_sum}
-> t_sum: M.t_sum = L.t_sum + R.t_sum
+> l_sum：M.l_sum = Max{L.l_sum, L.t_sum + R.l_sum}  
+> r_sum: M.r_sum = Max{R.r_sum, l.r_sum + R.t_sum}  
+> m_sum: M.m_sum = Max{Max{L.m_sum, R.m_sum}, L.r_sum + R.l_sum}  
+> t_sum: M.t_sum = L.t_sum + R.t_sum  
 
 维护好每个子序列的四个变量后，逐渐合并递归即可得到整个数组的四个变量，可以开始着手写代码了
 
