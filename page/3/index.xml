@@ -1,4 +1,32 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 20 Aug 2021 21:38:20 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>插入排序</title><link>https://kanajin.github.io/datastructure/insertsort/</link><pubDate>Mon, 07 Jun 2021 11:24:43 +0800</pubDate><guid>https://kanajin.github.io/datastructure/insertsort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/insertsort/ -&lt;h1 id="插入排序">插入排序&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 23 Aug 2021 16:34:59 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>初次使用Git</title><link>https://kanajin.github.io/git/start/</link><pubDate>Mon, 07 Jun 2021 13:13:28 +0800</pubDate><guid>https://kanajin.github.io/git/start/</guid><description>Suzuki's Blog https://kanajin.github.io/git/start/ -&lt;h1 id="初次使用git">初次使用git：&lt;/h1>
+&lt;p>提交用户信息，通过以下两行指令提交用户名和邮箱（蓝色字体为自定义输入）&lt;/p>
+&lt;pre>&lt;code>$ git config --global user.name &amp;quot;Suzuki&amp;quot;
+$ git config --global user.email ekanajin@gmail.com
+&lt;/code>&lt;/pre>&lt;p>&lt;em>注意：邮箱建议和你的代码托管网站所用邮箱相同，否则commit会有问题&lt;/em>&lt;/p>
+&lt;p>通过以下命令来确认是否提交：&lt;/p>
+&lt;pre>&lt;code>$ git config –list
+user.name= Suzuki
+user.email=ekanajin@gmail.com
+&lt;/code>&lt;/pre>&lt;p>这个命令会返回很多变量，也可以用
+&lt;code>git config &amp;lt;key&amp;gt;&lt;/code>
+指定返回变量：&lt;/p>
+&lt;pre>&lt;code>$ git config user.name
+user.name=Suzuki
+&lt;/code>&lt;/pre>&lt;p>在想要建立git仓库的空目录下执行&lt;/p>
+&lt;pre>&lt;code>$ git init
+&lt;/code>&lt;/pre>&lt;p>如果是一个非空文件夹，通过 git add 命令添加所需文件，并提交。例如：&lt;/p>
+&lt;pre>&lt;code>$ git add *.c
+$ git add LICENSE
+$ git commit -m ‘say something’
+&lt;/code>&lt;/pre>&lt;h1 id="添加ssh公钥使用ed25519加密">添加SSH公钥（使用ed25519加密）：&lt;/h1>
+&lt;pre>&lt;code>ssh-keygen -t ed25519 -C &amp;quot;Suzuki &amp;quot;
+&lt;/code>&lt;/pre>
+&lt;p>然后一路回车（会要求输入密码，一般不需要，回车即可）
+然后就会在&lt;code>~/.ssh/&lt;/code>目录下生成两个文件，公钥&lt;code>id_ed25519.pub&lt;/code>和私钥&lt;code>id_ed25519&lt;/code>，公钥用于粘贴到代码托管网站，私钥一定不能给别人。&lt;/p>
+&lt;h1 id="clone已有仓库">clone已有仓库：&lt;/h1>
+&lt;p>在代码托管网站，找到SSH地址，然后输入以下命令（标蓝为SSH地址）&lt;/p>
+&lt;pre>&lt;code>$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
+&lt;/code>&lt;/pre>- https://kanajin.github.io/git/start/ -</description></item><item><title>插入排序</title><link>https://kanajin.github.io/datastructure/insertsort/</link><pubDate>Mon, 07 Jun 2021 11:24:43 +0800</pubDate><guid>https://kanajin.github.io/datastructure/insertsort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/insertsort/ -&lt;h1 id="插入排序">插入排序&lt;/h1>
 &lt;p>从左到右开始，先将第一个数标记为已排序，然后将他的下一个数取出，逐个与前面的数字比较。如果取出的数字更小，则继续往左比较，直到遇到一个比他小的数字，将取出的数插入到这个数的右边&lt;/p>
 &lt;h2 id="代码">代码：&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">insert&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){

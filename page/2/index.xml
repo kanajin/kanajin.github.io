@@ -1,4 +1,115 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 20 Aug 2021 21:38:20 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>安装archlinux双系统</title><link>https://kanajin.github.io/os/linuxsetup/</link><pubDate>Thu, 17 Jun 2021 14:13:59 +0800</pubDate><guid>https://kanajin.github.io/os/linuxsetup/</guid><description>Suzuki's Blog https://kanajin.github.io/os/linuxsetup/ -&lt;blockquote>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 23 Aug 2021 16:34:59 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>流量检测仪表</title><link>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</link><pubDate>Thu, 17 Jun 2021 21:17:25 +0800</pubDate><guid>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</guid><description>Suzuki's Blog https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -&lt;h1 id="流量测量仪表">流量测量仪表&lt;/h1>
+&lt;p>学习目标：&lt;/p>
+&lt;ol>
+&lt;li>从外观上能辨别常见仪表类型&lt;/li>
+&lt;li>初步判断仪表故障产生的原因&lt;/li>
+&lt;/ol>
+&lt;h2 id="流量的定义与基本物理参数">流量的定义与基本物理参数&lt;/h2>
+&lt;p>&lt;em>本节先介绍几个基本物理概念&lt;/em>&lt;/p>
+&lt;h3 id="流量的定义">流量的定义&lt;/h3>
+&lt;p>体积流量：&lt;br>
+指单位时间内流过一定横截面积的流体的&lt;code>体积Q&lt;/code>。&lt;br>
+质量流量：&lt;br>
+指单位时间内流过一定横截面积的流体的&lt;code>质量M&lt;/code>。&lt;br>
+根据质量与体积的关系，我们有${M=Q\times\rho}$——式中$\rho$为流体的密度，质量流量与体积流量也有此对应关系。&lt;/p>
+&lt;blockquote>
+&lt;p>扩展介绍：雷诺数
+雷诺数是流体惯性力与粘性力的比值，反应了流体在管道中的流动状态，其计算式如下：
+$$
+Re=\dfrac{du\rho}{\mu}
+$$
+式中：&lt;/p>
+&lt;ul>
+&lt;li>$d$-管直径&lt;/li>
+&lt;li>$u$-平均流速&lt;/li>
+&lt;li>$\rho$-流体密度&lt;/li>
+&lt;li>$\mu$-流体动力粘度&lt;/li>
+&lt;/ul>
+&lt;p>因此，雷诺数是一个无量纲数。&lt;br>
+雷诺数与流体流动状态的关系为：&lt;br>
+Re &amp;lt; 2000 时，层流。流体流动时，流线之间没有质点交换，轨迹有条不紊，层次分明。&lt;br>
+2000 &amp;lt; Re &amp;lt; 4000 时，过渡态。流线波动，但流线之间仍然没有质点交换。&lt;br>
+Re &amp;gt; 4000 时，湍流。流体流动时，流线间有质点交换，流动迹象极不规律。&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="流量测量仪表的分类">流量测量仪表的分类&lt;/h3>
+&lt;p>常见的流量计分类如下所示：&lt;/p>
+&lt;ol>
+&lt;li>速度式流量计
+&lt;ul>
+&lt;li>差压式流量计&lt;/li>
+&lt;li>转子流量计&lt;/li>
+&lt;li>涡街流量计&lt;/li>
+&lt;li>电磁流量计&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>容积式流量计
+&lt;ul>
+&lt;li>椭圆齿轮流量计&lt;/li>
+&lt;li>罗茨流量计&lt;/li>
+&lt;li>刮板流量计&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>质量式流量计
+&lt;ul>
+&lt;li>质量流量计&lt;/li>
+&lt;li>热质流量计&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>接下来将选择五个常见流量计介绍其测量原理与故障分析&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>差压流量计&lt;/p>
+&lt;ul>
+&lt;li>实物展示：&lt;br>
+&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter1.jpg" alt="Differential_Pressure_Flowmeter1">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter2.jpg" alt="Differential_Pressure_Flowmeter2">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter3.jpg" alt="Differential_Pressure_Flowmeter3">&lt;/li>
+&lt;li>测量原理：介质流动的流量越大，在&lt;code>节流件&lt;/code>前后产生的压差就越大。所以差压流量计可以通过测量压差（平方根）来衡量流体流量的大小。&lt;br>
+$Q=K\sqrt{\dfrac{\Delta P}{\rho}}$&lt;br>
+式中：&lt;br>
+为了避免弯管、变径、阀门等产生的压降误差，要求节流元件前后要保持一定的直管段，最小值管段长度要求如图所示：&lt;br>
+&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter4.jpg" alt="image">&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>差压流量计故障原因分析：&lt;/p>
+&lt;ul>
+&lt;li>介质密度发生变化&lt;/li>
+&lt;li>压力测量管路异常(取压装置或取压管路冻/堵，在非真空压力测量时，容易造成指示偏低。在真空测量时，容易造成指示偏高&lt;/li>
+&lt;li>变送器本体发生故障&lt;/li>
+&lt;li>工艺管线中含有大量两相流体介质（排气）&lt;/li>
+&lt;li>孔板安装方向错误（会导致流量值偏小）&lt;/li>
+&lt;li>孔板前后直管段不满足安装要求&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>涡街流量计&lt;/p>
+&lt;ul>
+&lt;li>实物展示：&lt;br>
+&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX1.jpg" alt="VORTEX1">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX2.jpg" alt="VORTEX1">&lt;/li>
+&lt;li>测量原理：&lt;br>
+卡门涡街：流体流过旋涡发生体时会产生两串规则地交错排列的旋涡，这些漩涡称为卡门涡街。实验证明：漩涡的频率$f$和流体的平均速度$u$成正比。当雷诺数在$Re = 2\times 10^{4}$ ~ $7\times 10^{6}$范围内， $S_{t}$可视为常数。&lt;br>
+$f=S_{t}\dfrac{u}{d}$&lt;br>
+涡街流量计基于卡门涡街原理，通常由漩涡发生体、检测器（也称传感器）和转换器组成。漩涡发生体是涡街流量计的关键部件，由它产生卡门涡街。检测器检测通过热敏式、差压式、超声波式、应变式等方法检测出漩涡频率信号，再通过转换器计算出流量大小。&lt;br>
+根据流体连续性定律，涡街流量计流量与漩涡频率有如右关系：
+$Q=\dfrac{f}{K}$&lt;br>
+式中$K$为流量系数，物理意义是流过每立方米体积流量产生的涡街脉冲数，此系数是仪表出厂前经实验标定得出的。&lt;br>
+同样，为了保证旋涡的正常产生，涡街流量计安装也对管道有一定的要求：&lt;br>
+&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX3.jpg" alt="VORTEX3">&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>涡街流量计故障分析:&lt;/p>
+&lt;ul>
+&lt;li>实际工况（压力，流速）不满足仪表要求&lt;/li>
+&lt;li>涡街发生体被异物卡住（管道清洁度异常）&lt;/li>
+&lt;li>工艺管道的振动超出仪表的要求&lt;/li>
+&lt;li>安装条件（前后直管段长度、安装方向）不满足仪表要求&lt;/li>
+&lt;li>工艺管线中含有大量两相流体介质&lt;/li>
+&lt;li>流量计本体发生故障&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+- https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -</description></item><item><title>安装archlinux双系统</title><link>https://kanajin.github.io/os/linuxsetup/</link><pubDate>Thu, 17 Jun 2021 14:13:59 +0800</pubDate><guid>https://kanajin.github.io/os/linuxsetup/</guid><description>Suzuki's Blog https://kanajin.github.io/os/linuxsetup/ -&lt;blockquote>
 &lt;h1 id="前言">前言：&lt;/h1>
 &lt;p>原本打算购置一台macbook来体验类Unix系统的开发环境，谁知今年的WWDC实在令人有些失望，最后转而买了一块ssd来打算装archlinux玩。在L君的帮助下花了两天时间总算是弄下来了(说，谢谢L君)，以下记录一下折腾的过程。&lt;/p>
 &lt;/blockquote>
@@ -913,32 +1024,4 @@ a[k] &lt;span style="color:#f92672">=&lt;/span> b[k];
 &lt;h2 id="制作单词卡quizlet">制作单词卡：Quizlet&lt;/h2>
 &lt;h2 id="科学计算器archimedes">科学计算器：Archimedes&lt;/h2>
 &lt;h2 id="制作图表vizable">制作图表：Vizable&lt;/h2>
-- https://kanajin.github.io/ipad/apps/ -</description></item><item><title>初次使用Git</title><link>https://kanajin.github.io/git/start/</link><pubDate>Mon, 07 Jun 2021 13:13:28 +0800</pubDate><guid>https://kanajin.github.io/git/start/</guid><description>Suzuki's Blog https://kanajin.github.io/git/start/ -&lt;h1 id="初次使用git">初次使用git：&lt;/h1>
-&lt;p>提交用户信息，通过以下两行指令提交用户名和邮箱（蓝色字体为自定义输入）&lt;/p>
-&lt;pre>&lt;code>$ git config --global user.name &amp;quot;Suzuki&amp;quot;
-$ git config --global user.email ekanajin@gmail.com
-&lt;/code>&lt;/pre>&lt;p>&lt;em>注意：邮箱建议和你的代码托管网站所用邮箱相同，否则commit会有问题&lt;/em>&lt;/p>
-&lt;p>通过以下命令来确认是否提交：&lt;/p>
-&lt;pre>&lt;code>$ git config –list
-user.name= Suzuki
-user.email=ekanajin@gmail.com
-&lt;/code>&lt;/pre>&lt;p>这个命令会返回很多变量，也可以用
-&lt;code>git config &amp;lt;key&amp;gt;&lt;/code>
-指定返回变量：&lt;/p>
-&lt;pre>&lt;code>$ git config user.name
-user.name=Suzuki
-&lt;/code>&lt;/pre>&lt;p>在想要建立git仓库的空目录下执行&lt;/p>
-&lt;pre>&lt;code>$ git init
-&lt;/code>&lt;/pre>&lt;p>如果是一个非空文件夹，通过 git add 命令添加所需文件，并提交。例如：&lt;/p>
-&lt;pre>&lt;code>$ git add *.c
-$ git add LICENSE
-$ git commit -m ‘say something’
-&lt;/code>&lt;/pre>&lt;h1 id="添加ssh公钥使用ed25519加密">添加SSH公钥（使用ed25519加密）：&lt;/h1>
-&lt;pre>&lt;code>ssh-keygen -t ed25519 -C &amp;quot;Suzuki &amp;quot;
-&lt;/code>&lt;/pre>
-&lt;p>然后一路回车（会要求输入密码，一般不需要，回车即可）
-然后就会在&lt;code>~/.ssh/&lt;/code>目录下生成两个文件，公钥&lt;code>id_ed25519.pub&lt;/code>和私钥&lt;code>id_ed25519&lt;/code>，公钥用于粘贴到代码托管网站，私钥一定不能给别人。&lt;/p>
-&lt;h1 id="clone已有仓库">clone已有仓库：&lt;/h1>
-&lt;p>在代码托管网站，找到SSH地址，然后输入以下命令（标蓝为SSH地址）&lt;/p>
-&lt;pre>&lt;code>$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
-&lt;/code>&lt;/pre>- https://kanajin.github.io/git/start/ -</description></item></channel></rss>
+- https://kanajin.github.io/ipad/apps/ -</description></item></channel></rss>
