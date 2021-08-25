@@ -1,4 +1,32 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 23 Aug 2021 16:34:59 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>最大子序和</title><link>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</link><pubDate>Mon, 23 Aug 2021 16:34:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/maxsubarray/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 00:42:11 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>MatrixReshape</title><link>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</link><pubDate>Thu, 26 Aug 2021 00:42:11 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。&lt;/p>
+&lt;p>给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。&lt;/p>
+&lt;p>重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。&lt;/p>
+&lt;p>如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>二维矩阵一维化：&lt;br>
+对于一个行为 r, 列为 c 二位数组，我们可以将其下角标 i, j 映射为一维的 x，映射规则为：&lt;/p>
+&lt;p>$x = ci + j$&lt;/p>
+&lt;p>要转化回原始坐标时，关系如下：&lt;/p>
+&lt;ol>
+&lt;li>$i = x / c$&lt;/li>
+&lt;li>$j = x % c$&lt;/li>
+&lt;/ol>
+&lt;p>原因是：&lt;/p>
+&lt;p>因为 j 必定小于 c，因此做除法时一定会被舍去，只剩下 i；而取余时必定只留下 j&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> &lt;span style="color:#a6e22e">matrixReshape&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> mat&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> r&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> c&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>mat&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">*&lt;/span> mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> r&lt;span style="color:#f92672">*&lt;/span>c&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> mat&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> reshape &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>r&lt;span style="color:#f92672">][&lt;/span>c&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> r &lt;span style="color:#f92672">*&lt;/span> c&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+reshape&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>c&lt;span style="color:#f92672">][&lt;/span>i&lt;span style="color:#f92672">%&lt;/span>c&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> mat&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">][&lt;/span>i&lt;span style="color:#f92672">%&lt;/span>mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> reshape&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -</description></item><item><title>最大子序和</title><link>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</link><pubDate>Mon, 23 Aug 2021 16:34:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/maxsubarray/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p>
 &lt;h1 id="解法">解法&lt;/h1>
 &lt;p>&lt;em>假设数组名nums&lt;/em>&lt;/p>
@@ -676,69 +704,4 @@ $((a+(b*(c-d)))-(e/f))$&lt;/li>
 &lt;li>无序树：树中结点的各棵子树之间的次序是不重要的，可以互相交换位置。&lt;/li>
 &lt;li>森林(forest)：m$(m\geq0)$棵树的集合。在数据结构中，删去一棵非空树的根结点，树就变成森林(不排除空的森林)；反之，若增加一个根结点，让森林中每一棵树的根结点都变成它的子女，森林就成为一棵树。&lt;/li>
 &lt;/ol>
-- https://kanajin.github.io/datastructure/tree_term/ -</description></item><item><title>哈希表</title><link>https://kanajin.github.io/datastructure/hashtable/</link><pubDate>Sat, 10 Jul 2021 13:57:15 +0800</pubDate><guid>https://kanajin.github.io/datastructure/hashtable/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/hashtable/ -&lt;h1 id="简介">简介&lt;/h1>
-&lt;p>链表散列法的哈希表本质上是一个元素为链表的数组。key值通过哈希函数转化成一个特定值，安插进数组的特定位置，当查找时，只需要计算出哈希值，就可以立刻定位到数组相对应的位置，从而实现时间复杂度为O(1)的查找。当出现计算结果一样的key值时，对应位置的链表增长。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//成员链表的结构定义，包含了要储存的内容
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_ele{
-&lt;span style="color:#66d9ef">int&lt;/span> key;
-&lt;span style="color:#66d9ef">int&lt;/span> value;
-&lt;span style="color:#66d9ef">struct&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> next;
-} hash_ele;
-&lt;span style="color:#75715e">//数组的定义，成员为指向链表的指针
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_array{
-hash_ele&lt;span style="color:#f92672">*&lt;/span> arr[&lt;span style="color:#ae81ff">30&lt;/span>];
-} hash_array;
-&lt;span style="color:#75715e">//哈希函数的一个示例，该函数让key值对29取模
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">hashCode&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key){
-&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> key &lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#ae81ff">29&lt;/span>;
-&lt;span style="color:#66d9ef">return&lt;/span> index;
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>hash_array的用法：&lt;br>
-hash_array的成员为&lt;code>hash_ele* arr[30]&lt;/code>，原因是哈希函数为key值对29取模，因此数组下标可取值为0~29，长度最高为30。&lt;br>
-结构定义方式也可以使用&lt;code>hash_ele** arr&lt;/code>&lt;br>
-当&lt;code>hashCode(key)&lt;/code>计算出值时(假设值为index)，将元素插入&lt;code>arr -&amp;gt; arr[index]&lt;/code>&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;em>&lt;strong>由于成员为链表，操作方面和链表几乎一样，接下来仅记录实现过程中遇到的问题&lt;/strong>&lt;/em>&lt;/p>
-&lt;h1 id="注意事项">注意事项&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>上述的结构体定义方式，在创建时需要使用calloc申请内存空间并初始化。如果使用malloc，将不会进行初始化，使用时会遇到segmentation fault。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//创建数组，由于成员为hash_ele*且长度为30，因此申请30*sizeof(hash_ele*)的空间并初始化
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_array&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashArrayCreate&lt;/span>(){
-hash_array&lt;span style="color:#f92672">*&lt;/span> arr &lt;span style="color:#f92672">=&lt;/span> (hash_array&lt;span style="color:#f92672">*&lt;/span>)calloc(&lt;span style="color:#ae81ff">30&lt;/span>, &lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele&lt;span style="color:#f92672">*&lt;/span>));
-&lt;span style="color:#66d9ef">return&lt;/span> arr;
-}
-&lt;span style="color:#75715e">//创建元素，由于创建后会进行赋值，因此不需要使用calloc进行初始化
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_ele&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashElementCreate&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
-hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> (hash_ele&lt;span style="color:#f92672">*&lt;/span>)malloc(&lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele));
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> key &lt;span style="color:#f92672">=&lt;/span> key;
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
-&lt;span style="color:#66d9ef">return&lt;/span> element;
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>在创建并插入元素之前，应先使用search函数查找该key值是否存在。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">hashUpdate&lt;/span>(hash_array&lt;span style="color:#f92672">*&lt;/span> arr, &lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
-&lt;span style="color:#75715e">//判断是否存在，若存在，更新值
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> judge &lt;span style="color:#f92672">=&lt;/span> hashSearch(arr, key);
-&lt;span style="color:#66d9ef">if&lt;/span>(judge &lt;span style="color:#f92672">!=&lt;/span> NULL){
-printf(&lt;span style="color:#e6db74">&amp;#34;element is already exist! update it.&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
-judge &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
-&lt;span style="color:#66d9ef">return&lt;/span>;
-}
-hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> hashElementCreate(key, value);
-&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> hashCode(key);
-hash_ele&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index];
-&lt;span style="color:#66d9ef">if&lt;/span>(ptr &lt;span style="color:#f92672">==&lt;/span> NULL){
-arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
-}
-&lt;span style="color:#66d9ef">else&lt;/span>{
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> ptr;
-arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;/ol>
-- https://kanajin.github.io/datastructure/hashtable/ -</description></item></channel></rss>
+- https://kanajin.github.io/datastructure/tree_term/ -</description></item></channel></rss>
