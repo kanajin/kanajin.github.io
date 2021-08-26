@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>有效的数独</title>
+<title>环形链表入环点</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -14,6 +14,10 @@
 <link rel=stylesheet href=https://kanajin.github.io/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media=screen>
 <script src=/js/loadCSS.js></script>
 <script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js>MathJax.Hub.Queue(function(){var b=MathJax.Hub.getAllJax(),a;for(a=0;a<b.length;a+=1)b[a].SourceElement().parentNode.className+=' has-jax'})</script>
+<style>code.has-jax{font:inherit;font-size:100%;background:inherit;border:inherit;color:#515151}</style>
 <script src=/js/toc.js></script>
 </head>
 <body>
@@ -125,10 +129,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-有效的数独
+环形链表入环点
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-26 11:03
+2021-08-26 12:58
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -139,63 +143,26 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。</p>
-<ul>
-<li>数字 1-9 在每一行只能出现一次。</li>
-<li>数字 1-9 在每一列只能出现一次。</li>
-<li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。</li>
-</ul>
-<p>数独部分空格内已填入了数字，空白格用 &lsquo;.&rsquo; 表示。</p>
-<p>注意：</p>
-<ul>
-<li>一个有效的数独（部分已被填充）不一定是可解的。</li>
-<li>只需要根据以上规则，验证已经填入的数字是否有效即可。</li>
-</ul>
+<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
 <h1 id=解法>解法</h1>
-<p>解答的突破口在于如何获得子矩阵的编号，参考<a href=https://kanajin.github.io/leetcode/algorithm/matrixreshape/>重塑矩阵</a>中提到的二维矩阵一维化的思路，写出如下表达式：</p>
-<p>matrix_index = (row/3)*3 + (column/3)</p>
-<p>然后用哈希表存储每行、每列的元素，观察是否重复</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isValidSudoku</span><span style=color:#f92672>(</span><span style=color:#66d9ef>char</span><span style=color:#f92672>[][]</span> board<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> row <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
-        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> column <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
-        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> matrix <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
-
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-            row<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
-            column<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
-            matrix<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
-        <span style=color:#f92672>}</span>
-
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> j <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> j<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>]</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;.&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    <span style=color:#66d9ef>continue</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-                row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
-                column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
-                matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
-
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1 <span style=color:#f92672>||</span> column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1 <span style=color:#f92672>||</span> matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span>
-        <span style=color:#f92672>}</span>
-        
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>;</span>
-    <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div>
+<p><a href=https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/>参考资料</a></p>
+<p>我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。</p>
+<p>如下图所示，设链表中环外部分的长度为 $a$。slow 指针进入环后，又走了 $b$ 的距离与 fast 相遇。此时，fast 指针已经走完了环的 $n$ 圈，因此它走过的总距离为 $a+n(b+c)+b=a+(n+1)b+nc$。</p>
+<p><img src=../../../static/detectCycle/142_fig1.png alt=image></p>
+<p>根据题意，任意时刻，fast 指针走过的距离都为 slow 指针的 $2$ 倍。因此，我们有:</p>
+<p>$$a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)$$</p>
+<p>有了 $a=c+(n-1)(b+c)$ 的等量关系，我们会发现：从相遇点到入环点的距离加上 $n-1$ 圈的环长，恰好等于从链表头部到入环点的距离。</p>
+<p>因此，当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。</p>
 <hr width=100% id=EOF>
 <p style=color:#777>Last modified on 2021-08-26</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/detectcycle/>
-Next<br>环形链表入环点
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/numrescueboats/>
-Previous<br>救生艇
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/>
+Previous<br>有效的数独
 </a>
 </nav>
 <div class=post-comment-wrapper>

@@ -1,4 +1,15 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 11:03:39 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 12:58:06 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>环形链表入环点</title><link>https://kanajin.github.io/leetcode/algorithm/detectcycle/</link><pubDate>Thu, 26 Aug 2021 12:58:06 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/detectcycle/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/detectcycle/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>&lt;a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/">参考资料&lt;/a>&lt;/p>
+&lt;p>我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。&lt;/p>
+&lt;p>如下图所示，设链表中环外部分的长度为 $a$。slow 指针进入环后，又走了 $b$ 的距离与 fast 相遇。此时，fast 指针已经走完了环的 $n$ 圈，因此它走过的总距离为 $a+n(b+c)+b=a+(n+1)b+nc$。&lt;/p>
+&lt;p>&lt;img src="../../../static/detectCycle/142_fig1.png" alt="image">&lt;/p>
+&lt;p>根据题意，任意时刻，fast 指针走过的距离都为 slow 指针的 $2$ 倍。因此，我们有:&lt;/p>
+&lt;p>$$a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)$$&lt;/p>
+&lt;p>有了 $a=c+(n-1)(b+c)$ 的等量关系，我们会发现：从相遇点到入环点的距离加上 $n-1$ 圈的环长，恰好等于从链表头部到入环点的距离。&lt;/p>
+&lt;p>因此，当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。&lt;/p>
+- https://kanajin.github.io/leetcode/algorithm/detectcycle/ -</description></item><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。&lt;/p>
 &lt;ul>
 &lt;li>数字 1-9 在每一行只能出现一次。&lt;/li>
@@ -556,22 +567,4 @@ Student s &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9
 &lt;blockquote>
 &lt;p>但不多时也就释然了，他想：孙子才画得很圆的圆圈呢。&lt;/p>
 &lt;/blockquote>
-- https://kanajin.github.io/readingnotes/aqzhengzhuan/ -</description></item><item><title>学习如何学习</title><link>https://kanajin.github.io/learning/learnhowtolearn/</link><pubDate>Mon, 26 Jul 2021 15:33:58 +0800</pubDate><guid>https://kanajin.github.io/learning/learnhowtolearn/</guid><description>Suzuki's Blog https://kanajin.github.io/learning/learnhowtolearn/ -&lt;p>大脑有两种思维方式：&lt;/p>
-&lt;ul>
-&lt;li>专注模式&lt;/li>
-&lt;li>发散模式&lt;/li>
-&lt;/ul>
-&lt;p>当学习新东西时，比喻和类比是很有效的方法&lt;/p>
-&lt;p>将大脑的思考方式必做弹珠游戏（三维弹球），专注模式下，阻挡橡胶球排列更密集，你所熟知的思路在前端，在弹球更容易接触到的地方，此时你的思路清晰&lt;/p>
-&lt;p>但如果是一个从来没有设想过的道路，他就在比较靠后的地方，深藏于橡胶球中，你的弹球被前面许多橡胶球阻挡，难以到达。&lt;/p>
-&lt;p>这时候就需要用到发散模式，橡胶球更少，你可以更概括地看待事物，一种完全不同的全景视角。&lt;/p>
-&lt;blockquote>
-&lt;p>发散模式下，你不能再像以前那样专注于落实某个问题的解决方法，或理解某个概念中最细微的方面。但你至少可以找到一个解决问题的出发点。&lt;br>
-专注模式和发展模式只能单独存在，无法共存&lt;/p>
-&lt;/blockquote>
-&lt;h1 id="达利超现实主义画家">达利，超现实主义画家&lt;/h1>
-&lt;p>他会坐在椅子上，放空自己的大脑，但仍然在模糊地思考着之前一直专注的事情。手拿一串钥匙，当它睡着时，钥匙就会掉到地上，吵醒他。这样他就能将脑中那些发散模式下得到的联想和点子收集起来，然后带着它们回到专注模式。&lt;/p>
-&lt;h1 id="培养在两种模式切换的能力">培养在两种模式切换的能力&lt;/h1>
-&lt;p>正如肌肉不能一天练成，神经结构也不是短时间能够建立的。我们需要每天坚持练习自己在发散模式和专注模式下的切换能力。&lt;br>
-放松自己，这样也许有助于进入发散模式。&lt;/p>
-- https://kanajin.github.io/learning/learnhowtolearn/ -</description></item></channel></rss>
+- https://kanajin.github.io/readingnotes/aqzhengzhuan/ -</description></item></channel></rss>
