@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>重塑矩阵</title>
+<title>有效的数独</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -14,10 +14,6 @@
 <link rel=stylesheet href=https://kanajin.github.io/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media=screen>
 <script src=/js/loadCSS.js></script>
 <script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js>MathJax.Hub.Queue(function(){var b=MathJax.Hub.getAllJax(),a;for(a=0;a<b.length;a+=1)b[a].SourceElement().parentNode.className+=' has-jax'})</script>
-<style>code.has-jax{font:inherit;font-size:100%;background:inherit;border:inherit;color:#515151}</style>
 <script src=/js/toc.js></script>
 </head>
 <body>
@@ -129,10 +125,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-重塑矩阵
+有效的数独
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-26 00:42
+2021-08-26 11:03
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -143,31 +139,50 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。</p>
-<p>给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。</p>
-<p>重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。</p>
-<p>如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。</p>
+<p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。</p>
+<ul>
+<li>数字 1-9 在每一行只能出现一次。</li>
+<li>数字 1-9 在每一列只能出现一次。</li>
+<li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。</li>
+</ul>
+<p>数独部分空格内已填入了数字，空白格用 &lsquo;.&rsquo; 表示。</p>
+<p>注意：</p>
+<ul>
+<li>一个有效的数独（部分已被填充）不一定是可解的。</li>
+<li>只需要根据以上规则，验证已经填入的数字是否有效即可。</li>
+</ul>
 <h1 id=解法>解法</h1>
-<p>二维矩阵一维化：<br>
-对于一个行为 r, 列为 c 二位数组，我们可以将其下角标 i, j 映射为一维的 x，映射规则为：</p>
-<p>$x = ci + j$</p>
-<p>要转化回原始坐标时，关系如下：</p>
-<ol>
-<li>$i = x / c$</li>
-<li>$j = x % c$</li>
-</ol>
-<p>原因是：</p>
-<p>因为 j 必定小于 c，因此做除法时一定会被舍去，只剩下 i；而取余时必定只留下 j</p>
+<p>解答的突破口在于如何获得子矩阵的编号，参考<a href=https://kanajin.github.io/leetcode/algorithm/matrixreshape/>重塑矩阵</a>中提到的二维矩阵一维化的思路，写出如下表达式：</p>
+<p>matrix_index = (row/3)*3 + (column/3)</p>
+<p>然后用哈希表存储每行、每列的元素，观察是否重复</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> <span style=color:#a6e22e>matrixReshape</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> mat<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> r<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> c<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mat<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>*</span> mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>!=</span> r<span style=color:#f92672>*</span>c<span style=color:#f92672>)</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> mat<span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> reshape <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[</span>r<span style=color:#f92672>][</span>c<span style=color:#f92672>];</span>
-            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> r <span style=color:#f92672>*</span> c<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-                reshape<span style=color:#f92672>[</span>i<span style=color:#f92672>/</span>c<span style=color:#f92672>][</span>i<span style=color:#f92672>%</span>c<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> mat<span style=color:#f92672>[</span>i<span style=color:#f92672>/</span>mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span><span style=color:#f92672>][</span>i<span style=color:#f92672>%</span>mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span><span style=color:#f92672>];</span>
-            <span style=color:#f92672>}</span>
-            <span style=color:#66d9ef>return</span> reshape<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>isValidSudoku</span><span style=color:#f92672>(</span><span style=color:#66d9ef>char</span><span style=color:#f92672>[][]</span> board<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> row <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
+        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> column <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
+        HashMap<span style=color:#f92672>&lt;</span>Character<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;[]</span> matrix <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>[</span>9<span style=color:#f92672>];</span>
+
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            row<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
+            column<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
+            matrix<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>();</span>
         <span style=color:#f92672>}</span>
+
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> j <span style=color:#f92672>&lt;</span> 9<span style=color:#f92672>;</span> j<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>]</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;.&#39;</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                    <span style=color:#66d9ef>continue</span><span style=color:#f92672>;</span>
+                <span style=color:#f92672>}</span>
+                row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
+                column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
+                matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>getOrDefault</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>],</span> 0<span style=color:#f92672>)+</span>1<span style=color:#f92672>);</span>
+
+                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>row<span style=color:#f92672>[</span>i<span style=color:#f92672>].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1 <span style=color:#f92672>||</span> column<span style=color:#f92672>[</span>j<span style=color:#f92672>].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1 <span style=color:#f92672>||</span> matrix<span style=color:#f92672>[(</span>i<span style=color:#f92672>/</span>3<span style=color:#f92672>)*</span>3<span style=color:#f92672>+(</span>j<span style=color:#f92672>/</span>3<span style=color:#f92672>)].</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>board<span style=color:#f92672>[</span>i<span style=color:#f92672>][</span>j<span style=color:#f92672>])</span> <span style=color:#f92672>&gt;</span> 1<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>
+                <span style=color:#f92672>}</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+        
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
@@ -176,11 +191,11 @@ brightness_7
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/numrescueboats/>
-Next<br>救生艇
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/maxsubarray/>
-Previous<br>最大子序和
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/numrescueboats/>
+Previous<br>救生艇
 </a>
 </nav>
 <div class=post-comment-wrapper>

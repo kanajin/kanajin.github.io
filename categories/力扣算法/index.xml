@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>力扣算法 on Suzuki's Blog</title><link>https://kanajin.github.io/categories/%E5%8A%9B%E6%89%A3%E7%AE%97%E6%B3%95/</link><description>Recent content in 力扣算法 on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 23 Aug 2021 16:34:59 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E5%8A%9B%E6%89%A3%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml"/><item><title>最大子序和</title><link>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</link><pubDate>Mon, 23 Aug 2021 16:34:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</guid><description>题目描述 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>力扣算法 on Suzuki's Blog</title><link>https://kanajin.github.io/categories/%E5%8A%9B%E6%89%A3%E7%AE%97%E6%B3%95/</link><description>Recent content in 力扣算法 on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 11:03:39 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/categories/%E5%8A%9B%E6%89%A3%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml"/><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>题目描述 请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
+数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。 数独部分空格内已填入了数字，空白格用 &amp;lsquo;.&amp;rsquo; 表示。
+注意：
+一个有效的数独（部分已被填充）不一定是可解的。 只需要根据以上规则，验证已经填入的数字是否有效即可。 解法 解答的突破口在于如何获得子矩阵的编号，参考重塑矩阵中提到的二维矩阵一维化的思路，写出如下表达式：
+matrix_index = (row/3)*3 + (column/3)
+然后用哈希表存储每行、每列的元素，观察是否重复
+class Solution { public boolean isValidSudoku(char[][] board) { HashMap&amp;lt;Character, Integer&amp;gt;[] row = new HashMap[9]; HashMap&amp;lt;Character, Integer&amp;gt;[] column = new HashMap[9]; HashMap&amp;lt;Character, Integer&amp;gt;[] matrix = new HashMap[9]; for (int i = 0; i &amp;lt; 9; i++) { row[i] = new HashMap(); column[i] = new HashMap(); matrix[i] = new HashMap(); } for (int i = 0; i &amp;lt; 9; i++) { for (int j = 0; j &amp;lt; 9; j++) { if (board[i][j] == &amp;#39;.</description></item><item><title>救生艇</title><link>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</link><pubDate>Thu, 26 Aug 2021 10:03:57 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</guid><description>题目描述 第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。
+每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。
+返回载到每一个人所需的最小船数。(保证每个人都能被船载)。
+解法 贪心算法： 先对数组进行排序
+考察最轻的人，如果他可以和最重的人同乘一艘船，那么从数组中把他们扣掉，船数+1
+如果他不可以和最重的人同乘一艘船，那么没有人可以和最重的人同乘，因此将最重的人扣除，船数+1
+class Solution { public int numRescueBoats(int[] people, int limit) { Arrays.sort(people); int lightest = 0; int heavyest = people.length - 1; int times = 0; while (lightest &amp;lt;= heavyest) { if (people[lightest] + people[heavyest] &amp;lt;= limit) { lightest++; } heavyest--; times++; } return times; } }</description></item><item><title>重塑矩阵</title><link>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</link><pubDate>Thu, 26 Aug 2021 00:42:11 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</guid><description>题目描述 在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。
+给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。
+重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。
+如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。
+解法 二维矩阵一维化：
+对于一个行为 r, 列为 c 二位数组，我们可以将其下角标 i, j 映射为一维的 x，映射规则为：
+$x = ci + j$
+要转化回原始坐标时，关系如下：
+$i = x / c$ $j = x % c$ 原因是：
+因为 j 必定小于 c，因此做除法时一定会被舍去，只剩下 i；而取余时必定只留下 j
+class Solution { public int[][] matrixReshape(int[][] mat, int r, int c) { if (mat.</description></item><item><title>最大子序和</title><link>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</link><pubDate>Mon, 23 Aug 2021 16:34:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</guid><description>题目描述 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 解法 假设数组名nums
 动态规划法 假设以角标为 i 的元素结尾的子序列中，最大和的值为f(i)；那么 f(i) 有以下两种取值可能：
 f(i-1)+nums[i]，即上一个最大子序列和 f(i-1) 的值加上 nums[i] 比 nums[i] 本身大 nums[i]，即 f(i-1) + nums[i] &amp;lt; nums[i] 即 f(i) = max{f(i-1) + nums[i], nums[i]}

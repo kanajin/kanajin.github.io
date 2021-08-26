@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>重塑矩阵</title>
+<title>救生艇</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -14,10 +14,6 @@
 <link rel=stylesheet href=https://kanajin.github.io/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media=screen>
 <script src=/js/loadCSS.js></script>
 <script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js>MathJax.Hub.Queue(function(){var b=MathJax.Hub.getAllJax(),a;for(a=0;a<b.length;a+=1)b[a].SourceElement().parentNode.className+=' has-jax'})</script>
-<style>code.has-jax{font:inherit;font-size:100%;background:inherit;border:inherit;color:#515151}</style>
 <script src=/js/toc.js></script>
 </head>
 <body>
@@ -129,10 +125,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-重塑矩阵
+救生艇
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-26 00:42
+2021-08-26 10:03
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -143,31 +139,28 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。</p>
-<p>给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。</p>
-<p>重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。</p>
-<p>如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。</p>
+<p>第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。</p>
+<p>每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。</p>
+<p>返回载到每一个人所需的最小船数。(保证每个人都能被船载)。</p>
 <h1 id=解法>解法</h1>
-<p>二维矩阵一维化：<br>
-对于一个行为 r, 列为 c 二位数组，我们可以将其下角标 i, j 映射为一维的 x，映射规则为：</p>
-<p>$x = ci + j$</p>
-<p>要转化回原始坐标时，关系如下：</p>
-<ol>
-<li>$i = x / c$</li>
-<li>$j = x % c$</li>
-</ol>
-<p>原因是：</p>
-<p>因为 j 必定小于 c，因此做除法时一定会被舍去，只剩下 i；而取余时必定只留下 j</p>
+<p>贪心算法：
+先对数组进行排序</p>
+<p>考察最轻的人，如果他可以和最重的人同乘一艘船，那么从数组中把他们扣掉，船数+1</p>
+<p>如果他不可以和最重的人同乘一艘船，那么没有人可以和最重的人同乘，因此将最重的人扣除，船数+1</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> <span style=color:#a6e22e>matrixReshape</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> mat<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> r<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> c<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>mat<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>*</span> mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>!=</span> r<span style=color:#f92672>*</span>c<span style=color:#f92672>)</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> mat<span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> reshape <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[</span>r<span style=color:#f92672>][</span>c<span style=color:#f92672>];</span>
-            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> r <span style=color:#f92672>*</span> c<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-                reshape<span style=color:#f92672>[</span>i<span style=color:#f92672>/</span>c<span style=color:#f92672>][</span>i<span style=color:#f92672>%</span>c<span style=color:#f92672>]</span> <span style=color:#f92672>=</span> mat<span style=color:#f92672>[</span>i<span style=color:#f92672>/</span>mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span><span style=color:#f92672>][</span>i<span style=color:#f92672>%</span>mat<span style=color:#f92672>[</span>0<span style=color:#f92672>].</span><span style=color:#a6e22e>length</span><span style=color:#f92672>];</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>numRescueBoats</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> people<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> limit<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        Arrays<span style=color:#f92672>.</span><span style=color:#a6e22e>sort</span><span style=color:#f92672>(</span>people<span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>int</span> lightest <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>int</span> heavyest <span style=color:#f92672>=</span> people<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span> <span style=color:#f92672>-</span> 1<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>int</span> times <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>lightest <span style=color:#f92672>&lt;=</span> heavyest<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>people<span style=color:#f92672>[</span>lightest<span style=color:#f92672>]</span> <span style=color:#f92672>+</span> people<span style=color:#f92672>[</span>heavyest<span style=color:#f92672>]</span> <span style=color:#f92672>&lt;=</span> limit<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                lightest<span style=color:#f92672>++;</span>
             <span style=color:#f92672>}</span>
-            <span style=color:#66d9ef>return</span> reshape<span style=color:#f92672>;</span>
+            heavyest<span style=color:#f92672>--;</span>
+            times<span style=color:#f92672>++;</span>
         <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> times<span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
@@ -176,11 +169,11 @@ brightness_7
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/numrescueboats/>
-Next<br>救生艇
+<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/>
+Next<br>有效的数独
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/maxsubarray/>
-Previous<br>最大子序和
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/matrixreshape/>
+Previous<br>重塑矩阵
 </a>
 </nav>
 <div class=post-comment-wrapper>

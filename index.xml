@@ -1,4 +1,72 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 00:42:11 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>MatrixReshape</title><link>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</link><pubDate>Thu, 26 Aug 2021 00:42:11 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 11:03:39 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。&lt;/p>
+&lt;ul>
+&lt;li>数字 1-9 在每一行只能出现一次。&lt;/li>
+&lt;li>数字 1-9 在每一列只能出现一次。&lt;/li>
+&lt;li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。&lt;/li>
+&lt;/ul>
+&lt;p>数独部分空格内已填入了数字，空白格用 &amp;lsquo;.&amp;rsquo; 表示。&lt;/p>
+&lt;p>注意：&lt;/p>
+&lt;ul>
+&lt;li>一个有效的数独（部分已被填充）不一定是可解的。&lt;/li>
+&lt;li>只需要根据以上规则，验证已经填入的数字是否有效即可。&lt;/li>
+&lt;/ul>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>解答的突破口在于如何获得子矩阵的编号，参考&lt;a href="https://kanajin.github.io/leetcode/algorithm/matrixreshape/">重塑矩阵&lt;/a>中提到的二维矩阵一维化的思路，写出如下表达式：&lt;/p>
+&lt;p>matrix_index = (row/3)*3 + (column/3)&lt;/p>
+&lt;p>然后用哈希表存储每行、每列的元素，观察是否重复&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isValidSudoku&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">char&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> board&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> row &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
+HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> column &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
+HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> matrix &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
+column&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
+matrix&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> j &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> j&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">continue&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -</description></item><item><title>救生艇</title><link>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</link><pubDate>Thu, 26 Aug 2021 10:03:57 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。&lt;/p>
+&lt;p>每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。&lt;/p>
+&lt;p>返回载到每一个人所需的最小船数。(保证每个人都能被船载)。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>贪心算法：
+先对数组进行排序&lt;/p>
+&lt;p>考察最轻的人，如果他可以和最重的人同乘一艘船，那么从数组中把他们扣掉，船数+1&lt;/p>
+&lt;p>如果他不可以和最重的人同乘一艘船，那么没有人可以和最重的人同乘，因此将最重的人扣除，船数+1&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">numRescueBoats&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> people&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+Arrays&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sort&lt;/span>&lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> lightest &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> heavyest &lt;span style="color:#f92672">=&lt;/span> people&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> times &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>lightest &lt;span style="color:#f92672">&amp;lt;=&lt;/span> heavyest&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">[&lt;/span>lightest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+&lt;/span> people&lt;span style="color:#f92672">[&lt;/span>heavyest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+lightest&lt;span style="color:#f92672">++;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+heavyest&lt;span style="color:#f92672">--;&lt;/span>
+times&lt;span style="color:#f92672">++;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> times&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -</description></item><item><title>重塑矩阵</title><link>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</link><pubDate>Thu, 26 Aug 2021 00:42:11 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。&lt;/p>
 &lt;p>给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。&lt;/p>
 &lt;p>重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。&lt;/p>
@@ -506,202 +574,4 @@ Student s &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9
 &lt;h1 id="培养在两种模式切换的能力">培养在两种模式切换的能力&lt;/h1>
 &lt;p>正如肌肉不能一天练成，神经结构也不是短时间能够建立的。我们需要每天坚持练习自己在发散模式和专注模式下的切换能力。&lt;br>
 放松自己，这样也许有助于进入发散模式。&lt;/p>
-- https://kanajin.github.io/learning/learnhowtolearn/ -</description></item><item><title>二叉树</title><link>https://kanajin.github.io/datastructure/binarytree/</link><pubDate>Sat, 10 Jul 2021 20:20:37 +0800</pubDate><guid>https://kanajin.github.io/datastructure/binarytree/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/binarytree/ -&lt;h1 id="定义">定义&lt;/h1>
-&lt;p>一棵二叉树是结点的一个有限集合，该集合或者为空，或者是由一个根结点加上两棵分别称为左子树和右子树的、互不相交的二叉树组成。&lt;br>
-&lt;strong>注意：这个定义是递归的&lt;/strong>&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>满二叉树(Full Binary Tree)：塞满！第 n 层有 $2^{n-1}$ 个结点！&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>完全二叉树(Complete Binary Tree)：若设二叉树的高度为 h，则共有 h 层。除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层从右向左连续缺若干结点，这就是完全二叉树。&lt;/p>
-&lt;p>&lt;del>就是满二叉树从最下面一行从右往左删结点&lt;/del>&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;h1 id="二叉树的性质">二叉树的性质&lt;/h1>
-&lt;ol>
-&lt;li>若二叉树的层次从 1 开始, 则在二叉树的第 i 层最多有 $2^{i-1}$ 个结点。$(i\geq1)$&lt;/li>
-&lt;li>高度为 h 的二叉树最多有 $2^{h-1}$ 个结点。&lt;/li>
-&lt;li>对任何一棵二叉树, 如果其叶结点有 $n_0$ 个，度为 2 的非叶结点有 $n_2$ 个，则有： $n_0 = n_2 + 1$&lt;/li>
-&lt;li>具有 $n(n\geq0)$ 个结点的完全二叉树的高度为：$\lceil log_{2}{(n+1)}\rceil$，也可写作 $\lfloor log_{2}{n} + 1\rfloor$&lt;/li>
-&lt;li>如将一棵有 n 个结点的完全二叉树自顶向下，同一层自左向右连续给结点编号: 0, 1, 2, …, n-1，则有以下关系:
-&lt;ul>
-&lt;li>若 $i = 0$，则 $i$ 无双亲&lt;/li>
-&lt;li>若 $i &amp;gt; 0$, 则 $i$ 的双亲为 $\lfloor \dfrac{(i-1)}{2} \rfloor$&lt;/li>
-&lt;li>若 $2i+1 &amp;lt; n$，则 $i$ 的左子女为 $2i+1$&lt;/li>
-&lt;li>若 $2i+2 &amp;lt; n$，则 $i$ 的左子女为 $2i+2$&lt;/li>
-&lt;li>若 $i$ 为偶数，且 $i \not ={} 0$，则其左兄弟为 $i-1$&lt;/li>
-&lt;li>若 $i$ 为奇数，且 $i \not ={} n-1$，则其右兄弟为 $i+1$&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;h1 id="代码实现">代码实现&lt;/h1>
-&lt;h2 id="二叉树顺序存储表示的结构定义">二叉树顺序存储表示的结构定义&lt;/h2>
-&lt;p>&lt;em>来自课件&lt;/em>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">#define maxSize 128
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> cahr TElemType;
-&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
-&lt;span style="color:#75715e">//存储数组
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> TElemType data[maxSize];
-&lt;span style="color:#75715e">//当前结点个数
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> n;
-} SqBTree;
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="分支描述方式">分支描述方式&lt;/h2>
-&lt;p>分支用三元组{p, c, d}描述，p是双亲数据，c 是子女数据，d 是分支方向，= 0 是左分支， = 1 是右分支。&lt;br>
-&lt;img src="https://kanajin.github.io/static/BinaryTree/%E5%88%86%E6%94%AF%E6%8F%8F%E8%BF%B0%E6%96%B9%E5%BC%8F.png" alt="branch">&lt;br>
-如上图所示，共有 9 个分支，按层从根开始，各分支为：&lt;br>
-{&amp;lsquo;A&amp;rsquo;, &amp;lsquo;B&amp;rsquo;, &amp;lsquo;0&amp;rsquo;}, {&amp;lsquo;A&amp;rsquo;, &amp;lsquo;C&amp;rsquo;, &amp;lsquo;1&amp;rsquo;}, {&amp;lsquo;B&amp;rsquo;, &amp;lsquo;D&amp;rsquo;, &amp;lsquo;0&amp;rsquo;}&lt;br>
-{&amp;lsquo;B&amp;rsquo;, &amp;lsquo;E&amp;rsquo;, &amp;lsquo;1&amp;rsquo;}, {&amp;lsquo;C&amp;rsquo;, &amp;lsquo;F&amp;rsquo;, &amp;lsquo;0&amp;rsquo;}, {&amp;lsquo;C&amp;rsquo;, &amp;lsquo;G&amp;rsquo;, &amp;lsquo;1&amp;rsquo;}&lt;br>
-{&amp;lsquo;E&amp;rsquo;, &amp;lsquo;H&amp;rsquo;, &amp;lsquo;0&amp;rsquo;}, {&amp;lsquo;F&amp;rsquo;, &amp;lsquo;I&amp;rsquo;, &amp;lsquo;0&amp;rsquo;}, {&amp;lsquo;F&amp;rsquo;, &amp;lsquo;J&amp;rsquo;, &amp;lsquo;1&amp;rsquo;}&lt;br>
-现在要求按层顺序输入各分支，建立二叉树：&lt;/p>
-&lt;ol>
-&lt;li>第一个分支的双亲一定是根，它应存放在顺序表示数组的 0 号位置，设它为 j。&lt;/li>
-&lt;li>其子女根据 d 的值，若为左子女则其值应存放在数组的第 $2j+1$ 的位置，若为右子女则其值应存放在数组的第 $2j+2$ 位置。&lt;/li>
-&lt;li>除第一个分支外，后续每个分支都要在已存放的结点数据中查找双亲 p 的位置，找到后设其位置在 j，就可以插入这个分支。&lt;/li>
-&lt;li>因为有可能建立的二叉树不是完全二叉树，算法用变量 k 控制最后插入的结点位置&lt;/li>
-&lt;/ol>
-&lt;h2 id="二叉树的遍历">二叉树的遍历&lt;/h2>
-&lt;p>设：&lt;/p>
-&lt;ol>
-&lt;li>访问跟结点记作V&lt;/li>
-&lt;li>遍历根的左子树记为L&lt;/li>
-&lt;li>遍历根的右子树记为R&lt;/li>
-&lt;/ol>
-&lt;p>则可能的遍历次序：&lt;/p>
-&lt;ol>
-&lt;li>先序：VLR&lt;/li>
-&lt;li>中序：LVR&lt;/li>
-&lt;li>后续：LRV&lt;/li>
-&lt;/ol>
-&lt;p>&lt;strong>先序、中序、后序的区别，体现在何时访问根结点&lt;/strong>&lt;/p>
-&lt;h3 id="中序遍历">中序遍历：&lt;/h3>
-&lt;ul>
-&lt;li>若二叉树为空，则空操作&lt;/li>
-&lt;li>否则：
-&lt;ul>
-&lt;li>中序遍历左子树&lt;/li>
-&lt;li>访问根结点&lt;/li>
-&lt;li>中序遍历右子树&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">InOrder&lt;/span> ( BiTNode &lt;span style="color:#f92672">*&lt;/span>T ) {
-&lt;span style="color:#66d9ef">if&lt;/span> ( T &lt;span style="color:#f92672">!=&lt;/span> NULL ) {
-InOrder ( T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild );
-visit ( T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>data );
-InOrder ( T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild );
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="先序遍历">先序遍历：&lt;/h3>
-&lt;ul>
-&lt;li>若二叉树为空，则空操作&lt;/li>
-&lt;li>否则：
-&lt;ul>
-&lt;li>访问根结点&lt;/li>
-&lt;li>先序遍历左子树&lt;/li>
-&lt;li>先序遍历后子树&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">PreOrder&lt;/span> (BiTNode &lt;span style="color:#f92672">*&lt;/span>T) {
-&lt;span style="color:#66d9ef">if&lt;/span> (T &lt;span style="color:#f92672">!=&lt;/span> NULL) {
-visit (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>data);
-PreOrder (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild);
-PreOrder (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild);
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="后序遍历">后序遍历&lt;/h3>
-&lt;ul>
-&lt;li>若二叉树为空，则空操作&lt;/li>
-&lt;li>否则：
-&lt;ul>
-&lt;li>后续遍历左子树&lt;/li>
-&lt;li>后序遍历右子树&lt;/li>
-&lt;li>访问根结点&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">PostOrder&lt;/span> (BiTNode &lt;span style="color:#f92672">*&lt;/span>T) {
-&lt;span style="color:#66d9ef">if&lt;/span> (T &lt;span style="color:#f92672">!=&lt;/span> NULL) {
-PostOrder (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild);
-PostOrder (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild);
-visit (T&lt;span style="color:#f92672">-&amp;gt;&lt;/span>data);
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="生成表达式树">生成表达式树&lt;/h3>
-&lt;p>从 $a+b*(c-d)-e/f$ 生成表达式树&lt;/p>
-&lt;ol>
-&lt;li>先根据运算符的优先级对表达式加括号：&lt;br>
-$((a+(b*(c-d)))-(e/f))$&lt;/li>
-&lt;li>脱一层括号，$(a+(b*(c-d))) - (e/f)$，取两个括号中间的&lt;code>-&lt;/code>为根，将表达式分为两部分，左子树是 $(a+(b*(c-d)))$，右子树为 $(e/f)$。&lt;/li>
-&lt;li>对左子树递归执行步骤&lt;code>2&lt;/code>，若树空则不再递归&lt;/li>
-&lt;li>对右子树递归执行步骤&lt;code>2&lt;/code>，若树空则不再递归&lt;/li>
-&lt;/ol>
-&lt;h3 id="求二叉树高度">求二叉树高度&lt;/h3>
-&lt;p>空树的高度为 0；非空树情形，先计算根结点左右子树的高度，取大者再加一得到二叉树高度&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">Height&lt;/span> ( BiTNode &lt;span style="color:#f92672">*&lt;/span>t ) {
-&lt;span style="color:#66d9ef">if&lt;/span> ( t &lt;span style="color:#f92672">==&lt;/span> NULL ) &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
-&lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span> Height ( t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild );
-&lt;span style="color:#66d9ef">int&lt;/span> n &lt;span style="color:#f92672">=&lt;/span> Height ( t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild );
-&lt;span style="color:#66d9ef">return&lt;/span> (m &lt;span style="color:#f92672">&amp;gt;&lt;/span> n) &lt;span style="color:#f92672">?&lt;/span> m&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">:&lt;/span> n&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>;
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="用括号方式输出二叉树">用括号方式输出二叉树&lt;/h3>
-&lt;ol>
-&lt;li>若二叉树为空，输出空格“ ”；&lt;/li>
-&lt;li>若二叉树非空，则先输出根结点的数据，再判断根是否叶：
-&lt;ul>
-&lt;li>若是叶结点，则空操作；&lt;/li>
-&lt;li>若不是叶结点，则：
-&lt;ul>
-&lt;li>输出左括号“(”&lt;/li>
-&lt;li>递归输出左子树&lt;/li>
-&lt;li>输出逗号“, ”&lt;/li>
-&lt;li>递归输出右子树&lt;/li>
-&lt;li>输出右括号“)”&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">printBinTree&lt;/span> (BiTNode &lt;span style="color:#f92672">*&lt;/span>t) {
-&lt;span style="color:#66d9ef">if&lt;/span> (t &lt;span style="color:#f92672">!=&lt;/span> NULL) {
-&lt;span style="color:#75715e">//输出根
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> printf (&lt;span style="color:#e6db74">&amp;#34;%c&amp;#34;&lt;/span>, t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>data);
-&lt;span style="color:#66d9ef">if&lt;/span> (t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild &lt;span style="color:#f92672">!=&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild &lt;span style="color:#f92672">!=&lt;/span> NULL) {
-&lt;span style="color:#75715e">//输出左括号
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> printf (&lt;span style="color:#960050;background-color:#1e0010">“&lt;/span>(&lt;span style="color:#960050;background-color:#1e0010">”&lt;/span>);
-&lt;span style="color:#75715e">//递归输出左子树
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> PrintBinTree (t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>lchild);
-&lt;span style="color:#75715e">//输出逗号
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> printf (&lt;span style="color:#960050;background-color:#1e0010">“&lt;/span>, &lt;span style="color:#960050;background-color:#1e0010">”&lt;/span>);
-&lt;span style="color:#75715e">//递归输出右子树
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> PrintBinTree (t&lt;span style="color:#f92672">-&amp;gt;&lt;/span>rchild);
-&lt;span style="color:#75715e">//输出右括号
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> printf (&lt;span style="color:#960050;background-color:#1e0010">“&lt;/span>)&lt;span style="color:#960050;background-color:#1e0010">”&lt;/span>);
-}
-}
-&lt;span style="color:#75715e">//空树，输出空格
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> printf (&lt;span style="color:#960050;background-color:#1e0010">“&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">”&lt;/span>);
-}
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/binarytree/ -</description></item><item><title>树的术语总结</title><link>https://kanajin.github.io/datastructure/tree_term/</link><pubDate>Sat, 10 Jul 2021 18:41:10 +0800</pubDate><guid>https://kanajin.github.io/datastructure/tree_term/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/tree_term/ -&lt;ol>
-&lt;li>结点(node)：包含数据元素的值及相关指针的存储单位。&lt;/li>
-&lt;li>结点的度(degree)：结点所拥有的的子树棵数。&lt;/li>
-&lt;li>叶结点(leaf)：度为0的结点，又称终端结点。&lt;/li>
-&lt;li>分支结点(branch)：除叶结点外的其他结点，又称为非终端结点或非叶结点。&lt;/li>
-&lt;li>子女(child)：若结点&lt;code>x&lt;/code>有子树，则子树的根结点即为结点&lt;code>x&lt;/code>的子女。&lt;/li>
-&lt;li>双亲(parent)：又称为父结点。若结点&lt;code>x&lt;/code>有子女，它即为子女的双亲。&lt;/li>
-&lt;li>兄弟(sibling)：同一双亲的子女互称为兄弟。&lt;/li>
-&lt;li>祖先(ancestor)：从根结点到该结点所经分支上的所有结点。&lt;/li>
-&lt;li>子孙(descendant)：某一结点的子女，以及这些子女的子女都是该结点的子孙。&lt;/li>
-&lt;li>结点间的路径(path)：树中任一结点$v_i$经过一系列结点$v_1$, $v_2$, &amp;hellip;, $v_k$到$v_j$，其中$(v_i, v_1)$, $(v_1, v_2)$, &amp;hellip;, $(v_k, v_j)$是树中的分支，则称$v_i$, $v_1$, $v_2$, &amp;hellip;, $v_k$, $v_j$是$v_i$与$v_j$间的路径。&lt;/li>
-&lt;li>结点的深度(depth)：结点所处层次，即从根到该结点的路径上的分支数加1。根结点在第1层。&lt;/li>
-&lt;li>结点的深度和结点的高度是不同的。结点的深度即结点所处层次，是从根向下逐层计算的；结点的高度是从下向上逐层计算的：叶结点的高度为1, 其他结点的高度是取它的所有子女结点最大高度加1。&lt;/li>
-&lt;li>树的深度与高度相等。树的深度按离根最远的叶结点算，树的高度按根结点算。&lt;/li>
-&lt;li>树的度(degree)：树中结点的度的最大值。&lt;/li>
-&lt;li>有序树(ordered tree)：树中根结点的各棵子树$T_1$, $T_2$, …是有次序的，即为有序树。其中，$T_1$叫做根的第1棵子树，$T_2$叫做根的第2棵子树，etc..&lt;/li>
-&lt;li>无序树：树中结点的各棵子树之间的次序是不重要的，可以互相交换位置。&lt;/li>
-&lt;li>森林(forest)：m$(m\geq0)$棵树的集合。在数据结构中，删去一棵非空树的根结点，树就变成森林(不排除空的森林)；反之，若增加一个根结点，让森林中每一棵树的根结点都变成它的子女，森林就成为一棵树。&lt;/li>
-&lt;/ol>
-- https://kanajin.github.io/datastructure/tree_term/ -</description></item></channel></rss>
+- https://kanajin.github.io/learning/learnhowtolearn/ -</description></item></channel></rss>
