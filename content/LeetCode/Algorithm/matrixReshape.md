@@ -1,8 +1,8 @@
 ---
-title: "MatrixReshape"
+title: "重塑矩阵"
 date: 2021-08-26T00:42:11+08:00
 draft: false
-categories: ["请填写分类"]
+categories: ["力扣算法"]
 enableMathJax: true
 ---
 
