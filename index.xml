@@ -1,4 +1,104 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 12:58:06 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>环形链表入环点</title><link>https://kanajin.github.io/leetcode/algorithm/detectcycle/</link><pubDate>Thu, 26 Aug 2021 12:58:06 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/detectcycle/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/detectcycle/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 27 Aug 2021 22:00:36 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>数据流的中位数</title><link>https://kanajin.github.io/leetcode/algorithm/findmedian/</link><pubDate>Fri, 27 Aug 2021 22:00:36 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/findmedian/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/findmedian/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。&lt;/p>
+&lt;p>例如，&lt;/p>
+&lt;p>[2,3,4] 的中位数是 3&lt;/p>
+&lt;p>[2,3] 的中位数是 (2 + 3) / 2 = 2.5&lt;/p>
+&lt;p>设计一个支持以下两种操作的数据结构：&lt;/p>
+&lt;ul>
+&lt;li>void addNum(int num) - 从数据流中添加一个整数到数据结构中。&lt;/li>
+&lt;li>double findMedian() - 返回目前所有元素的中位数。&lt;/li>
+&lt;/ul>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>设置两个优先队列，一个 que_min 存储低于中位数的数，一个 que_max 存储高于中位数的数，que_min 从小到大，que_max 从大到小，约定第一个数进入que_min&lt;/p>
+&lt;p>因此当总数为奇数时，中位数为 que_min；偶数时，为 que_min 和 que_max 的平均值&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MedianFinder&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+PriorityQueue&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> que_min&lt;span style="color:#f92672">;&lt;/span>
+PriorityQueue&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#75715e">/** initialize your data structure here. */&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">MedianFinder&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que_min &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PriorityQueue&lt;span style="color:#f92672">&amp;lt;&amp;gt;((&lt;/span>a&lt;span style="color:#f92672">,&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&amp;gt;&lt;/span> &lt;span style="color:#f92672">(&lt;/span>b &lt;span style="color:#f92672">-&lt;/span> a&lt;span style="color:#f92672">));&lt;/span>
+que_max &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PriorityQueue&lt;span style="color:#f92672">&amp;lt;&amp;gt;((&lt;/span>a&lt;span style="color:#f92672">,&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&amp;gt;&lt;/span> &lt;span style="color:#f92672">(&lt;/span>a &lt;span style="color:#f92672">-&lt;/span> b&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">addNum&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> num&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">==&lt;/span> 0 &lt;span style="color:#f92672">||&lt;/span> num &lt;span style="color:#f92672">&amp;lt;=&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>num&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">+&lt;/span> 1&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">());&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>num&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">());&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">double&lt;/span> &lt;span style="color:#a6e22e">findMedian&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">();&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">+&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">0&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Your MedianFinder object will be instantiated and called as such:
+&lt;/span>&lt;span style="color:#75715e"> * MedianFinder obj = new MedianFinder();
+&lt;/span>&lt;span style="color:#75715e"> * obj.addNum(num);
+&lt;/span>&lt;span style="color:#75715e"> * double param_2 = obj.findMedian();
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/findmedian/ -</description></item><item><title>赎金信</title><link>https://kanajin.github.io/leetcode/algorithm/canconstruct/</link><pubDate>Fri, 27 Aug 2021 16:27:58 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/canconstruct/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/canconstruct/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定一个赎金信 (ransom) 字符串和一个杂志(magazine)字符串，判断第一个字符串 ransom 能不能由第二个字符串 magazines 里面的字符构成。如果可以构成，返回 true ；否则返回 false。&lt;/p>
+&lt;p>(题目说明：为了不暴露赎金信字迹，要从杂志上搜索各个需要的字母，组成单词来表达意思。杂志字符串中的每个字符只能在赎金信字符串中使用一次。)&lt;/p>
+&lt;p>提示：&lt;/p>
+&lt;ul>
+&lt;li>你可以假设两个字符串均只含有小写字母。&lt;/li>
+&lt;/ul>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>核心思路为比较赎金信中的每个字符出现的个数是否大于杂志中对应字符出现的个数，如果大于，则是 false&lt;/p>
+&lt;h2 id="哈希表法">哈希表法&lt;/h2>
+&lt;p>创造两个哈希表来存储两个字符串中每个字符出现的次数，然后遍历赎金信进行比较&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> map_note &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> map_magzine &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="数组法">数组法&lt;/h2>
+&lt;p>由于本题只出现小写字母，因此可以根据此特殊情况进行加速&lt;/p>
+&lt;p>创建两个容量为26的数组，数组下标用来表示第几个英文字母&lt;/p>
+&lt;ul>
+&lt;li>char - &amp;lsquo;a&amp;rsquo; 可以表示该英文字母是字母表中第几个&lt;/li>
+&lt;/ul>
+&lt;p>用这种方式来存储每个字符出现了几次，避免了哈希表的Character空间&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> note_arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> magazine_arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> note_arr&lt;span style="color:#f92672">[&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> magazine_arr&lt;span style="color:#f92672">[&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 26&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>note_arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">-&lt;/span> magazine_arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以将数组减少至一个，但似乎没什么卵用&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]--;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 26&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/canconstruct/ -</description></item><item><title>环形链表入环点</title><link>https://kanajin.github.io/leetcode/algorithm/detectcycle/</link><pubDate>Thu, 26 Aug 2021 12:58:06 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/detectcycle/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/detectcycle/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。&lt;/p>
 &lt;h1 id="解法">解法&lt;/h1>
 &lt;p>&lt;a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/">参考资料&lt;/a>&lt;/p>
@@ -422,149 +522,4 @@ dic&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">put&
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>*&lt;em>这样return也是可以的&lt;/em>&lt;/p>
-- https://kanajin.github.io/leetcode/algorithm/twosum/ -</description></item><item><title>继承</title><link>https://kanajin.github.io/programlanguage/extends/</link><pubDate>Sat, 07 Aug 2021 17:10:54 +0800</pubDate><guid>https://kanajin.github.io/programlanguage/extends/</guid><description>Suzuki's Blog https://kanajin.github.io/programlanguage/extends/ -&lt;h1 id="java中的继承">Java中的继承&lt;/h1>
-&lt;p>继承是java面向对象编程技术的一块基石，因为它允许创建分等级层次的类。&lt;br>
-继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。&lt;/p>
-&lt;h1 id="示例">示例&lt;/h1>
-&lt;p>定义一个Person类：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>现在，再定义一个Student类：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getScore&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setScore&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以发现，&lt;code>Student&lt;/code>类中包含了很多&lt;code>Person&lt;/code>类已经有的属性和方法，能不能去除这些重复的代码呢？&lt;br>
-这里就要用到继承了，Java使用&lt;code>extends&lt;/code>关键字来实现继承：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#75715e">// 不要重复name和age字段/方法,
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 只需要定义新增score字段/方法:
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getScore&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setScore&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="注意">注意&lt;/h1>
-&lt;h2 id="继承限制">继承限制&lt;/h2>
-&lt;p>继承有个特点，子类只能继承父类的&lt;code>public&lt;/code>或&lt;code>protected&lt;/code>属性和方法，无法访问&lt;code>private&lt;/code>。&lt;/p>
-&lt;h2 id="super">super&lt;/h2>
-&lt;p>super关键字表示父类(超类)，子类引用父类的字段时，可以用&lt;code>super.fileName&lt;/code>。如：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">hello&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Hello, &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#66d9ef">super&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>在上述例子中，使用&lt;code>super.name&lt;/code>，或者&lt;code>this.name&lt;/code>，或者&lt;code>name&lt;/code>，效果都是一样的。编译器会自动定位到父类的&lt;code>name&lt;/code>字段。&lt;br>
-但在如下情况中就必须使用&lt;code>super&lt;/code>：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Main&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String&lt;span style="color:#f92672">[]&lt;/span> args&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-Student s &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Student&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Xiao Ming&amp;#34;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> 12&lt;span style="color:#f92672">,&lt;/span> 89&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">protected&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> name&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">age&lt;/span> &lt;span style="color:#f92672">=&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">score&lt;/span> &lt;span style="color:#f92672">=&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行上面的代码，会得到一个编译错误，大意是在&lt;code>Student&lt;/code>的构造方法中，无法调用&lt;code>Person&lt;/code>的构造方法。&lt;br>
-这是因为在Java中，任何class的构造方法，第一行语句必须是调用父类的构造方法。如果没有明确地调用父类的构造方法，编译器会帮我们自动加一句&lt;code>super()&lt;/code>;，所以，&lt;code>Student&lt;/code>类的构造方法实际上是这样：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">super&lt;/span>&lt;span style="color:#f92672">(&lt;/span>name&lt;span style="color:#f92672">,&lt;/span> age&lt;span style="color:#f92672">);&lt;/span> &lt;span style="color:#75715e">// 自动调用父类的构造方法，需要加上父类的构造参数
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">score&lt;/span> &lt;span style="color:#f92672">=&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/programlanguage/extends/ -</description></item><item><title>阿Q正传_读书笔记</title><link>https://kanajin.github.io/readingnotes/aqzhengzhuan/</link><pubDate>Fri, 06 Aug 2021 17:24:00 +0800</pubDate><guid>https://kanajin.github.io/readingnotes/aqzhengzhuan/</guid><description>Suzuki's Blog https://kanajin.github.io/readingnotes/aqzhengzhuan/ -&lt;h1 id="序">序&lt;/h1>
-&lt;blockquote>
-&lt;p>《阿Q正传》最早是发布在《晨报》的新开栏目“开心话”里，虽是“开心话”，看到人却多半开心不起来：有不少人觉得这篇文章就是在骂自己，或者干脆就是自己的某个熟人拿他做例子。&lt;br>
-这也无声而有理地证明了鲁迅先生自己说的那句话：“我要写出国民精神的‘魂’来”。&lt;/p>
-&lt;/blockquote>
-&lt;p>阿Q究竟姓甚名谁？我非有“历史癖与考据癖”的胡适之先生的们人们，并不追求一个清清楚楚，但以我之愚见——或许正是因为鲁迅先生想要写出“国民的魂”来，而“国民的魂”又怎么能有具体的名字呢？“还有一个‘阿’字非常正确，绝无附会假借的缺点”，正是说了这“Q”字乃附会假借，却也不必深究。&lt;/p>
-&lt;h1 id="精神胜利法">精神胜利法&lt;/h1>
-&lt;blockquote>
-&lt;ul>
-&lt;li>我们先前——比你阔的多啦！你算是什么东西！&lt;/li>
-&lt;li>阿Q站了一刻，心里想，“我总算被儿子打了，现在的世界真不像样……”于是也心满意足的得胜走了。&lt;/li>
-&lt;li>然而不到十秒钟，阿Q也心满意足的得胜走了，他觉得他是第一个能够自轻自贱的人，除了“自轻自贱”不算外，余下的就是“第一个”。状元不也是“第一个”么？“你算是什么东西”呢？！&lt;/li>
-&lt;li>但他立刻转败为胜了。他擎起右手，用力的在自己脸上连打了两个嘴巴，热剌剌的有些痛；打完之后，便心平气和起来，似乎打的是自己，被打的是别一个自己，不久也就防腐蚀自己打了别个一般，——虽然还有些热剌剌，——心满意足的得胜的躺下了。&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;p>斗不过他人，就说“我们先前比你阔的多啦！”，不去正视现状，沉浸在一去不复返的过去，是典型的精神胜利法的一种。至于被人按在墙上碰了几个头、争当“第一个”自轻自贱的人、“自己打了自己两个嘴巴”，便又赢麻了这样的操作，更是将精神胜利法发扬到了极致。&lt;/p>
-&lt;p>在当时正是有一些有着所谓“国粹精神”的人，对西方外来文化全盘否定，嗤之以鼻，不去正视“落后就要挨打”的事实，缺沉浸在“我们华夏民族先前阔的多啦”的梦里，实在是可怜又可悲。&lt;/p>
-&lt;p>在汉唐时代鼎盛之期，那种大度与包容，让“唐人”之名深深印在了外乡人的心里。只有当民族衰败而不自信时，例如宋朝，才会对外来之物敏感至极。文化一物，正是要开放包容，海纳百川，取其精华而去其糟粕，才能站在全世界民族的巴别塔上，找到自己民族文化发展的突破口。知识也是一样，不应忧心与他人将自己所学偷师，而应主动对外交流，互相取长补短，共同进步，共同发展，才是正确的发展道路。&lt;/p>
-&lt;p>精神胜利法的本质是不懂得失败，不承认失败，不承认自己的局限性。从良性角度讲，在面对失败时，适当使用精神胜利法是缓解情绪，帮助我们走出失败阴影的一味良药：在情绪低落之时，用“歪门邪道”的方式安慰一下自己，放下不愉快、转变心情，重新上路。但若是像阿Q一样，一味地使用精神胜利法使自己“常优胜”，是百害而无一利的。&lt;/p>
-&lt;p>自然，鲁迅不会让阿Q一直“优胜”下去。&lt;/p>
-&lt;h1 id="觉醒">觉醒&lt;/h1>
-&lt;blockquote>
-&lt;ul>
-&lt;li>在阿Q的记忆上，这大约要算是生平第一件的屈辱，因为王胡以络腮胡子的缺点，向来只被他奚落，从没有奚落他，更不必说动手了。而他现在竟敢动手，很意外，难道真如市上所说，皇帝已经停了考，不要秀才和举人了，因此赵家减了威风，因此他们也便小觑他了么？&lt;br>
-阿Q无可适从的站着。&lt;/li>
-&lt;li>阿Q坐了一会，皮肤有些起粟，他觉得冷了，因为虽在春季，而夜间颇有余寒，尚不宜于赤膊。&lt;/li>
-&lt;li>酒店不赊，熬着也罢了；老头子催他走，噜苏一通也就算了；只是没有人来叫他做短工，却使阿Q肚子饿：这委实是一件非常“妈妈的”的事情。&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;p>精神胜利法的本质是不懂得失败，不承认失败。而这句“无可适从的站着”，阿Q第一次体会到了失败的滋味，在这短暂的片刻，他失去了找歪理来给自己的失败做解释的能力，虽然后面很快又“忘却”了，但这如同雪崩前的一颗小石头一般，埋下了种子。&lt;/p>
-&lt;p>什么样的事情是不能用精神胜利法解决的呢？寒冷，饥饿，这些来自物质世界的东西冲破了精神的保护，实实在在地打进了阿Q的心里。他开始感觉到更加“无可适从”了。直到他遇到了一个年轻版的“阿Q”：小D，这位“小阿Q”也无名无姓，用着和他一样的精神胜利法，干着和他一样的工作，轻而易举地就代替了阿Q在未庄的位置：一个没有独特性格的人，代替他有多难呢？&lt;/p>
-&lt;blockquote>
-&lt;ul>
-&lt;li>他在路上走着要“求食”，看见熟识的酒店，看见熟识的馒头，但他都走过了，不但没有暂停，而且并不想要。他所求的不是这类东西了；他求的是什么东西，他自己不知道。&lt;/li>
-&lt;li>阿Q并不鉴赏这田家乐，却只是走，因为他直觉的知道这与他的“求食”之道是很辽远的。&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;p>什么样的“求食”者，走过酒店，走过馒头，走过“田家乐”，却不想要呢？他想要什么呢？他不知道。在大量而沉重的挫折的打击下，他的世界观已经支离破碎。他的内心在渴望着一个新的东西，一个在他认知之外的东西，将他的世界观重新填补，他的“求食”，是心灵深处的饥渴，乞求一个新的方法论，什么都好。但他已经活在自己编织的世界里太久了，久到他根本不知道外面的世界有什么东西能帮到他。&lt;/p>
-&lt;p>然而我们的阿Q终究没有跳出他的——或者说当时封建思想统治下的国民们的世界里：&lt;/p>
-&lt;blockquote>
-&lt;p>天有十日，人有十等。下所以事上，上所以共神也。故王臣公，公臣大夫，大夫臣士，士臣阜，阜臣舆，舆臣隶，隶臣僚，僚臣仆，仆臣台。——《左传》昭公七年&lt;/p>
-&lt;/blockquote>
-&lt;p>当时所谓的走向成功，无非就是往上爬一等，以奴役下一等人罢了。阿Q听来了“革命党”的消息，发现“革命党”是“杀地主老爷”的，便想要一起参加革命，但他之所以想，无非也是将地主老爷们推下台，自己站在他们的位置上，颐指气使。&lt;/p>
-&lt;blockquote>
-&lt;p>&amp;ldquo;这时未庄的一伙鸟男女才好笑哩，跪下叫道，阿Q，饶命！谁听他！第一个该死的是小D和赵太爷，还有秀才，还有假洋鬼子，……留几条么？王胡本来还可留，但也不要了。……&lt;br>
-&amp;ldquo;东西，……直走进去打开箱子来：元宝，洋钱，洋纱衫，……秀才娘子的一张宁式床先搬到土谷祠，此外便摆了钱家的桌椅，——或者也就用赵家的罢。自己是不动手的了，叫小Ｄ来搬，要搬得快，搬得不快打嘴巴。……&lt;br>
-&amp;ldquo;赵司晨的妹子真丑。邹七嫂的女儿过几年再说。假洋鬼子的老婆会和没有辫子的男人睡觉，吓，不是好东西！秀才的老婆是眼胞上有疤的。……吴妈长久不见了，不知道在那里，——可惜脚太大。&amp;rdquo;&lt;/p>
-&lt;/blockquote>
-&lt;p>可惜我们的老Q并没有美梦成真，不但没有享受到“胜利果实”，反倒还真被当成革命党抓了起来，准备要砍头了。或许死前的那句“二十年后又是一条……”这句他从来也不会说的话，正是作者笔下对国民懵懂精神的最后一丝希望。&lt;/p>
-&lt;h1 id="尾声">尾声&lt;/h1>
-&lt;p>精神胜利法的本质是不懂得失败，不承认失败，不承认自己的局限性。一个擅长用精神胜利法的人，一定是地位卑微，且经常失败的人。换句话说，精神胜利法是弱者的逻辑。弱者常败，而只能借自我催眠之术，为自己构造一个不败的神话，而安然度日。&lt;/p>
-&lt;blockquote>
-&lt;p>有人说：有些胜利者，愿意敌手如虎，如鹰，他才感得胜利的欢喜；假使如羊，如小鸡，他便反觉得胜利的无聊。又有些胜利者，当克服一切之后，看见死的死了，降的降了，“臣诚惶诚恐死罪死罪”，他于是没有了敌人，没有了对手，没有了朋友，只有自己在上，一个，孤另另，凄凉，寂寞，便反而感到了胜利的悲哀。然而我们的阿Ｑ却没有这样乏，他是永远得意的：这或者也是中国精神文明冠于全球的一个证据了。&lt;/p>
-&lt;/blockquote>
-&lt;p>而失败是什么呢？我们可以说，人们做一件事情，没有达到预期的结果，这就是失败。那么据此我们可以接着说，失败在生活中几乎是一件注定的事情：玩游戏想要赢，就一定会有人输；工作上想要升职，就一定要顶替什么人的位置……社会的资源是有限的，只要涉及到资源的分配，那么失败就是一件注定的事情。但这些失败仅仅是我们普通人的失败，是平凡的失败。人生中有更大的失败，来自于人生中更大的追求，那些与命运斗争的人，那些做接近自己限度的斗争的人，却天生地接近这种失败：一个想要探索宇宙奥秘的科学家经常失败，一个想要改变世界的革命者也经常失败。只有安于自己限度，在远低于自己限度之内生活的人，他们才是经常“胜利”的，这种“胜利者”之所以常胜不败，只因为他的对手是早已降服的，而他，却从未投入斗争。&lt;/p>
-&lt;p>勇者愤怒，抽刃向更强者；怯者愤怒，却抽刃向更弱者。在深叹国民精神之愚昧后，鲁迅毅然弃医从文，留学东瀛学习新思想，积极投身革命事业，然而，他等来的辛亥革命，却是一场新的失败。&lt;/p>
-&lt;blockquote>
-&lt;p>我觉得革命以前，我是做奴隶；革命以后不多久，就受了奴隶的骗，变成他们的奴隶了。&lt;/p>
-&lt;/blockquote>
-&lt;p>历史似乎就是这样轮回的：分久必合，合久必分，陈胜吴广的“王侯将相宁有种乎？”，最终让自己变成了新的王侯将相；李自成自农民起义，最后也舍不下称帝的辉煌。人类从历史中学到的唯一的东西就是人类没有从历史中学到任何东西，历史仿佛一个车轮，一个圆盘，风水轮流转罢了。但希望并不是彻底渺茫，仍有着无数的仁人志士在前进的道路上义无反顾，虽千万人吾往矣，总有一天，我们可以跳出这个可怖的轮回，走向新的时代。&lt;/p>
-&lt;blockquote>
-&lt;p>但不多时也就释然了，他想：孙子才画得很圆的圆圈呢。&lt;/p>
-&lt;/blockquote>
-- https://kanajin.github.io/readingnotes/aqzhengzhuan/ -</description></item></channel></rss>
+- https://kanajin.github.io/leetcode/algorithm/twosum/ -</description></item></channel></rss>

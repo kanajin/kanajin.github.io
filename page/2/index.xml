@@ -1,4 +1,149 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 26 Aug 2021 12:58:06 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>学习如何学习</title><link>https://kanajin.github.io/learning/learnhowtolearn/</link><pubDate>Mon, 26 Jul 2021 15:33:58 +0800</pubDate><guid>https://kanajin.github.io/learning/learnhowtolearn/</guid><description>Suzuki's Blog https://kanajin.github.io/learning/learnhowtolearn/ -&lt;p>大脑有两种思维方式：&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 27 Aug 2021 22:00:36 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>继承</title><link>https://kanajin.github.io/programlanguage/extends/</link><pubDate>Sat, 07 Aug 2021 17:10:54 +0800</pubDate><guid>https://kanajin.github.io/programlanguage/extends/</guid><description>Suzuki's Blog https://kanajin.github.io/programlanguage/extends/ -&lt;h1 id="java中的继承">Java中的继承&lt;/h1>
+&lt;p>继承是java面向对象编程技术的一块基石，因为它允许创建分等级层次的类。&lt;br>
+继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。&lt;/p>
+&lt;h1 id="示例">示例&lt;/h1>
+&lt;p>定义一个Person类：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>现在，再定义一个Student类：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span> &lt;span style="color:#75715e">//重复
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getScore&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setScore&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以发现，&lt;code>Student&lt;/code>类中包含了很多&lt;code>Person&lt;/code>类已经有的属性和方法，能不能去除这些重复的代码呢？&lt;br>
+这里就要用到继承了，Java使用&lt;code>extends&lt;/code>关键字来实现继承：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">getName&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setName&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getAge&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setAge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{...}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e">// 不要重复name和age字段/方法,
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// 只需要定义新增score字段/方法:
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getScore&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">setScore&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#960050;background-color:#1e0010">…&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="注意">注意&lt;/h1>
+&lt;h2 id="继承限制">继承限制&lt;/h2>
+&lt;p>继承有个特点，子类只能继承父类的&lt;code>public&lt;/code>或&lt;code>protected&lt;/code>属性和方法，无法访问&lt;code>private&lt;/code>。&lt;/p>
+&lt;h2 id="super">super&lt;/h2>
+&lt;p>super关键字表示父类(超类)，子类引用父类的字段时，可以用&lt;code>super.fileName&lt;/code>。如：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> String &lt;span style="color:#a6e22e">hello&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Hello, &amp;#34;&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#66d9ef">super&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">name&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在上述例子中，使用&lt;code>super.name&lt;/code>，或者&lt;code>this.name&lt;/code>，或者&lt;code>name&lt;/code>，效果都是一样的。编译器会自动定位到父类的&lt;code>name&lt;/code>字段。&lt;br>
+但在如下情况中就必须使用&lt;code>super&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Main&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String&lt;span style="color:#f92672">[]&lt;/span> args&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+Student s &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> Student&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Xiao Ming&amp;#34;&lt;/span>&lt;span style="color:#f92672">,&lt;/span> 12&lt;span style="color:#f92672">,&lt;/span> 89&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">protected&lt;/span> String name&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Person&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">name&lt;/span> &lt;span style="color:#f92672">=&lt;/span> name&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">age&lt;/span> &lt;span style="color:#f92672">=&lt;/span> age&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">score&lt;/span> &lt;span style="color:#f92672">=&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行上面的代码，会得到一个编译错误，大意是在&lt;code>Student&lt;/code>的构造方法中，无法调用&lt;code>Person&lt;/code>的构造方法。&lt;br>
+这是因为在Java中，任何class的构造方法，第一行语句必须是调用父类的构造方法。如果没有明确地调用父类的构造方法，编译器会帮我们自动加一句&lt;code>super()&lt;/code>;，所以，&lt;code>Student&lt;/code>类的构造方法实际上是这样：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span> &lt;span style="color:#66d9ef">extends&lt;/span> Person &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">protected&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">Student&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String name&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> age&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> score&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">super&lt;/span>&lt;span style="color:#f92672">(&lt;/span>name&lt;span style="color:#f92672">,&lt;/span> age&lt;span style="color:#f92672">);&lt;/span> &lt;span style="color:#75715e">// 自动调用父类的构造方法，需要加上父类的构造参数
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">score&lt;/span> &lt;span style="color:#f92672">=&lt;/span> score&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/programlanguage/extends/ -</description></item><item><title>阿Q正传_读书笔记</title><link>https://kanajin.github.io/readingnotes/aqzhengzhuan/</link><pubDate>Fri, 06 Aug 2021 17:24:00 +0800</pubDate><guid>https://kanajin.github.io/readingnotes/aqzhengzhuan/</guid><description>Suzuki's Blog https://kanajin.github.io/readingnotes/aqzhengzhuan/ -&lt;h1 id="序">序&lt;/h1>
+&lt;blockquote>
+&lt;p>《阿Q正传》最早是发布在《晨报》的新开栏目“开心话”里，虽是“开心话”，看到人却多半开心不起来：有不少人觉得这篇文章就是在骂自己，或者干脆就是自己的某个熟人拿他做例子。&lt;br>
+这也无声而有理地证明了鲁迅先生自己说的那句话：“我要写出国民精神的‘魂’来”。&lt;/p>
+&lt;/blockquote>
+&lt;p>阿Q究竟姓甚名谁？我非有“历史癖与考据癖”的胡适之先生的们人们，并不追求一个清清楚楚，但以我之愚见——或许正是因为鲁迅先生想要写出“国民的魂”来，而“国民的魂”又怎么能有具体的名字呢？“还有一个‘阿’字非常正确，绝无附会假借的缺点”，正是说了这“Q”字乃附会假借，却也不必深究。&lt;/p>
+&lt;h1 id="精神胜利法">精神胜利法&lt;/h1>
+&lt;blockquote>
+&lt;ul>
+&lt;li>我们先前——比你阔的多啦！你算是什么东西！&lt;/li>
+&lt;li>阿Q站了一刻，心里想，“我总算被儿子打了，现在的世界真不像样……”于是也心满意足的得胜走了。&lt;/li>
+&lt;li>然而不到十秒钟，阿Q也心满意足的得胜走了，他觉得他是第一个能够自轻自贱的人，除了“自轻自贱”不算外，余下的就是“第一个”。状元不也是“第一个”么？“你算是什么东西”呢？！&lt;/li>
+&lt;li>但他立刻转败为胜了。他擎起右手，用力的在自己脸上连打了两个嘴巴，热剌剌的有些痛；打完之后，便心平气和起来，似乎打的是自己，被打的是别一个自己，不久也就防腐蚀自己打了别个一般，——虽然还有些热剌剌，——心满意足的得胜的躺下了。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>斗不过他人，就说“我们先前比你阔的多啦！”，不去正视现状，沉浸在一去不复返的过去，是典型的精神胜利法的一种。至于被人按在墙上碰了几个头、争当“第一个”自轻自贱的人、“自己打了自己两个嘴巴”，便又赢麻了这样的操作，更是将精神胜利法发扬到了极致。&lt;/p>
+&lt;p>在当时正是有一些有着所谓“国粹精神”的人，对西方外来文化全盘否定，嗤之以鼻，不去正视“落后就要挨打”的事实，缺沉浸在“我们华夏民族先前阔的多啦”的梦里，实在是可怜又可悲。&lt;/p>
+&lt;p>在汉唐时代鼎盛之期，那种大度与包容，让“唐人”之名深深印在了外乡人的心里。只有当民族衰败而不自信时，例如宋朝，才会对外来之物敏感至极。文化一物，正是要开放包容，海纳百川，取其精华而去其糟粕，才能站在全世界民族的巴别塔上，找到自己民族文化发展的突破口。知识也是一样，不应忧心与他人将自己所学偷师，而应主动对外交流，互相取长补短，共同进步，共同发展，才是正确的发展道路。&lt;/p>
+&lt;p>精神胜利法的本质是不懂得失败，不承认失败，不承认自己的局限性。从良性角度讲，在面对失败时，适当使用精神胜利法是缓解情绪，帮助我们走出失败阴影的一味良药：在情绪低落之时，用“歪门邪道”的方式安慰一下自己，放下不愉快、转变心情，重新上路。但若是像阿Q一样，一味地使用精神胜利法使自己“常优胜”，是百害而无一利的。&lt;/p>
+&lt;p>自然，鲁迅不会让阿Q一直“优胜”下去。&lt;/p>
+&lt;h1 id="觉醒">觉醒&lt;/h1>
+&lt;blockquote>
+&lt;ul>
+&lt;li>在阿Q的记忆上，这大约要算是生平第一件的屈辱，因为王胡以络腮胡子的缺点，向来只被他奚落，从没有奚落他，更不必说动手了。而他现在竟敢动手，很意外，难道真如市上所说，皇帝已经停了考，不要秀才和举人了，因此赵家减了威风，因此他们也便小觑他了么？&lt;br>
+阿Q无可适从的站着。&lt;/li>
+&lt;li>阿Q坐了一会，皮肤有些起粟，他觉得冷了，因为虽在春季，而夜间颇有余寒，尚不宜于赤膊。&lt;/li>
+&lt;li>酒店不赊，熬着也罢了；老头子催他走，噜苏一通也就算了；只是没有人来叫他做短工，却使阿Q肚子饿：这委实是一件非常“妈妈的”的事情。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>精神胜利法的本质是不懂得失败，不承认失败。而这句“无可适从的站着”，阿Q第一次体会到了失败的滋味，在这短暂的片刻，他失去了找歪理来给自己的失败做解释的能力，虽然后面很快又“忘却”了，但这如同雪崩前的一颗小石头一般，埋下了种子。&lt;/p>
+&lt;p>什么样的事情是不能用精神胜利法解决的呢？寒冷，饥饿，这些来自物质世界的东西冲破了精神的保护，实实在在地打进了阿Q的心里。他开始感觉到更加“无可适从”了。直到他遇到了一个年轻版的“阿Q”：小D，这位“小阿Q”也无名无姓，用着和他一样的精神胜利法，干着和他一样的工作，轻而易举地就代替了阿Q在未庄的位置：一个没有独特性格的人，代替他有多难呢？&lt;/p>
+&lt;blockquote>
+&lt;ul>
+&lt;li>他在路上走着要“求食”，看见熟识的酒店，看见熟识的馒头，但他都走过了，不但没有暂停，而且并不想要。他所求的不是这类东西了；他求的是什么东西，他自己不知道。&lt;/li>
+&lt;li>阿Q并不鉴赏这田家乐，却只是走，因为他直觉的知道这与他的“求食”之道是很辽远的。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;p>什么样的“求食”者，走过酒店，走过馒头，走过“田家乐”，却不想要呢？他想要什么呢？他不知道。在大量而沉重的挫折的打击下，他的世界观已经支离破碎。他的内心在渴望着一个新的东西，一个在他认知之外的东西，将他的世界观重新填补，他的“求食”，是心灵深处的饥渴，乞求一个新的方法论，什么都好。但他已经活在自己编织的世界里太久了，久到他根本不知道外面的世界有什么东西能帮到他。&lt;/p>
+&lt;p>然而我们的阿Q终究没有跳出他的——或者说当时封建思想统治下的国民们的世界里：&lt;/p>
+&lt;blockquote>
+&lt;p>天有十日，人有十等。下所以事上，上所以共神也。故王臣公，公臣大夫，大夫臣士，士臣阜，阜臣舆，舆臣隶，隶臣僚，僚臣仆，仆臣台。——《左传》昭公七年&lt;/p>
+&lt;/blockquote>
+&lt;p>当时所谓的走向成功，无非就是往上爬一等，以奴役下一等人罢了。阿Q听来了“革命党”的消息，发现“革命党”是“杀地主老爷”的，便想要一起参加革命，但他之所以想，无非也是将地主老爷们推下台，自己站在他们的位置上，颐指气使。&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;这时未庄的一伙鸟男女才好笑哩，跪下叫道，阿Q，饶命！谁听他！第一个该死的是小D和赵太爷，还有秀才，还有假洋鬼子，……留几条么？王胡本来还可留，但也不要了。……&lt;br>
+&amp;ldquo;东西，……直走进去打开箱子来：元宝，洋钱，洋纱衫，……秀才娘子的一张宁式床先搬到土谷祠，此外便摆了钱家的桌椅，——或者也就用赵家的罢。自己是不动手的了，叫小Ｄ来搬，要搬得快，搬得不快打嘴巴。……&lt;br>
+&amp;ldquo;赵司晨的妹子真丑。邹七嫂的女儿过几年再说。假洋鬼子的老婆会和没有辫子的男人睡觉，吓，不是好东西！秀才的老婆是眼胞上有疤的。……吴妈长久不见了，不知道在那里，——可惜脚太大。&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>可惜我们的老Q并没有美梦成真，不但没有享受到“胜利果实”，反倒还真被当成革命党抓了起来，准备要砍头了。或许死前的那句“二十年后又是一条……”这句他从来也不会说的话，正是作者笔下对国民懵懂精神的最后一丝希望。&lt;/p>
+&lt;h1 id="尾声">尾声&lt;/h1>
+&lt;p>精神胜利法的本质是不懂得失败，不承认失败，不承认自己的局限性。一个擅长用精神胜利法的人，一定是地位卑微，且经常失败的人。换句话说，精神胜利法是弱者的逻辑。弱者常败，而只能借自我催眠之术，为自己构造一个不败的神话，而安然度日。&lt;/p>
+&lt;blockquote>
+&lt;p>有人说：有些胜利者，愿意敌手如虎，如鹰，他才感得胜利的欢喜；假使如羊，如小鸡，他便反觉得胜利的无聊。又有些胜利者，当克服一切之后，看见死的死了，降的降了，“臣诚惶诚恐死罪死罪”，他于是没有了敌人，没有了对手，没有了朋友，只有自己在上，一个，孤另另，凄凉，寂寞，便反而感到了胜利的悲哀。然而我们的阿Ｑ却没有这样乏，他是永远得意的：这或者也是中国精神文明冠于全球的一个证据了。&lt;/p>
+&lt;/blockquote>
+&lt;p>而失败是什么呢？我们可以说，人们做一件事情，没有达到预期的结果，这就是失败。那么据此我们可以接着说，失败在生活中几乎是一件注定的事情：玩游戏想要赢，就一定会有人输；工作上想要升职，就一定要顶替什么人的位置……社会的资源是有限的，只要涉及到资源的分配，那么失败就是一件注定的事情。但这些失败仅仅是我们普通人的失败，是平凡的失败。人生中有更大的失败，来自于人生中更大的追求，那些与命运斗争的人，那些做接近自己限度的斗争的人，却天生地接近这种失败：一个想要探索宇宙奥秘的科学家经常失败，一个想要改变世界的革命者也经常失败。只有安于自己限度，在远低于自己限度之内生活的人，他们才是经常“胜利”的，这种“胜利者”之所以常胜不败，只因为他的对手是早已降服的，而他，却从未投入斗争。&lt;/p>
+&lt;p>勇者愤怒，抽刃向更强者；怯者愤怒，却抽刃向更弱者。在深叹国民精神之愚昧后，鲁迅毅然弃医从文，留学东瀛学习新思想，积极投身革命事业，然而，他等来的辛亥革命，却是一场新的失败。&lt;/p>
+&lt;blockquote>
+&lt;p>我觉得革命以前，我是做奴隶；革命以后不多久，就受了奴隶的骗，变成他们的奴隶了。&lt;/p>
+&lt;/blockquote>
+&lt;p>历史似乎就是这样轮回的：分久必合，合久必分，陈胜吴广的“王侯将相宁有种乎？”，最终让自己变成了新的王侯将相；李自成自农民起义，最后也舍不下称帝的辉煌。人类从历史中学到的唯一的东西就是人类没有从历史中学到任何东西，历史仿佛一个车轮，一个圆盘，风水轮流转罢了。但希望并不是彻底渺茫，仍有着无数的仁人志士在前进的道路上义无反顾，虽千万人吾往矣，总有一天，我们可以跳出这个可怖的轮回，走向新的时代。&lt;/p>
+&lt;blockquote>
+&lt;p>但不多时也就释然了，他想：孙子才画得很圆的圆圈呢。&lt;/p>
+&lt;/blockquote>
+- https://kanajin.github.io/readingnotes/aqzhengzhuan/ -</description></item><item><title>学习如何学习</title><link>https://kanajin.github.io/learning/learnhowtolearn/</link><pubDate>Mon, 26 Jul 2021 15:33:58 +0800</pubDate><guid>https://kanajin.github.io/learning/learnhowtolearn/</guid><description>Suzuki's Blog https://kanajin.github.io/learning/learnhowtolearn/ -&lt;p>大脑有两种思维方式：&lt;/p>
 &lt;ul>
 &lt;li>专注模式&lt;/li>
 &lt;li>发散模式&lt;/li>
@@ -1019,158 +1164,4 @@ head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f926
 head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> aft;
 &lt;span style="color:#66d9ef">return&lt;/span> newhead;
 }
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
-&lt;p>&lt;strong>快速排序&lt;/strong>(Quicksort)，又称&lt;strong>分区交换排序&lt;/strong>(partition-exchange sort)，简称&lt;strong>快排&lt;/strong>。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p>
-&lt;h1 id="思路">思路&lt;/h1>
-&lt;ul>
-&lt;li>在数组中选择一个锚点p，一般为数组的第一个数，把数组分为 &amp;lt;p 和 &amp;gt;=p 两部分。&lt;/li>
-&lt;li>&lt;del>当然你可以选择数组中的任意一个数，但为了自己思路以及代码的简明，我们选择以数组的第一个数为锚点&lt;/del>&lt;/li>
-&lt;li>从将数组划分为以2个元素为一组的子数组开始，递归地完成上面的步骤。&lt;/li>
-&lt;/ul>
-&lt;h1 id="做法">做法&lt;/h1>
-&lt;ul>
-&lt;li>首先记录a[0]的值为p,然后设定一个变 量m用来做分界线(a[1]~a[m-1]用来存放小于p的数，a[m]~a[n]用于存放大于等于p的数)。&lt;/li>
-&lt;li>显而易见的，我们需要一个循环参数用来探索数组，将它指向的数与p作比较，根据比较结果判断这个数应该放在1~m-1中还是m~n中。我们定义这个参数为k，随着&lt;code>k++&lt;/code>，它探索着数组。&lt;/li>
-&lt;/ul>
-&lt;p>图解：&lt;br>
-&lt;img src="https://kanajin.github.io/QuickSort/partition1.png" alt="partition1">&lt;br>
-当a[k]大于等于p时，什么也不做，k继续向右移动。&lt;/p>
-&lt;p>&lt;img src="https://kanajin.github.io/QuickSort/partition2.png" alt="partition2">&lt;br>
-当a[k]小于p时，左边区域的成员应该增加，所以我们将m的值+1，把右边一个大于p的数囊括进来，然后让a[k]和它交换位置，这样就完成了分类。&lt;/p>
-&lt;h1 id="代码">代码&lt;/h1>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//交换函数
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">swap&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>b){
-&lt;span style="color:#66d9ef">int&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a;
-&lt;span style="color:#f92672">*&lt;/span>a &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">*&lt;/span>b;
-&lt;span style="color:#f92672">*&lt;/span>b &lt;span style="color:#f92672">=&lt;/span> temp;
-}
-&lt;span style="color:#75715e">//执行段，执行上述图解的内容
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">quick&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> start, &lt;span style="color:#66d9ef">int&lt;/span> end){
-&lt;span style="color:#66d9ef">int&lt;/span> p &lt;span style="color:#f92672">=&lt;/span> a[start];
-&lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span>start;
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> k &lt;span style="color:#f92672">=&lt;/span> start&lt;span style="color:#f92672">+&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>; k &lt;span style="color:#f92672">&amp;lt;=&lt;/span> end; k&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">if&lt;/span>(a[k] &lt;span style="color:#f92672">&amp;lt;=&lt;/span> p){
-m&lt;span style="color:#f92672">++&lt;/span>;
-swap(&lt;span style="color:#f92672">&amp;amp;&lt;/span>a[m], &lt;span style="color:#f92672">&amp;amp;&lt;/span>a[k]);
-}
-&lt;span style="color:#66d9ef">else&lt;/span>;
-}
-swap(&lt;span style="color:#f92672">&amp;amp;&lt;/span>a[start], &lt;span style="color:#f92672">&amp;amp;&lt;/span>a[m]);
-&lt;span style="color:#66d9ef">return&lt;/span> m;
-}
-&lt;span style="color:#75715e">//递归段，将数组分解成更小的子数组，从只含两个元素的子数组开始排序，直到最后将整个数组排序
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">quick_sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> start, &lt;span style="color:#66d9ef">int&lt;/span> end){
-&lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span> quick(a, start, end);
-&lt;span style="color:#75715e">//跳出条件
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(m &lt;span style="color:#f92672">&amp;gt;&lt;/span> end){
-&lt;span style="color:#66d9ef">return&lt;/span>;
-}
-quick_sort(a, start, m&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>);
-quick_sort(a, m &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, end);
-}
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/quicksort/ -</description></item><item><title>使用 Github Pages 搭建个人博客</title><link>https://kanajin.github.io/web/creatblog/</link><pubDate>Tue, 08 Jun 2021 23:22:43 +0800</pubDate><guid>https://kanajin.github.io/web/creatblog/</guid><description>Suzuki's Blog https://kanajin.github.io/web/creatblog/ -&lt;blockquote>
-&lt;p>仿佛越级打歌一般以零基础的底气决定建一个在线Blog&lt;br>
-经历了10%的自己摸索+90%的L君帮助下，Blog算是磕磕碰碰搭起来了&lt;br>
-特此记录下捣鼓的过程，让这段时间学到的东西切实称为自己的东西&lt;br>
-顺便表示对L君的感谢&lt;/p>
-&lt;/blockquote>
-&lt;h1 id="使用hugo搭建静态网站">使用Hugo搭建静态网站&lt;/h1>
-&lt;p>&lt;del>简洁，强大，无脑，安心&lt;/del>&lt;/p>
-&lt;h2 id="安装hugo">安装Hugo&lt;/h2>
-&lt;h3 id="如果你是macos用户或者linux用户可直接用包管理器安装">如果你是&lt;code>macOS&lt;/code>用户或者&lt;code>Linux&lt;/code>用户，可直接用包管理器安装&lt;/h3>
-&lt;h3 id="如果你是windows用户访问hugo的github官网releasehttpsgithubcomgohugoiohugoreleases">如果你是&lt;code>Windows&lt;/code>用户，访问Hugo的github&lt;a href="https://github.com/gohugoio/hugo/releases">官网release&lt;/a>&lt;/h3>
-&lt;p>下载成功一个zip压缩包，在你喜欢的地方解压，然后将含有&lt;code>hugo.exe&lt;/code>的目录添加进&lt;code>PATH&lt;/code>环境变量中，启动WindowsTerminal，输入以下指令：&lt;/p>
-&lt;pre>&lt;code>hugo version
-&lt;/code>&lt;/pre>&lt;p>如果成功，则终端将显示以下内容：&lt;em>这里以撰写文章时的最新版本为例&lt;/em>&lt;/p>
-&lt;pre>&lt;code>$ hugo version
-hugo v0.83.1-5AFE0A57 windows/amd64 BuildDate=2021-05-02T14:38:05Z VendorInfo=gohugoio
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>可能遇到的问题：&lt;/p>
-&lt;ul>
-&lt;li>终端反馈无法识别&lt;code>hugo&lt;/code>指令，原因是存放&lt;code>hugo.exe&lt;/code>的目录未成功添加至&lt;code>PATH&lt;/code>中，在终端输入：&lt;/li>
-&lt;/ul>
-&lt;pre>&lt;code>write-host $env:Path
-&lt;/code>&lt;/pre>&lt;p>　　看看输出中是否有该目录，如果没有，重新加入，重启终端。&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="使用hugo建立一个新网站实例">使用Hugo建立一个新网站实例&lt;/h2>
-&lt;p>当Hugo安装成功后，就可以创建一个网站目录了&lt;br>
-在任意位置创建一个存放网站的目录，以&lt;code>D:\WebSite&lt;/code>为例，在终端下输入：&lt;/p>
-&lt;pre>&lt;code>hugo new site D:\WebSite
-&lt;/code>&lt;/pre>&lt;p>hugo将会在D盘自动生成一个名为WebSite的文件夹，里面存放了建立网站需要的资源。包括&lt;code>content&lt;/code>目录以及&lt;code>config.toml&lt;/code>文件，前者用于存放你写的md文件，后者则是网站的配置文件。&lt;/p>
-&lt;h2 id="建立本地仓库并连接到github">建立本地仓库并连接到github&lt;/h2>
-&lt;p>如果要使用github托管网站，现在就先将这个网站文件夹建成git仓库。在当前目录下使用命令&lt;code>git init&lt;/code>建立仓库，之后的步骤与&lt;a href="https://kanajin.github.io/git/start/">初次使用Git&lt;/a>这篇文章相同，不再赘述。&lt;/p>
-&lt;h2 id="下载一个主题">下载一个主题&lt;/h2>
-&lt;p>Hugo必须选定主题后才能正常使用，因此先去主题站&lt;a href="https://themes.gohugo.io">https://themes.gohugo.io&lt;/a>选择一个你喜欢的主题，并前往该主题的github页面，根据&lt;code>README&lt;/code>的指导安装主题，命令行格式为：&lt;/p>
-&lt;pre>&lt;code>git submodule add https://github.com/&amp;lt;theme_name&amp;gt;
-&lt;/code>&lt;/pre>&lt;p>安装完成后，在&lt;code>config.toml&lt;/code>里添加一行：&lt;code>theme = &amp;quot;&amp;lt;theme_name&amp;gt;&amp;quot;&lt;/code>，主题就安装成功了。&lt;br>
-&lt;strong>注意！一次只能安装一个主题！否则会出错&lt;/strong>&lt;/p>
-&lt;blockquote>
-&lt;p>若你不想在github上部署你的网站，直接在release中下载主题然后解压到网站目录下的&lt;code>themes&lt;/code>文件夹中即可&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="撰写并发表你的第一篇文章">撰写并发表你的第一篇文章&lt;/h2>
-&lt;p>终端cd到网站目录下，使用命令：&lt;code>hugo new&lt;/code>来创建一篇markdown文章，具体格式为：&lt;/p>
-&lt;pre>&lt;code>hugo new 文件夹名\文章名.md
-&lt;/code>&lt;/pre>&lt;p>该命令会在&lt;code>content&lt;/code>文件夹下创建一个新的文件夹，新文件夹名为你输入的名字（如果没有指定文件夹名，则markdown文件直接生成在content目录下）。
-你会看到markdown文件头部有以下内容：&lt;/p>
-&lt;pre>&lt;code>---
-title: &amp;quot;文件名&amp;quot;
-date: &amp;lt;date&amp;gt;
-draft: true
----
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>从上到下指定了文章的标题、日期和草稿状态，可以根据自己的实际需要修改。&lt;br>
-你也可以在网站目录下的&lt;code>archetypes&lt;/code>文件夹中找到&lt;code>default.md&lt;/code>文件，在其中删除、添加和修改修改默认表头。&lt;/p>
-&lt;/blockquote>
-&lt;p>当你完成了你的文章并保存后，在网站目录下使用终端命令：&lt;code>hugo server -D&lt;/code>即可生成本地预览网站，在浏览器中输入&lt;code>http://localhost:1313&lt;/code>即可访问生成的网站。&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;code>-D&lt;/code>参数表示连同草稿一起发布，如果没有指定&lt;code>-D&lt;/code>参数，则只有表头属性为&lt;code>draft: false&lt;/code>的文章才会被发布&lt;/p>
-&lt;/blockquote>
-&lt;p>最后别忘了在&lt;code>config.toml&lt;/code>中把&lt;code>title&lt;/code>改成你喜欢的名字。&lt;/p>
-&lt;h1 id="使用github托管你的网站">使用github托管你的网站&lt;/h1>
-&lt;ol>
-&lt;li>在github中新建一个仓库&lt;br>
-仓库名字严格使用&amp;lt;你的github名字&amp;gt;.github.io，这是托管网站的前提条件。&lt;/li>
-&lt;li>在网站目录下新建一个文件夹&lt;code>.github&lt;/code>，在其中创建一个新文件&lt;code>main.yml&lt;/code>并填写如下内容：&lt;/li>
-&lt;/ol>
-&lt;pre>&lt;code>name: github pages
-on:
-push:
-branches:
-- master # Set a branch to deploy
-pull_request:
-jobs:
-deploy:
-runs-on: ubuntu-20.04
-steps:
-- uses: actions/checkout@v2
-with:
-submodules: true # Fetch Hugo themes (true OR recursive)
-fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
-- name: Setup Hugo
-uses: peaceiris/actions-hugo@v2
-with:
-hugo-version: 'latest'
-# extended: true
-- name: Build
-run: hugo --minify
-- name: Deploy
-uses: peaceiris/actions-gh-pages@v3
-if: github.ref == 'refs/heads/master'
-with:
-github_token: ${{ secrets.GITHUB_TOKEN }}
-publish_dir: ./public
-&lt;/code>&lt;/pre>&lt;ol start="3">
-&lt;li>保存后将本地网站仓库push到github仓库上，在github仓库下选择标签&lt;code>Actions&lt;/code>，脚本自动开始运行&lt;/li>
-&lt;/ol>
-&lt;blockquote>
-&lt;p>此处内容编写借鉴了&lt;a href="https://gohugo.io/hosting-and-deployment/hosting-on-github">Hugo官方文档&lt;/a>以及P3TERX佬的这篇教程&lt;a href="https://p3terx.com/archives/github-actions-started-tutorial.html">GitHub Actions 入门教程&lt;/a>，最后yml文件由L君编写，&lt;del>跪谢。&lt;/del>&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="最后一步">最后一步&lt;/h2>
-&lt;p>当Actions运行成功后，你的仓库应该多了一个名为&lt;code>gh-pages&lt;/code>的新分支。转到仓库的设置界面，在page标签下，Sorce中选择这个新分支，点击Save，上方出现如下提示：&lt;br>
-&lt;img src="https://kanajin.github.io/CreateBlog/CreateSuccess.jpg" alt="image">&lt;br>
-恭喜！你的博客已经搭建成功！访问一开始设置的域名&lt;code>https://&amp;lt;你的github名字&amp;gt;.github.io&lt;/code>访问吧！&lt;/p>
-&lt;blockquote>
-&lt;p>搭建过程中遇到的问题与解决&lt;br>
-施工中&lt;/p>
-&lt;/blockquote>
-- https://kanajin.github.io/web/creatblog/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item></channel></rss>
