@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>移除链表元素</title>
+<title>用栈实现队列</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -48,17 +48,6 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 解法
 </a>
 </li>
-<ul>
-<li>
-<a href=#%e8%bf%ad%e4%bb%a3%e6%b3%95 onclick="onNavClick(`#迭代法-nav`)" id=迭代法-nav>
-迭代法
-</a>
-</li>
-<li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
-</a>
-</li>
 </ul>
 </div>
 </div>
@@ -93,17 +82,6 @@ brightness_7
 <li>
 <a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>
 解法
-</a>
-</li>
-<ul>
-<li>
-<a href=#%e8%bf%ad%e4%bb%a3%e6%b3%95 onclick="onNavClick(`#迭代法-nav`)" id=迭代法-nav>
-迭代法
-</a>
-</li>
-<li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
 </a>
 </li>
 </ul>
@@ -147,10 +125,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-移除链表元素
+用栈实现队列
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-28 14:25
+2021-08-30 13:02
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -161,82 +139,83 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回新的头节点。</p>
+<p>请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：</p>
+<p>实现 MyQueue 类：</p>
+<ul>
+<li>void push(int x) 将元素 x 推到队列的末尾</li>
+<li>int pop() 从队列的开头移除并返回元素</li>
+<li>int peek() 返回队列开头的元素</li>
+<li>boolean empty() 如果队列为空，返回 true ；否则，返回 false</li>
+</ul>
+<p>说明：</p>
+<ul>
+<li>你只能使用标准的栈操作 —— 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。</li>
+<li>你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。</li>
+</ul>
 <h1 id=解法>解法</h1>
-<h2 id=迭代法>迭代法</h2>
-<p>从头到尾遍历链表，发现结点数值复合要求就删除，另写一个删除函数，用来判断头结点、尾结点和中间结点的删除</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> ListNode <span style=color:#a6e22e>removeElements</span><span style=color:#f92672>(</span>ListNode head<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        ListNode ptr <span style=color:#f92672>=</span> head<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>ptr <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>ptr<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>==</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                head <span style=color:#f92672>=</span> delete<span style=color:#f92672>(</span>head<span style=color:#f92672>,</span> ptr<span style=color:#f92672>);</span>
+<p>两个栈一个in一个out，in用来push，当接收到pop或peek指令时如果out栈是空的则将in栈倒入out</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyQueue</span> <span style=color:#f92672>{</span>
+
+    Stack<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> in_stack<span style=color:#f92672>;</span>
+    Stack<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> out_stack<span style=color:#f92672>;</span>
+
+    <span style=color:#75715e>/** Initialize your data structure here. */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>MyQueue</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        in_stack <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Stack<span style=color:#f92672>&lt;&gt;();</span>
+        out_stack <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Stack<span style=color:#f92672>&lt;&gt;();</span>
+    <span style=color:#f92672>}</span>
+    
+    <span style=color:#75715e>/** Push element x to the back of queue. */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>push</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> x<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>x<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+    
+    <span style=color:#75715e>/** Removes the element from in front of queue and returns that element. */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>pop</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>    <span style=color:#75715e>//只有当out栈为空时才需要将in栈的元素倒入，否则不需要
+</span><span style=color:#75715e></span>            <span style=color:#66d9ef>while</span> <span style=color:#f92672>(!</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+                out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>());</span>
             <span style=color:#f92672>}</span>
-            ptr <span style=color:#f92672>=</span> ptr<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> head<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>return</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>();</span>
     <span style=color:#f92672>}</span>
-
-    <span style=color:#66d9ef>private</span> ListNode <span style=color:#a6e22e>delete</span><span style=color:#f92672>(</span>ListNode head<span style=color:#f92672>,</span> ListNode del<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>del <span style=color:#f92672>==</span> head<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            head <span style=color:#f92672>=</span> head<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span>
+    
+    <span style=color:#75715e>/** Get the front element. */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>peek</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>while</span> <span style=color:#f92672>(!</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+                out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>());</span>
+            <span style=color:#f92672>}</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>del<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>int</span> pre_index <span style=color:#f92672>=</span> getIndex<span style=color:#f92672>(</span>head<span style=color:#f92672>,</span> del<span style=color:#f92672>)</span> <span style=color:#f92672>-</span> 1<span style=color:#f92672>;</span>
-            ListNode ptr <span style=color:#f92672>=</span> getNode<span style=color:#f92672>(</span>head<span style=color:#f92672>,</span> pre_index<span style=color:#f92672>);</span>
-            ptr<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>int</span> pre_index <span style=color:#f92672>=</span> getIndex<span style=color:#f92672>(</span>head<span style=color:#f92672>,</span> del<span style=color:#f92672>)</span> <span style=color:#f92672>-</span> 1<span style=color:#f92672>;</span>
-            ListNode pre <span style=color:#f92672>=</span> getNode<span style=color:#f92672>(</span>head<span style=color:#f92672>,</span> pre_index<span style=color:#f92672>);</span>
-            ListNode aft <span style=color:#f92672>=</span> pre<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span>
-            pre<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span> <span style=color:#f92672>=</span> aft<span style=color:#f92672>;</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> head<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>return</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>peek</span><span style=color:#f92672>();</span>
     <span style=color:#f92672>}</span>
-
-    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>getIndex</span><span style=color:#f92672>(</span>ListNode head<span style=color:#f92672>,</span> ListNode search<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        ListNode ptr <span style=color:#f92672>=</span> head<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>int</span> index <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>ptr <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>ptr <span style=color:#f92672>==</span> search<span style=color:#f92672>)</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> index<span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-            ptr <span style=color:#f92672>=</span> ptr<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span>
-            index<span style=color:#f92672>++;</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> <span style=color:#f92672>-</span>1<span style=color:#f92672>;</span>
-    <span style=color:#f92672>}</span>
-
-    <span style=color:#66d9ef>private</span> ListNode <span style=color:#a6e22e>getNode</span><span style=color:#f92672>(</span>ListNode head<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> index<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        ListNode ptr <span style=color:#f92672>=</span> head<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> index<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-            ptr <span style=color:#f92672>=</span> ptr<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> ptr<span style=color:#f92672>;</span>
+    
+    <span style=color:#75715e>/** Returns whether the queue is empty. */</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>empty</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>()</span> <span style=color:#f92672>&amp;&amp;</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>();</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><h2 id=递归法>递归法</h2>
-<p>递归传参：head.next
-递归出口：head == null 时，返回 null
-在递归中 head 不断指向自己的 next，因此就是要不断判断 head.val 是否满足要求，如果满足要求，递归函数应返回 head.next，否则，返回 head</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> ListNode <span style=color:#a6e22e>removeElements</span><span style=color:#f92672>(</span>ListNode head<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>head <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-        head<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span> <span style=color:#f92672>=</span> removeElements<span style=color:#f92672>(</span>head<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>,</span> val<span style=color:#f92672>);</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>head<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>==</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> head<span style=color:#f92672>.</span><span style=color:#a6e22e>next</span><span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span> <span style=color:#66d9ef>return</span> head<span style=color:#f92672>;</span> <span style=color:#f92672>}</span>
-    <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
+
+<span style=color:#75715e>/**
+</span><span style=color:#75715e> * Your MyQueue object will be instantiated and called as such:
+</span><span style=color:#75715e> * MyQueue obj = new MyQueue();
+</span><span style=color:#75715e> * obj.push(x);
+</span><span style=color:#75715e> * int param_2 = obj.pop();
+</span><span style=color:#75715e> * int param_3 = obj.peek();
+</span><span style=color:#75715e> * boolean param_4 = obj.empty();
+</span><span style=color:#75715e> */</span>
+
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-08-28</p>
+<p style=color:#777>Last modified on 2021-08-30</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/deleteduplicates/>
-Next<br>删除链表重复元素
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/findmedian/>
-Previous<br>数据流的中位数
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/isvalid/>
+Previous<br>有效的括号
 </a>
 </nav>
 <div class=post-comment-wrapper>
