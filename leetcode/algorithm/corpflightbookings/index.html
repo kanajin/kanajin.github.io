@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>用栈实现队列</title>
+<title>航班预定统计</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -48,6 +48,12 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 解法
 </a>
 </li>
+<ul>
+<li>
+<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
+差分法：
+</a>
+</li>
 </ul>
 </div>
 </div>
@@ -82,6 +88,12 @@ brightness_7
 <li>
 <a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>
 解法
+</a>
+</li>
+<ul>
+<li>
+<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
+差分法：
 </a>
 </li>
 </ul>
@@ -125,10 +137,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-用栈实现队列
+航班预定统计
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-30 13:02
+2021-08-31 16:14
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -138,84 +150,62 @@ brightness_7
 </div>
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
+<p><a href=https://leetcode-cn.com/problems/corporate-flight-bookings/>原网址</a></p>
 <h1 id=题目描述>题目描述</h1>
-<p>请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：</p>
-<p>实现 MyQueue 类：</p>
-<ul>
-<li>void push(int x) 将元素 x 推到队列的末尾</li>
-<li>int pop() 从队列的开头移除并返回元素</li>
-<li>int peek() 返回队列开头的元素</li>
-<li>boolean empty() 如果队列为空，返回 true ；否则，返回 false</li>
-</ul>
-<p>说明：</p>
-<ul>
-<li>你只能使用标准的栈操作 —— 也就是只有 push to top, peek/pop from top, size, 和 is empty 操作是合法的。</li>
-<li>你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。</li>
-</ul>
-<h1 id=解法>解法</h1>
-<p>两个栈一个in一个out，in用来push，当接收到pop或peek指令时如果out栈是空的则将in栈倒入out</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MyQueue</span> <span style=color:#f92672>{</span>
-
-    Stack<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> in_stack<span style=color:#f92672>;</span>
-    Stack<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> out_stack<span style=color:#f92672>;</span>
-
-    <span style=color:#75715e>/** Initialize your data structure here. */</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>MyQueue</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-        in_stack <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Stack<span style=color:#f92672>&lt;&gt;();</span>
-        out_stack <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Stack<span style=color:#f92672>&lt;&gt;();</span>
-    <span style=color:#f92672>}</span>
-    
-    <span style=color:#75715e>/** Push element x to the back of queue. */</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>push</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> x<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>x<span style=color:#f92672>);</span>
-    <span style=color:#f92672>}</span>
-    
-    <span style=color:#75715e>/** Removes the element from in front of queue and returns that element. */</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>pop</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>    <span style=color:#75715e>//只有当out栈为空时才需要将in栈的元素倒入，否则不需要
-</span><span style=color:#75715e></span>            <span style=color:#66d9ef>while</span> <span style=color:#f92672>(!</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-                out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>());</span>
+<p>这里有 n 个航班，它们分别从 1 到 n 进行编号。</p>
+<p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。</p>
+<p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。</p>
+<p>示例 1：</p>
+<pre><code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+输出：[10,55,45,25,25]
+解释：
+航班编号        1   2   3   4   5
+预订记录 1 ：   10  10
+预订记录 2 ：       20  20
+预订记录 3 ：       25  25  25  25
+总座位数：      10  55  45  25  25
+因此，answer = [10,55,45,25,25]
+</code></pre><p>示例 2：</p>
+<pre><code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
+输出：[10,25]
+解释：
+航班编号        1   2
+预订记录 1 ：   10  10
+预订记录 2 ：       15
+总座位数：      10  25
+因此，answer = [10,25]
+</code></pre><h1 id=解法>解法</h1>
+<h2 id=差分法>差分法：</h2>
+<p>差分数组的性质：<br>
+对一个数组如 [1,2,3,4]，其差分数组为 [1,1,1,1]，即该位元素减去前一位元素形成的新数组。要从差分数组变回原数组，只需从左到右依次加回去即可。</p>
+<p>若要在差分数组的 [l,r] 区间上增加一个增量 ins，只需将 l 位元素增加 ins，对应 r+1 位元素减去 ins，就可以完成操作。</p>
+<p>利用这种性质，本体可以转换成制作差分数组，可以在 O(1) 的复杂度内完成数值加减。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> <span style=color:#a6e22e>corpFlightBookings</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> bookings<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> answer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[</span>n<span style=color:#f92672>];</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> books <span style=color:#f92672>:</span> bookings<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>0<span style=color:#f92672>]-</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]]</span> <span style=color:#f92672>-=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
             <span style=color:#f92672>}</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>();</span>
-    <span style=color:#f92672>}</span>
-    
-    <span style=color:#75715e>/** Get the front element. */</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>peek</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>while</span> <span style=color:#f92672>(!</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
-                out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>push</span><span style=color:#f92672>(</span>in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>pop</span><span style=color:#f92672>());</span>
-            <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 1<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            answer<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> answer<span style=color:#f92672>[</span>i<span style=color:#f92672>-</span>1<span style=color:#f92672>];</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>peek</span><span style=color:#f92672>();</span>
-    <span style=color:#f92672>}</span>
-    
-    <span style=color:#75715e>/** Returns whether the queue is empty. */</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>empty</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>return</span> in_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>()</span> <span style=color:#f92672>&amp;&amp;</span> out_stack<span style=color:#f92672>.</span><span style=color:#a6e22e>empty</span><span style=color:#f92672>();</span>
+        <span style=color:#66d9ef>return</span> answer<span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-<span style=color:#75715e>/**
-</span><span style=color:#75715e> * Your MyQueue object will be instantiated and called as such:
-</span><span style=color:#75715e> * MyQueue obj = new MyQueue();
-</span><span style=color:#75715e> * obj.push(x);
-</span><span style=color:#75715e> * int param_2 = obj.pop();
-</span><span style=color:#75715e> * int param_3 = obj.peek();
-</span><span style=color:#75715e> * boolean param_4 = obj.empty();
-</span><span style=color:#75715e> */</span>
-
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-08-30</p>
+<p style=color:#777>Last modified on 2021-08-31</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/corpflightbookings/>
-Next<br>航班预定统计
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/isvalid/>
-Previous<br>有效的括号
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/myqueue/>
+Previous<br>用栈实现队列
 </a>
 </nav>
 <div class=post-comment-wrapper>

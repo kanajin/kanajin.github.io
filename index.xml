@@ -1,4 +1,49 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 30 Aug 2021 13:02:09 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>用栈实现队列</title><link>https://kanajin.github.io/leetcode/algorithm/myqueue/</link><pubDate>Mon, 30 Aug 2021 13:02:09 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/myqueue/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/myqueue/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Aug 2021 16:14:26 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>航班预定统计</title><link>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</link><pubDate>Tue, 31 Aug 2021 16:14:26 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -&lt;p>&lt;a href="https://leetcode-cn.com/problems/corporate-flight-bookings/">原网址&lt;/a>&lt;/p>
+&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>这里有 n 个航班，它们分别从 1 到 n 进行编号。&lt;/p>
+&lt;p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。&lt;/p>
+&lt;p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。&lt;/p>
+&lt;p>示例 1：&lt;/p>
+&lt;pre>&lt;code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+输出：[10,55,45,25,25]
+解释：
+航班编号 1 2 3 4 5
+预订记录 1 ： 10 10
+预订记录 2 ： 20 20
+预订记录 3 ： 25 25 25 25
+总座位数： 10 55 45 25 25
+因此，answer = [10,55,45,25,25]
+&lt;/code>&lt;/pre>&lt;p>示例 2：&lt;/p>
+&lt;pre>&lt;code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
+输出：[10,25]
+解释：
+航班编号 1 2
+预订记录 1 ： 10 10
+预订记录 2 ： 15
+总座位数： 10 25
+因此，answer = [10,25]
+&lt;/code>&lt;/pre>&lt;h1 id="解法">解法&lt;/h1>
+&lt;h2 id="差分法">差分法：&lt;/h2>
+&lt;p>差分数组的性质：&lt;br>
+对一个数组如 [1,2,3,4]，其差分数组为 [1,1,1,1]，即该位元素减去前一位元素形成的新数组。要从差分数组变回原数组，只需从左到右依次加回去即可。&lt;/p>
+&lt;p>若要在差分数组的 [l,r] 区间上增加一个增量 ins，只需将 l 位元素增加 ins，对应 r+1 位元素减去 ins，就可以完成操作。&lt;/p>
+&lt;p>利用这种性质，本体可以转换成制作差分数组，可以在 O(1) 的复杂度内完成数值加减。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">corpFlightBookings&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> bookings&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> n&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> answer &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>n&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> books &lt;span style="color:#f92672">:&lt;/span> bookings&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">]-&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> books&lt;span style="color:#f92672">[&lt;/span>2&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> n&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]]&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> books&lt;span style="color:#f92672">[&lt;/span>2&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> n&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> answer&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> answer&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -</description></item><item><title>用栈实现队列</title><link>https://kanajin.github.io/leetcode/algorithm/myqueue/</link><pubDate>Mon, 30 Aug 2021 13:02:09 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/myqueue/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/myqueue/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：&lt;/p>
 &lt;p>实现 MyQueue 类：&lt;/p>
 &lt;ul>
@@ -385,29 +430,4 @@ matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672"
 &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -</description></item><item><title>救生艇</title><link>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</link><pubDate>Thu, 26 Aug 2021 10:03:57 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。&lt;/p>
-&lt;p>每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。&lt;/p>
-&lt;p>返回载到每一个人所需的最小船数。(保证每个人都能被船载)。&lt;/p>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>贪心算法：
-先对数组进行排序&lt;/p>
-&lt;p>考察最轻的人，如果他可以和最重的人同乘一艘船，那么从数组中把他们扣掉，船数+1&lt;/p>
-&lt;p>如果他不可以和最重的人同乘一艘船，那么没有人可以和最重的人同乘，因此将最重的人扣除，船数+1&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">numRescueBoats&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> people&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-Arrays&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sort&lt;/span>&lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> lightest &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> heavyest &lt;span style="color:#f92672">=&lt;/span> people&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> times &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>lightest &lt;span style="color:#f92672">&amp;lt;=&lt;/span> heavyest&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">[&lt;/span>lightest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+&lt;/span> people&lt;span style="color:#f92672">[&lt;/span>heavyest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-lightest&lt;span style="color:#f92672">++;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-heavyest&lt;span style="color:#f92672">--;&lt;/span>
-times&lt;span style="color:#f92672">++;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> times&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -</description></item></channel></rss>
