@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>航班预定统计</title>
+<title>二叉树的最大深度</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -50,8 +50,13 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 </li>
 <ul>
 <li>
-<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
-差分法：
+<a href=#%e5%9b%9e%e6%ba%af onclick="onNavClick(`#回溯-nav`)" id=回溯-nav>
+回溯
+</a>
+</li>
+<li>
+<a href=#%e6%b7%b1%e5%ba%a6%e4%bc%98%e5%85%88%e9%80%92%e5%bd%92 onclick="onNavClick(`#深度优先递归-nav`)" id=深度优先递归-nav>
+深度优先递归
 </a>
 </li>
 </ul>
@@ -92,8 +97,13 @@ brightness_7
 </li>
 <ul>
 <li>
-<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
-差分法：
+<a href=#%e5%9b%9e%e6%ba%af onclick="onNavClick(`#回溯-nav`)" id=回溯-nav>
+回溯
+</a>
+</li>
+<li>
+<a href=#%e6%b7%b1%e5%ba%a6%e4%bc%98%e5%85%88%e9%80%92%e5%bd%92 onclick="onNavClick(`#深度优先递归-nav`)" id=深度优先递归-nav>
+深度优先递归
 </a>
 </li>
 </ul>
@@ -137,10 +147,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-航班预定统计
+二叉树的最大深度
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-31 16:14
+2021-09-01 21:23
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -150,62 +160,73 @@ brightness_7
 </div>
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
-<p><a href=https://leetcode-cn.com/problems/corporate-flight-bookings/>原网址</a></p>
 <h1 id=题目描述>题目描述</h1>
-<p>这里有 n 个航班，它们分别从 1 到 n 进行编号。</p>
-<p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。</p>
-<p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。</p>
-<p>示例 1：</p>
-<pre><code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
-输出：[10,55,45,25,25]
-解释：
-航班编号        1   2   3   4   5
-预订记录 1 ：   10  10
-预订记录 2 ：       20  20
-预订记录 3 ：       25  25  25  25
-总座位数：      10  55  45  25  25
-因此，answer = [10,55,45,25,25]
-</code></pre><p>示例 2：</p>
-<pre><code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
-输出：[10,25]
-解释：
-航班编号        1   2
-预订记录 1 ：   10  10
-预订记录 2 ：       15
-总座位数：      10  25
-因此，answer = [10,25]
-</code></pre><h1 id=解法>解法</h1>
-<h2 id=差分法>差分法：</h2>
-<p>差分数组的性质：<br>
-对一个数组如 [1,2,3,4]，其差分数组为 [1,1,1,1]，即该位元素减去前一位元素形成的新数组。要从差分数组变回原数组，只需从左到右依次加回去即可。</p>
-<p>若要在差分数组的 [l,r] 区间上增加一个增量 ins，只需将 l 位元素增加 ins，对应 r+1 位元素减去 ins，就可以完成操作。</p>
-<p>利用这种性质，本体可以转换成制作差分数组，可以在 O(1) 的复杂度内完成数值加减。</p>
+<p>给定一个二叉树，找出其最大深度。</p>
+<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+<p>说明: 叶子节点是指没有子节点的节点。</p>
+<h1 id=解法>解法</h1>
+<p>与上一题的广度优先遍历相对，此为深度优先遍历。</p>
+<h2 id=回溯>回溯</h2>
+<p>我们知道，先序、中序、后续都为深度优先，因此可以借用此思路，用回溯算法</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
+</span><span style=color:#75715e> * Definition for a binary tree node.
+</span><span style=color:#75715e> * public class TreeNode {
+</span><span style=color:#75715e> *     int val;
+</span><span style=color:#75715e> *     TreeNode left;
+</span><span style=color:#75715e> *     TreeNode right;
+</span><span style=color:#75715e> *     TreeNode() {}
+</span><span style=color:#75715e> *     TreeNode(int val) { this.val = val; }
+</span><span style=color:#75715e> *     TreeNode(int val, TreeNode left, TreeNode right) {
+</span><span style=color:#75715e> *         this.val = val;
+</span><span style=color:#75715e> *         this.left = left;
+</span><span style=color:#75715e> *         this.right = right;
+</span><span style=color:#75715e> *     }
+</span><span style=color:#75715e> * }
+</span><span style=color:#75715e> */</span>
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>int</span> max_count <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>maxDepth</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>return</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#f92672>}</span>
+        inOrder<span style=color:#f92672>(</span>root<span style=color:#f92672>,</span> 0<span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>return</span> max_count<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>inOrder</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> count<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            inOrder<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>,</span> count<span style=color:#f92672>+</span>1<span style=color:#f92672>);</span>
+            inOrder<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>,</span> count<span style=color:#f92672>+</span>1<span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>max_count <span style=color:#f92672>&lt;</span> count<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            max_count <span style=color:#f92672>=</span> count<span style=color:#f92672>;</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h2 id=深度优先递归>深度优先递归</h2>
+<p>求一个树的最大深度，可以先求其左右子树的深度，再取最大值并+1。而对于其左右子树也是如此，形成递归</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> <span style=color:#a6e22e>corpFlightBookings</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> bookings<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> answer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[</span>n<span style=color:#f92672>];</span>
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> books <span style=color:#f92672>:</span> bookings<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>0<span style=color:#f92672>]-</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]]</span> <span style=color:#f92672>-=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
-            <span style=color:#f92672>}</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>maxDepth</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>return</span> 0<span style=color:#f92672>;</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 1<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-            answer<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> answer<span style=color:#f92672>[</span>i<span style=color:#f92672>-</span>1<span style=color:#f92672>];</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> answer<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>int</span> left_depth <span style=color:#f92672>=</span> maxDepth<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>int</span> right_depth <span style=color:#f92672>=</span> maxDepth<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>return</span> Math<span style=color:#f92672>.</span><span style=color:#a6e22e>max</span><span style=color:#f92672>(</span>left_depth<span style=color:#f92672>,</span> right_depth<span style=color:#f92672>)+</span>1<span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-08-31</p>
+<p style=color:#777>Last modified on 2021-09-01</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/levelorder/>
-Next<br>二叉树的层序遍历
+<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/issymmetric/>
+Next<br>对称二叉树
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/myqueue/>
-Previous<br>用栈实现队列
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/levelorder/>
+Previous<br>二叉树的层序遍历
 </a>
 </nav>
 <div class=post-comment-wrapper>

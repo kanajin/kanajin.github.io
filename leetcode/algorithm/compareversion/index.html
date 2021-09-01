@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>航班预定统计</title>
+<title>比较版本号</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -48,12 +48,6 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 解法
 </a>
 </li>
-<ul>
-<li>
-<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
-差分法：
-</a>
-</li>
 </ul>
 </div>
 </div>
@@ -88,12 +82,6 @@ brightness_7
 <li>
 <a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>
 解法
-</a>
-</li>
-<ul>
-<li>
-<a href=#%e5%b7%ae%e5%88%86%e6%b3%95 onclick="onNavClick(`#差分法-nav`)" id=差分法-nav>
-差分法：
 </a>
 </li>
 </ul>
@@ -137,10 +125,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-航班预定统计
+比较版本号
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-08-31 16:14
+2021-09-01 23:13
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -150,62 +138,54 @@ brightness_7
 </div>
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
-<p><a href=https://leetcode-cn.com/problems/corporate-flight-bookings/>原网址</a></p>
 <h1 id=题目描述>题目描述</h1>
-<p>这里有 n 个航班，它们分别从 1 到 n 进行编号。</p>
-<p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。</p>
-<p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。</p>
-<p>示例 1：</p>
-<pre><code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
-输出：[10,55,45,25,25]
-解释：
-航班编号        1   2   3   4   5
-预订记录 1 ：   10  10
-预订记录 2 ：       20  20
-预订记录 3 ：       25  25  25  25
-总座位数：      10  55  45  25  25
-因此，answer = [10,55,45,25,25]
-</code></pre><p>示例 2：</p>
-<pre><code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
-输出：[10,25]
-解释：
-航班编号        1   2
-预订记录 1 ：   10  10
-预订记录 2 ：       15
-总座位数：      10  25
-因此，answer = [10,25]
-</code></pre><h1 id=解法>解法</h1>
-<h2 id=差分法>差分法：</h2>
-<p>差分数组的性质：<br>
-对一个数组如 [1,2,3,4]，其差分数组为 [1,1,1,1]，即该位元素减去前一位元素形成的新数组。要从差分数组变回原数组，只需从左到右依次加回去即可。</p>
-<p>若要在差分数组的 [l,r] 区间上增加一个增量 ins，只需将 l 位元素增加 ins，对应 r+1 位元素减去 ins，就可以完成操作。</p>
-<p>利用这种性质，本体可以转换成制作差分数组，可以在 O(1) 的复杂度内完成数值加减。</p>
+<p>给你两个版本号 version1 和 version2 ，请你比较它们。</p>
+<p>版本号由一个或多个修订号组成，各修订号由一个 &lsquo;.&rsquo; 连接。每个修订号由 多位数字 组成，可能包含 前导零 。每个版本号至少包含一个字符。修订号从左到右编号，下标从 0 开始，最左边的修订号下标为 0 ，下一个修订号下标为 1 ，以此类推。例如，2.5.33 和 0.1 都是有效的版本号。</p>
+<p>比较版本号时，请按从左到右的顺序依次比较它们的修订号。比较修订号时，只需比较 忽略任何前导零后的整数值 。也就是说，修订号 1 和修订号 001 相等 。如果版本号没有指定某个下标处的修订号，则该修订号视为 0 。例如，版本 1.0 小于版本 1.1 ，因为它们下标为 0 的修订号相同，而下标为 1 的修订号分别为 0 和 1 ，0 &lt; 1 。</p>
+<p>返回规则如下：</p>
+<ul>
+<li>如果 version1 > version2 返回 1，</li>
+<li>如果 version1 &lt; version2 返回 -1，</li>
+<li>除此之外返回 0。</li>
+</ul>
+<h1 id=解法>解法</h1>
+<p>比较每个 &lsquo;.&rsquo; 之前的版本号大小，如果比较出大小就返回，比较不出就无视点去比较下一个数字</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> <span style=color:#a6e22e>corpFlightBookings</span><span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[][]</span> bookings<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> answer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>int</span><span style=color:#f92672>[</span>n<span style=color:#f92672>];</span>
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span><span style=color:#f92672>[]</span> books <span style=color:#f92672>:</span> bookings<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>0<span style=color:#f92672>]-</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span> <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                answer<span style=color:#f92672>[</span>books<span style=color:#f92672>[</span>1<span style=color:#f92672>]]</span> <span style=color:#f92672>-=</span> books<span style=color:#f92672>[</span>2<span style=color:#f92672>];</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>compareVersion</span><span style=color:#f92672>(</span>String version1<span style=color:#f92672>,</span> String version2<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>i <span style=color:#f92672>&lt;</span> version1<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>()</span> <span style=color:#f92672>||</span> j <span style=color:#f92672>&lt;</span> version2<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>())</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>int</span> x <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(;</span> i <span style=color:#f92672>&lt;</span> version1<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>()</span> <span style=color:#f92672>&amp;&amp;</span> version1<span style=color:#f92672>.</span><span style=color:#a6e22e>charAt</span><span style=color:#f92672>(</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#39;.&#39;</span><span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+                x <span style=color:#f92672>+=</span> x<span style=color:#f92672>*</span>10 <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>version1<span style=color:#f92672>.</span><span style=color:#a6e22e>charAt</span><span style=color:#f92672>(</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>-</span> 48<span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span>
+            i<span style=color:#f92672>++;</span>
+            <span style=color:#66d9ef>int</span> y <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span>
+            <span style=color:#66d9ef>for</span> <span style=color:#f92672>(;</span> j <span style=color:#f92672>&lt;</span> version2<span style=color:#f92672>.</span><span style=color:#a6e22e>length</span><span style=color:#f92672>()</span> <span style=color:#f92672>&amp;&amp;</span> version2<span style=color:#f92672>.</span><span style=color:#a6e22e>charAt</span><span style=color:#f92672>(</span>j<span style=color:#f92672>)</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#39;.&#39;</span><span style=color:#f92672>;</span> j<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+                y <span style=color:#f92672>+=</span> y<span style=color:#f92672>*</span>10 <span style=color:#f92672>+</span> <span style=color:#f92672>(</span>version2<span style=color:#f92672>.</span><span style=color:#a6e22e>charAt</span><span style=color:#f92672>(</span>j<span style=color:#f92672>)</span> <span style=color:#f92672>-</span> 48<span style=color:#f92672>);</span>
+            <span style=color:#f92672>}</span>
+            j<span style=color:#f92672>++;</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>x <span style=color:#f92672>&gt;</span> y<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span> 1<span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>x <span style=color:#f92672>&lt;</span> y<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span> <span style=color:#f92672>-</span>1<span style=color:#f92672>;</span>
             <span style=color:#f92672>}</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 1<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> n<span style=color:#f92672>;</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
-            answer<span style=color:#f92672>[</span>i<span style=color:#f92672>]</span> <span style=color:#f92672>+=</span> answer<span style=color:#f92672>[</span>i<span style=color:#f92672>-</span>1<span style=color:#f92672>];</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> answer<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>return</span> 0<span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-08-31</p>
+<p style=color:#777>Last modified on 2021-09-01</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/levelorder/>
-Next<br>二叉树的层序遍历
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/myqueue/>
-Previous<br>用栈实现队列
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/issymmetric/>
+Previous<br>对称二叉树
 </a>
 </nav>
 <div class=post-comment-wrapper>

@@ -1,4 +1,267 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Aug 2021 16:14:26 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>航班预定统计</title><link>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</link><pubDate>Tue, 31 Aug 2021 16:14:26 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -&lt;p>&lt;a href="https://leetcode-cn.com/problems/corporate-flight-bookings/">原网址&lt;/a>&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Sep 2021 23:13:30 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>比较版本号</title><link>https://kanajin.github.io/leetcode/algorithm/compareversion/</link><pubDate>Wed, 01 Sep 2021 23:13:30 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/compareversion/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/compareversion/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给你两个版本号 version1 和 version2 ，请你比较它们。&lt;/p>
+&lt;p>版本号由一个或多个修订号组成，各修订号由一个 &amp;lsquo;.&amp;rsquo; 连接。每个修订号由 多位数字 组成，可能包含 前导零 。每个版本号至少包含一个字符。修订号从左到右编号，下标从 0 开始，最左边的修订号下标为 0 ，下一个修订号下标为 1 ，以此类推。例如，2.5.33 和 0.1 都是有效的版本号。&lt;/p>
+&lt;p>比较版本号时，请按从左到右的顺序依次比较它们的修订号。比较修订号时，只需比较 忽略任何前导零后的整数值 。也就是说，修订号 1 和修订号 001 相等 。如果版本号没有指定某个下标处的修订号，则该修订号视为 0 。例如，版本 1.0 小于版本 1.1 ，因为它们下标为 0 的修订号相同，而下标为 1 的修订号分别为 0 和 1 ，0 &amp;lt; 1 。&lt;/p>
+&lt;p>返回规则如下：&lt;/p>
+&lt;ul>
+&lt;li>如果 version1 &amp;gt; version2 返回 1，&lt;/li>
+&lt;li>如果 version1 &amp;lt; version2 返回 -1，&lt;/li>
+&lt;li>除此之外返回 0。&lt;/li>
+&lt;/ul>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>比较每个 &amp;lsquo;.&amp;rsquo; 之前的版本号大小，如果比较出大小就返回，比较不出就无视点去比较下一个数字&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">compareVersion&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String version1&lt;span style="color:#f92672">,&lt;/span> String version2&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>i &lt;span style="color:#f92672">&amp;lt;&lt;/span> version1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">||&lt;/span> j &lt;span style="color:#f92672">&amp;lt;&lt;/span> version2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> x &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> version1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> version1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.&amp;#39;&lt;/span>&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+x &lt;span style="color:#f92672">+=&lt;/span> x&lt;span style="color:#f92672">*&lt;/span>10 &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#f92672">(&lt;/span>version1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 48&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+i&lt;span style="color:#f92672">++;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> y &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(;&lt;/span> j &lt;span style="color:#f92672">&amp;lt;&lt;/span> version2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> version2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>j&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.&amp;#39;&lt;/span>&lt;span style="color:#f92672">;&lt;/span> j&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+y &lt;span style="color:#f92672">+=&lt;/span> y&lt;span style="color:#f92672">*&lt;/span>10 &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#f92672">(&lt;/span>version2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>j&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 48&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+j&lt;span style="color:#f92672">++;&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>x &lt;span style="color:#f92672">&amp;gt;&lt;/span> y&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>x &lt;span style="color:#f92672">&amp;lt;&lt;/span> y&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/compareversion/ -</description></item><item><title>对称二叉树</title><link>https://kanajin.github.io/leetcode/algorithm/issymmetric/</link><pubDate>Wed, 01 Sep 2021 22:00:00 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/issymmetric/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/issymmetric/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定一个二叉树，检查它是否是镜像对称的。&lt;/p>
+&lt;p>例如：&lt;/p>
+&lt;pre>&lt;code> 1
+/ \
+2 2
+/ \ / \
+3 4 4 3
+&lt;/code>&lt;/pre>&lt;p>上面这棵树是对称的&lt;/p>
+&lt;p>但下面这棵树不是&lt;/p>
+&lt;pre>&lt;code> 1
+/ \
+2 2
+\ \
+3 3
+&lt;/code>&lt;/pre>&lt;h1 id="解法">解法&lt;/h1>
+&lt;h2 id="递归">递归&lt;/h2>
+&lt;p>判断一棵树是否是对称的，转为判断其左右子树是否是对称的，递归到终点。&lt;/p>
+&lt;p>方法为：比较左子树和右子树，左子树的左子树和右子树的右子树+左子树的右子树和右子树的左子树，如果同为null，或者数值相等，认为是对称的。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for a binary tree node.
+&lt;/span>&lt;span style="color:#75715e"> * public class TreeNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode left;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode right;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val, TreeNode left, TreeNode right) {
+&lt;/span>&lt;span style="color:#75715e"> * this.val = val;
+&lt;/span>&lt;span style="color:#75715e"> * this.left = left;
+&lt;/span>&lt;span style="color:#75715e"> * this.right = right;
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isSymmetric&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> check&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">,&lt;/span> root&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">check&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode m&lt;span style="color:#f92672">,&lt;/span> TreeNode n&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> n &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">||&lt;/span> n &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>check&lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">,&lt;/span> n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> check&lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">,&lt;/span> n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="迭代法">迭代法&lt;/h2>
+&lt;p>迭代法通常使用队列来代替递归：将左右子树传入队列，一次从队列取出两个元素，判断其是否满足对称条件，如果满足，则将第一个元素的左子树、第二个元素的右子树放入队列，然后再把第一个元素的右子树、第二个元素的左子树放入队列，然后依次比较，直到发现一次不匹配，或者队列为空&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isSymmetric&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+Queue&lt;span style="color:#f92672">&amp;lt;&lt;/span>TreeNode&lt;span style="color:#f92672">&amp;gt;&lt;/span> que &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> LinkedList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(!&lt;/span>que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">isEmpty&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+TreeNode m &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+TreeNode n &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> n &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">continue&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">((&lt;/span>m &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">||&lt;/span> n &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">||&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>m&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>n&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="数组">数组&lt;/h2>
+&lt;p>如果一个数镜像对称，则它的左深度优先遍历和右深度优先遍历出来的数组应该是一样的，将此特性转化为数组，分别建立两个深度优先遍历，比较产生的数组：注意，当root为null时，我们给数组赋予一个特殊值，否则会出错。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> left_list &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> right_list &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isSymmetric&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+preOrderLeft&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+preOrderRight&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>left_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> right_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> left_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>left_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> right_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">preOrderLeft&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+left_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+preOrderLeft&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+preOrderLeft&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+left_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(-&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">preOrderRight&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+right_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+preOrderRight&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+preOrderRight&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+right_list&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(-&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/issymmetric/ -</description></item><item><title>二叉树的最大深度</title><link>https://kanajin.github.io/leetcode/algorithm/maxdepth/</link><pubDate>Wed, 01 Sep 2021 21:23:56 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxdepth/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/maxdepth/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定一个二叉树，找出其最大深度。&lt;/p>
+&lt;p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。&lt;/p>
+&lt;p>说明: 叶子节点是指没有子节点的节点。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>与上一题的广度优先遍历相对，此为深度优先遍历。&lt;/p>
+&lt;h2 id="回溯">回溯&lt;/h2>
+&lt;p>我们知道，先序、中序、后续都为深度优先，因此可以借用此思路，用回溯算法&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for a binary tree node.
+&lt;/span>&lt;span style="color:#75715e"> * public class TreeNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode left;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode right;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val, TreeNode left, TreeNode right) {
+&lt;/span>&lt;span style="color:#75715e"> * this.val = val;
+&lt;/span>&lt;span style="color:#75715e"> * this.left = left;
+&lt;/span>&lt;span style="color:#75715e"> * this.right = right;
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> max_count &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">maxDepth&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+inOrder&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> max_count&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">inOrder&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> count&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+inOrder&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">,&lt;/span> count&lt;span style="color:#f92672">+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+inOrder&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">,&lt;/span> count&lt;span style="color:#f92672">+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>max_count &lt;span style="color:#f92672">&amp;lt;&lt;/span> count&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+max_count &lt;span style="color:#f92672">=&lt;/span> count&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="深度优先递归">深度优先递归&lt;/h2>
+&lt;p>求一个树的最大深度，可以先求其左右子树的深度，再取最大值并+1。而对于其左右子树也是如此，形成递归&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">maxDepth&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> left_depth &lt;span style="color:#f92672">=&lt;/span> maxDepth&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> right_depth &lt;span style="color:#f92672">=&lt;/span> maxDepth&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>left_depth&lt;span style="color:#f92672">,&lt;/span> right_depth&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/maxdepth/ -</description></item><item><title>二叉树的层序遍历</title><link>https://kanajin.github.io/leetcode/algorithm/levelorder/</link><pubDate>Wed, 01 Sep 2021 20:55:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/levelorder/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/levelorder/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>层序遍历，即广度优先遍历。&lt;/p>
+&lt;p>与之相对的，先序、中序、后续遍历称为深度优先遍历，即先一条路走到头，再回来遍历其他的。&lt;/p>
+&lt;p>广度优先遍历使用队列来解决：同一层的结点进入队列，然后取出的同时放入他的子结点。由于队列的先进先出特性，父结点会比子结点先遍历完毕。&lt;/p>
+&lt;p>既然是同时取出并插入，那就需要判断父结点的数目，以确定需要取出几次：在进行下一次迭代前，先记录下当前队列的长度，该长度值即为父结点数量，迭代相应次数即可。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for a binary tree node.
+&lt;/span>&lt;span style="color:#75715e"> * public class TreeNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode left;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode right;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val, TreeNode left, TreeNode right) {
+&lt;/span>&lt;span style="color:#75715e"> * this.val = val;
+&lt;/span>&lt;span style="color:#75715e"> * this.left = left;
+&lt;/span>&lt;span style="color:#75715e"> * this.right = right;
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">levelOrder&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> level_List &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> level_List&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//这行为java生成队列的代码
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> Queue&lt;span style="color:#f92672">&amp;lt;&lt;/span>TreeNode&lt;span style="color:#f92672">&amp;gt;&lt;/span> que &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> LinkedList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> level &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> level&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+TreeNode node &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+temp&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+level_List&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> level_List&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/levelorder/ -</description></item><item><title>航班预定统计</title><link>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</link><pubDate>Tue, 31 Aug 2021 16:14:26 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -&lt;p>&lt;a href="https://leetcode-cn.com/problems/corporate-flight-bookings/">原网址&lt;/a>&lt;/p>
 &lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>这里有 n 个航班，它们分别从 1 到 n 进行编号。&lt;/p>
 &lt;p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。&lt;/p>
@@ -276,158 +539,4 @@ head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">nex
 &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/removeelements/ -</description></item><item><title>数据流的中位数</title><link>https://kanajin.github.io/leetcode/algorithm/findmedian/</link><pubDate>Fri, 27 Aug 2021 22:00:36 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/findmedian/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/findmedian/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。&lt;/p>
-&lt;p>例如，&lt;/p>
-&lt;p>[2,3,4] 的中位数是 3&lt;/p>
-&lt;p>[2,3] 的中位数是 (2 + 3) / 2 = 2.5&lt;/p>
-&lt;p>设计一个支持以下两种操作的数据结构：&lt;/p>
-&lt;ul>
-&lt;li>void addNum(int num) - 从数据流中添加一个整数到数据结构中。&lt;/li>
-&lt;li>double findMedian() - 返回目前所有元素的中位数。&lt;/li>
-&lt;/ul>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>设置两个优先队列，一个 que_min 存储低于中位数的数，一个 que_max 存储高于中位数的数，que_min 从小到大，que_max 从大到小，约定第一个数进入que_min&lt;/p>
-&lt;p>因此当总数为奇数时，中位数为 que_min；偶数时，为 que_min 和 que_max 的平均值&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">MedianFinder&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-PriorityQueue&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> que_min&lt;span style="color:#f92672">;&lt;/span>
-PriorityQueue&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#75715e">/** initialize your data structure here. */&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">MedianFinder&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-que_min &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PriorityQueue&lt;span style="color:#f92672">&amp;lt;&amp;gt;((&lt;/span>a&lt;span style="color:#f92672">,&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&amp;gt;&lt;/span> &lt;span style="color:#f92672">(&lt;/span>b &lt;span style="color:#f92672">-&lt;/span> a&lt;span style="color:#f92672">));&lt;/span>
-que_max &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PriorityQueue&lt;span style="color:#f92672">&amp;lt;&amp;gt;((&lt;/span>a&lt;span style="color:#f92672">,&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&amp;gt;&lt;/span> &lt;span style="color:#f92672">(&lt;/span>a &lt;span style="color:#f92672">-&lt;/span> b&lt;span style="color:#f92672">));&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">addNum&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> num&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">==&lt;/span> 0 &lt;span style="color:#f92672">||&lt;/span> num &lt;span style="color:#f92672">&amp;lt;=&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>num&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">+&lt;/span> 1&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">());&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>num&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">());&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">double&lt;/span> &lt;span style="color:#a6e22e">findMedian&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">();&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que_min&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">+&lt;/span> que_max&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">0&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#75715e">/**
-&lt;/span>&lt;span style="color:#75715e"> * Your MedianFinder object will be instantiated and called as such:
-&lt;/span>&lt;span style="color:#75715e"> * MedianFinder obj = new MedianFinder();
-&lt;/span>&lt;span style="color:#75715e"> * obj.addNum(num);
-&lt;/span>&lt;span style="color:#75715e"> * double param_2 = obj.findMedian();
-&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/findmedian/ -</description></item><item><title>赎金信</title><link>https://kanajin.github.io/leetcode/algorithm/canconstruct/</link><pubDate>Fri, 27 Aug 2021 16:27:58 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/canconstruct/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/canconstruct/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>给定一个赎金信 (ransom) 字符串和一个杂志(magazine)字符串，判断第一个字符串 ransom 能不能由第二个字符串 magazines 里面的字符构成。如果可以构成，返回 true ；否则返回 false。&lt;/p>
-&lt;p>(题目说明：为了不暴露赎金信字迹，要从杂志上搜索各个需要的字母，组成单词来表达意思。杂志字符串中的每个字符只能在赎金信字符串中使用一次。)&lt;/p>
-&lt;p>提示：&lt;/p>
-&lt;ul>
-&lt;li>你可以假设两个字符串均只含有小写字母。&lt;/li>
-&lt;/ul>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>核心思路为比较赎金信中的每个字符出现的个数是否大于杂志中对应字符出现的个数，如果大于，则是 false&lt;/p>
-&lt;h2 id="哈希表法">哈希表法&lt;/h2>
-&lt;p>创造两个哈希表来存储两个字符串中每个字符出现的次数，然后遍历赎金信进行比较&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> map_note &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> map_magzine &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>map_note&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">),&lt;/span> 0&lt;span style="color:#f92672">))&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="数组法">数组法&lt;/h2>
-&lt;p>由于本题只出现小写字母，因此可以根据此特殊情况进行加速&lt;/p>
-&lt;p>创建两个容量为26的数组，数组下标用来表示第几个英文字母&lt;/p>
-&lt;ul>
-&lt;li>char - &amp;lsquo;a&amp;rsquo; 可以表示该英文字母是字母表中第几个&lt;/li>
-&lt;/ul>
-&lt;p>用这种方式来存储每个字符出现了几次，避免了哈希表的Character空间&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> note_arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> magazine_arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> note_arr&lt;span style="color:#f92672">[&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> magazine_arr&lt;span style="color:#f92672">[&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 26&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>note_arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">-&lt;/span> magazine_arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>也可以将数组减少至一个，但似乎没什么卵用&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">canConstruct&lt;/span>&lt;span style="color:#f92672">(&lt;/span>String ransomNote&lt;span style="color:#f92672">,&lt;/span> String magazine&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>26&lt;span style="color:#f92672">];&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>ransomNote&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]++;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">();&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>magazine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">charAt&lt;/span>&lt;span style="color:#f92672">(&lt;/span>i&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#e6db74">&amp;#39;a&amp;#39;&lt;/span>&lt;span style="color:#f92672">]--;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 26&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/canconstruct/ -</description></item><item><title>环形链表入环点</title><link>https://kanajin.github.io/leetcode/algorithm/detectcycle/</link><pubDate>Thu, 26 Aug 2021 12:58:06 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/detectcycle/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/detectcycle/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。&lt;/p>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>&lt;a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/solution/huan-xing-lian-biao-ii-by-leetcode-solution/">参考资料&lt;/a>&lt;/p>
-&lt;p>我们使用两个指针，fast 与 slow。它们起始都位于链表的头部。随后，slow 指针每次向后移动一个位置，而 fast 指针向后移动两个位置。如果链表中存在环，则 fast 指针最终将再次与 slow 指针在环中相遇。&lt;/p>
-&lt;p>如下图所示，设链表中环外部分的长度为 $a$。slow 指针进入环后，又走了 $b$ 的距离与 fast 相遇。此时，fast 指针已经走完了环的 $n$ 圈，因此它走过的总距离为 $a+n(b+c)+b=a+(n+1)b+nc$。&lt;/p>
-&lt;p>&lt;img src="../../../static/detectCycle/142_fig1.png" alt="image">&lt;/p>
-&lt;p>根据题意，任意时刻，fast 指针走过的距离都为 slow 指针的 $2$ 倍。因此，我们有:&lt;/p>
-&lt;p>$$a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)$$&lt;/p>
-&lt;p>有了 $a=c+(n-1)(b+c)$ 的等量关系，我们会发现：从相遇点到入环点的距离加上 $n-1$ 圈的环长，恰好等于从链表头部到入环点的距离。&lt;/p>
-&lt;p>因此，当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。&lt;/p>
-- https://kanajin.github.io/leetcode/algorithm/detectcycle/ -</description></item><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。&lt;/p>
-&lt;ul>
-&lt;li>数字 1-9 在每一行只能出现一次。&lt;/li>
-&lt;li>数字 1-9 在每一列只能出现一次。&lt;/li>
-&lt;li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。&lt;/li>
-&lt;/ul>
-&lt;p>数独部分空格内已填入了数字，空白格用 &amp;lsquo;.&amp;rsquo; 表示。&lt;/p>
-&lt;p>注意：&lt;/p>
-&lt;ul>
-&lt;li>一个有效的数独（部分已被填充）不一定是可解的。&lt;/li>
-&lt;li>只需要根据以上规则，验证已经填入的数字是否有效即可。&lt;/li>
-&lt;/ul>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>解答的突破口在于如何获得子矩阵的编号，参考&lt;a href="https://kanajin.github.io/leetcode/algorithm/matrixreshape/">重塑矩阵&lt;/a>中提到的二维矩阵一维化的思路，写出如下表达式：&lt;/p>
-&lt;p>matrix_index = (row/3)*3 + (column/3)&lt;/p>
-&lt;p>然后用哈希表存储每行、每列的元素，观察是否重复&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isValidSudoku&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">char&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> board&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> row &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> column &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> matrix &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-column&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-matrix&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> j &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> j&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">continue&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/removeelements/ -</description></item></channel></rss>
