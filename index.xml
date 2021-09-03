@@ -1,4 +1,199 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Sep 2021 23:13:30 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>比较版本号</title><link>https://kanajin.github.io/leetcode/algorithm/compareversion/</link><pubDate>Wed, 01 Sep 2021 23:13:30 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/compareversion/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/compareversion/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 03 Sep 2021 12:29:54 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>二叉搜索树中的插入操作</title><link>https://kanajin.github.io/leetcode/algorithm/insertintobst/</link><pubDate>Fri, 03 Sep 2021 12:29:54 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/insertintobst/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/insertintobst/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。&lt;/p>
+&lt;p>注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;h2 id="递归法">递归法&lt;/h2>
+&lt;p>如果比当前根值大，递归左子树，如果左子树为空，插入&lt;br>
+反之&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for a binary tree node.
+&lt;/span>&lt;span style="color:#75715e"> * public class TreeNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode left;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode right;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val, TreeNode left, TreeNode right) {
+&lt;/span>&lt;span style="color:#75715e"> * this.val = val;
+&lt;/span>&lt;span style="color:#75715e"> * this.left = left;
+&lt;/span>&lt;span style="color:#75715e"> * this.right = right;
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> TreeNode &lt;span style="color:#a6e22e">insertIntoBST&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TreeNode&lt;span style="color:#f92672">(&lt;/span>val&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>val &lt;span style="color:#f92672">&amp;lt;&lt;/span> root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">=&lt;/span> insertIntoBST&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">,&lt;/span> val&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>val &lt;span style="color:#f92672">&amp;gt;&lt;/span> root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">=&lt;/span> insertIntoBST&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">,&lt;/span> val&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> root&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="模拟法">模拟法&lt;/h2>
+&lt;p>创建一个探索结点pos，和val进行大小比较，如果 val &amp;lt; pos.val，pos就向左子树移动，如果是null，就将val插入&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> TreeNode &lt;span style="color:#a6e22e">insertIntoBST&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TreeNode&lt;span style="color:#f92672">(&lt;/span>val&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+TreeNode pos &lt;span style="color:#f92672">=&lt;/span> root&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>pos &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>val &lt;span style="color:#f92672">&amp;lt;&lt;/span> pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TreeNode&lt;span style="color:#f92672">(&lt;/span>val&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">break&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pos &lt;span style="color:#f92672">=&lt;/span> pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> TreeNode&lt;span style="color:#f92672">(&lt;/span>val&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">break&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pos &lt;span style="color:#f92672">=&lt;/span> pos&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> root&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/insertintobst/ -</description></item><item><title>最小K个数</title><link>https://kanajin.github.io/leetcode/algorithm/smallestk/</link><pubDate>Fri, 03 Sep 2021 10:26:19 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/smallestk/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/smallestk/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;h2 id="排序">排序&lt;/h2>
+&lt;p>先对数组进行排序，然后返回前k个即可&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">smallestK&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+sort&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> smallest_k &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>k&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+smallest_k&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> smallest_k&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">swap&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> a&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>a&lt;span style="color:#f92672">];&lt;/span>
+arr&lt;span style="color:#f92672">[&lt;/span>a&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>b&lt;span style="color:#f92672">];&lt;/span>
+arr&lt;span style="color:#f92672">[&lt;/span>b&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> temp&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">siftDown&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> p&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> len&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> lc &lt;span style="color:#f92672">=&lt;/span> 2&lt;span style="color:#f92672">*&lt;/span>p &lt;span style="color:#f92672">+&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> rc &lt;span style="color:#f92672">=&lt;/span> lc &lt;span style="color:#f92672">+&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> max &lt;span style="color:#f92672">=&lt;/span> p&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>lc &lt;span style="color:#f92672">&amp;lt;&lt;/span> len &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>lc&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>max&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+max &lt;span style="color:#f92672">=&lt;/span> lc&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>rc &lt;span style="color:#f92672">&amp;lt;&lt;/span> len &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>rc&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>max&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+max &lt;span style="color:#f92672">=&lt;/span> rc&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>max &lt;span style="color:#f92672">!=&lt;/span> p&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+swap&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> max&lt;span style="color:#f92672">,&lt;/span> p&lt;span style="color:#f92672">);&lt;/span>
+siftDown&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> max&lt;span style="color:#f92672">,&lt;/span> len&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">buildMaxHeap&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">/&lt;/span>2&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">--)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+siftDown&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> i&lt;span style="color:#f92672">,&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> sift_len&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+buildMaxHeap&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">--)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+swap&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">,&lt;/span> i&lt;span style="color:#f92672">);&lt;/span>
+siftDown&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">--&lt;/span>sift_len&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者调用接口&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">smallestK&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+Arrays&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sort&lt;/span>&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> smallest_k &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>k&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+smallest_k&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> smallest_k&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="快排思路">快排思路&lt;/h2>
+&lt;p>快排为不断将数组分治，找到一个分界点，左侧皆为小于分界点值的元素，右侧皆为大于分界点值的元素。&lt;/p>
+&lt;p>当分界点的下标为k时，表示左侧k个元素即为需要返回的元素。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">smallestK&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>k &lt;span style="color:#f92672">==&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> smallest_k &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>k&lt;span style="color:#f92672">];&lt;/span>
+find&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">,&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">,&lt;/span> k&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+smallest_k&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> smallest_k&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">swap&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> a&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>a&lt;span style="color:#f92672">];&lt;/span>
+arr&lt;span style="color:#f92672">[&lt;/span>a&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>b&lt;span style="color:#f92672">];&lt;/span>
+arr&lt;span style="color:#f92672">[&lt;/span>b&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> temp&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">divide&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> start&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> end&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> p &lt;span style="color:#f92672">=&lt;/span> arr&lt;span style="color:#f92672">[&lt;/span>start&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span> start&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> k &lt;span style="color:#f92672">=&lt;/span> start&lt;span style="color:#f92672">+&lt;/span>1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(;&lt;/span> k &lt;span style="color:#f92672">&amp;lt;&lt;/span> end&lt;span style="color:#f92672">;&lt;/span> k&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>k&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> p&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+m&lt;span style="color:#f92672">++;&lt;/span>
+swap&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">,&lt;/span> k&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+swap&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> start&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> m&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">find&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> start&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> end&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span> divide&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> start&lt;span style="color:#f92672">,&lt;/span> end&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">!=&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+m &lt;span style="color:#f92672">=&lt;/span> find&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">+&lt;/span>1&lt;span style="color:#f92672">,&lt;/span> end&lt;span style="color:#f92672">,&lt;/span> k&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>m &lt;span style="color:#f92672">&amp;gt;&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+m &lt;span style="color:#f92672">=&lt;/span> find&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">,&lt;/span> start&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">,&lt;/span> k&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> m&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="优先队列">优先队列&lt;/h2>
+&lt;p>创建一个队头为最大元素的优先队列，存入k个数，然后遍历数组，如果比队头小，就换掉队头&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">smallestK&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> arr&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> k&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>k &lt;span style="color:#f92672">==&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+PriorityQueue&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> pq &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> PriorityQueue&lt;span style="color:#f92672">&amp;lt;&amp;gt;((&lt;/span>a&lt;span style="color:#f92672">,&lt;/span> b&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&amp;gt;&lt;/span> &lt;span style="color:#f92672">(&lt;/span>b &lt;span style="color:#f92672">-&lt;/span> a&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pq&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> arr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> pq&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">peek&lt;/span>&lt;span style="color:#f92672">())&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+pq&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+pq&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>arr&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> smallest_k &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>k&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+smallest_k&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> pq&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> smallest_k&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/smallestk/ -</description></item><item><title>比较版本号</title><link>https://kanajin.github.io/leetcode/algorithm/compareversion/</link><pubDate>Wed, 01 Sep 2021 23:13:30 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/compareversion/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/compareversion/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>给你两个版本号 version1 和 version2 ，请你比较它们。&lt;/p>
 &lt;p>版本号由一个或多个修订号组成，各修订号由一个 &amp;lsquo;.&amp;rsquo; 连接。每个修订号由 多位数字 组成，可能包含 前导零 。每个版本号至少包含一个字符。修订号从左到右编号，下标从 0 开始，最左边的修订号下标为 0 ，下一个修订号下标为 1 ，以此类推。例如，2.5.33 和 0.1 都是有效的版本号。&lt;/p>
 &lt;p>比较版本号时，请按从左到右的顺序依次比较它们的修订号。比较修订号时，只需比较 忽略任何前导零后的整数值 。也就是说，修订号 1 和修订号 001 相等 。如果版本号没有指定某个下标处的修订号，则该修订号视为 0 。例如，版本 1.0 小于版本 1.1 ，因为它们下标为 0 的修订号相同，而下标为 1 的修订号分别为 0 和 1 ，0 &amp;lt; 1 。&lt;/p>
@@ -38,14 +233,14 @@ j&lt;span style="color:#f92672">++;&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/compareversion/ -</description></item><item><title>对称二叉树</title><link>https://kanajin.github.io/leetcode/algorithm/issymmetric/</link><pubDate>Wed, 01 Sep 2021 22:00:00 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/issymmetric/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/issymmetric/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>给定一个二叉树，检查它是否是镜像对称的。&lt;/p>
 &lt;p>例如：&lt;/p>
-&lt;pre>&lt;code> 1
+&lt;pre tabindex="0">&lt;code> 1
 / \
 2 2
 / \ / \
 3 4 4 3
 &lt;/code>&lt;/pre>&lt;p>上面这棵树是对称的&lt;/p>
 &lt;p>但下面这棵树不是&lt;/p>
-&lt;pre>&lt;code> 1
+&lt;pre tabindex="0">&lt;code> 1
 / \
 2 2
 \ \
@@ -267,7 +462,7 @@ level_List&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22
 &lt;p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。&lt;/p>
 &lt;p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。&lt;/p>
 &lt;p>示例 1：&lt;/p>
-&lt;pre>&lt;code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+&lt;pre tabindex="0">&lt;code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
 输出：[10,55,45,25,25]
 解释：
 航班编号 1 2 3 4 5
@@ -277,7 +472,7 @@ level_List&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22
 总座位数： 10 55 45 25 25
 因此，answer = [10,55,45,25,25]
 &lt;/code>&lt;/pre>&lt;p>示例 2：&lt;/p>
-&lt;pre>&lt;code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
+&lt;pre tabindex="0">&lt;code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
 输出：[10,25]
 解释：
 航班编号 1 2
@@ -455,88 +650,4 @@ ptr &lt;span style="color:#f92672">=&lt;/span> ptr&lt;span style="color:#f92672"
 &lt;span style="color:#66d9ef">return&lt;/span> new_head&lt;span style="color:#f92672">;&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
 &lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/reverselist/ -</description></item><item><title>删除链表重复元素</title><link>https://kanajin.github.io/leetcode/algorithm/deleteduplicates/</link><pubDate>Mon, 30 Aug 2021 00:21:58 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/deleteduplicates/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/deleteduplicates/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除所有重复的元素，使每个元素 只出现一次 。&lt;/p>
-&lt;p>返回同样按升序排列的结果链表。&lt;/p>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>递归，当head or head.next == null 时，递归出口&lt;/p>
-&lt;p>如果当前值和递归返回值相同，则当前值next为递归返回值next&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">deleteDuplicates&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>head &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">||&lt;/span> head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-ListNode ptr &lt;span style="color:#f92672">=&lt;/span> deleteDuplicates&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>ptr &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">==&lt;/span> ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/deleteduplicates/ -</description></item><item><title>移除链表元素</title><link>https://kanajin.github.io/leetcode/algorithm/removeelements/</link><pubDate>Sat, 28 Aug 2021 14:25:50 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/removeelements/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/removeelements/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回新的头节点。&lt;/p>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;h2 id="迭代法">迭代法&lt;/h2>
-&lt;p>从头到尾遍历链表，发现结点数值复合要求就删除，另写一个删除函数，用来判断头结点、尾结点和中间结点的删除&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">removeElements&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-ListNode ptr &lt;span style="color:#f92672">=&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>ptr &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">==&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-head &lt;span style="color:#f92672">=&lt;/span> delete&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">,&lt;/span> ptr&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-ptr &lt;span style="color:#f92672">=&lt;/span> ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> ListNode &lt;span style="color:#a6e22e">delete&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">,&lt;/span> ListNode del&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>del &lt;span style="color:#f92672">==&lt;/span> head&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-head &lt;span style="color:#f92672">=&lt;/span> head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>del&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> pre_index &lt;span style="color:#f92672">=&lt;/span> getIndex&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">,&lt;/span> del&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
-ListNode ptr &lt;span style="color:#f92672">=&lt;/span> getNode&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">,&lt;/span> pre_index&lt;span style="color:#f92672">);&lt;/span>
-ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> pre_index &lt;span style="color:#f92672">=&lt;/span> getIndex&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">,&lt;/span> del&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
-ListNode pre &lt;span style="color:#f92672">=&lt;/span> getNode&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">,&lt;/span> pre_index&lt;span style="color:#f92672">);&lt;/span>
-ListNode aft &lt;span style="color:#f92672">=&lt;/span> pre&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-pre&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> aft&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">getIndex&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">,&lt;/span> ListNode search&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-ListNode ptr &lt;span style="color:#f92672">=&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>ptr &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>ptr &lt;span style="color:#f92672">==&lt;/span> search&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> index&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-ptr &lt;span style="color:#f92672">=&lt;/span> ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-index&lt;span style="color:#f92672">++;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">private&lt;/span> ListNode &lt;span style="color:#a6e22e">getNode&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> index&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-ListNode ptr &lt;span style="color:#f92672">=&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> index&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-ptr &lt;span style="color:#f92672">=&lt;/span> ptr&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> ptr&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="递归法">递归法&lt;/h2>
-&lt;p>递归传参：head.next
-递归出口：head == null 时，返回 null
-在递归中 head 不断指向自己的 next，因此就是要不断判断 head.val 是否满足要求，如果满足要求，递归函数应返回 head.next，否则，返回 head&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">removeElements&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode head&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>head &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> removeElements&lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> val&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">==&lt;/span> val&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/removeelements/ -</description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/reverselist/ -</description></item></channel></rss>

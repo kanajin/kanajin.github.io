@@ -1,4 +1,440 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Sep 2021 23:13:30 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 03 Sep 2021 12:29:54 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>设计一个链表</title><link>https://kanajin.github.io/datastructure/linkedlist/</link><pubDate>Sun, 13 Jun 2021 21:29:43 +0800</pubDate><guid>https://kanajin.github.io/datastructure/linkedlist/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/linkedlist/ -&lt;blockquote>
+&lt;p>链表可以理解为一个“按顺序保存一系列数据的容器”。除了用来记录，还要有“操作”这些数据的能力。因此我们使用一系列函数来对链表进行增加、删除等操作。&lt;br>
+对于用户，只需要提供如何修改链表的函数接口；而在内部，为了更方便地操作链表，我们需要定义出链表的&lt;code>长度&lt;/code>、&lt;code>头结点&lt;/code>、&lt;code>尾结点&lt;/code>等信息，并随着用户的操作进行维护。以整数单链表为例：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//用来记录实际链表数据
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> LinkedList{
+&lt;span style="color:#66d9ef">int&lt;/span> val;
+&lt;span style="color:#66d9ef">struct&lt;/span> LinkedList&lt;span style="color:#f92672">*&lt;/span> next;
+} ListNode;
+&lt;span style="color:#75715e">//用来记录链表头、尾结点以及长度信息
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+ListNode&lt;span style="color:#f92672">*&lt;/span> head;
+ListNode&lt;span style="color:#f92672">*&lt;/span> tail;
+&lt;span style="color:#66d9ef">unsigned&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> length;
+} MyLinkedList;
+&lt;/code>&lt;/pre>&lt;/div>&lt;/blockquote>
+&lt;h1 id="创建链表">创建链表&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//当创建一个新链表时，需要创建一个用来维护链表的数据
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>MyLinkedList&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">myLinkedListCreate&lt;/span>() {
+&lt;span style="color:#75715e">//分配空间并将头结点和尾结点设为NULL，长度为0
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> MyLinkedList&lt;span style="color:#f92672">*&lt;/span> list &lt;span style="color:#f92672">=&lt;/span> (MyLinkedList&lt;span style="color:#f92672">*&lt;/span>)malloc(&lt;span style="color:#66d9ef">sizeof&lt;/span>(MyLinkedList));
+list &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> NULL;
+list &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">=&lt;/span> NULL;
+list &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#75715e">//返回指针以供函数使用
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> list;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="为链表添加元素">为链表添加元素&lt;/h1>
+&lt;p>先定义一个创建新结点的函数供需要添加结点时使用&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//为链表创建新元素时，提供该元素数据来创建一个结点指向NULL的新结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">ListNodeCreate&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> val){
+ListNode&lt;span style="color:#f92672">*&lt;/span> node &lt;span style="color:#f92672">=&lt;/span> (ListNode&lt;span style="color:#f92672">*&lt;/span>)malloc(&lt;span style="color:#66d9ef">sizeof&lt;/span>(ListNode));
+node &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">=&lt;/span> val;
+node &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#66d9ef">return&lt;/span> node;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>用户使用时并不会考虑结点是如何“插入”链表内的，用户只需要考虑在什么地方插入需要的结点。但程序实现上需要将&lt;code>头插&lt;/code>、&lt;code>尾插&lt;/code>和&lt;code>中间插&lt;/code>区分开来，并根据用户指定的“在何处插入”来判断使用哪种方式。&lt;/p>
+&lt;h2 id="头插法">头插法&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">myLinkedListAddAtHead&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj, &lt;span style="color:#66d9ef">int&lt;/span> val) {
+&lt;span style="color:#75715e">//使用了创建结点的函数，之后不再赘述
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> new_head &lt;span style="color:#f92672">=&lt;/span> ListNodeCreate(val);
+&lt;span style="color:#75715e">//定义新头结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> new_head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+&lt;span style="color:#75715e">//如果是空链表，则同时将第一个结点定义为尾结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">==&lt;/span> NULL){
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">=&lt;/span> new_head;
+}
+&lt;span style="color:#75715e">//更改头结点为新结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> new_head;
+&lt;span style="color:#75715e">//最后记得维护链表长度
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="尾插法">尾插法&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">myLinkedListAddAtTail&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj, &lt;span style="color:#66d9ef">int&lt;/span> val) {
+ListNode&lt;span style="color:#f92672">*&lt;/span> new_tail &lt;span style="color:#f92672">=&lt;/span> ListNodeCreate(val);
+&lt;span style="color:#75715e">//如果是空链表并被指定了尾插（虽然一般不会出现这种情况），则定义头尾结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">==&lt;/span> NULL){
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> new_tail;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">=&lt;/span> new_tail;
+}
+&lt;span style="color:#75715e">//让原本的尾结点指向新尾结点，并更改尾结点数据
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span>{
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> new_tail;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">=&lt;/span> new_tail;
+}
+&lt;span style="color:#75715e">//维护长度
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">++&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="中间插">中间插&lt;/h2>
+&lt;p>和数列相同，链表的第一个结点序号为&lt;code>0&lt;/code>。因此索引值&lt;code>index&lt;/code>也最好代表需要插入的位置的序号。如果需要面向用户，则在外部程序中引入新变量让其等于&lt;code>index + 1&lt;/code>就好了。&lt;br>
+同时记得维护长度&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">myLinkedListAddAtIndex&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj, &lt;span style="color:#66d9ef">int&lt;/span> index, &lt;span style="color:#66d9ef">int&lt;/span> val) {
+&lt;span style="color:#75715e">//索引小于0，错误
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>){
+printf(&lt;span style="color:#e6db74">&amp;#34;error!&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//索引等于0，头插
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>){
+myLinkedListAddAtHead(obj, val);
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//索引等于长度，尾插
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">==&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length){
+myLinkedListAddAtTail(obj, val);
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//索引大于长度，不做任何事，也可以返回一个错误
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">&amp;gt;&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length){
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//分类讨论结束后，最后的情况为从中间某个结点插入
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span>{
+ListNode&lt;span style="color:#f92672">*&lt;/span> new_node &lt;span style="color:#f92672">=&lt;/span> ListNodeCreate(val);
+ListNode&lt;span style="color:#f92672">*&lt;/span> pre &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+&lt;span style="color:#75715e">//使指针遍历到要插入的结点的上一个结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> index &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
+pre &lt;span style="color:#f92672">=&lt;/span> pre &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#75715e">//将pre结点指向的结点与pre结点断开，然后重新连接成pre-&amp;gt;new_node-&amp;gt;aft
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> aft &lt;span style="color:#f92672">=&lt;/span> pre &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+pre &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> new_node;
+new_node &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> aft;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">++&lt;/span>;
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="删除结点">删除结点&lt;/h1>
+&lt;blockquote>
+&lt;p>与插入结点一样，删除结点也需要考虑是否是删除头尾结点。&lt;br>
+需要注意每次删除结点后，都要释放掉删除的结点的内存。&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">myLinkedListDeleteAtIndex&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj, &lt;span style="color:#66d9ef">int&lt;/span> index) {
+&lt;span style="color:#75715e">//如果索引不在这个链表所有序号的集合中，报错
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">||&lt;/span> index &lt;span style="color:#f92672">&amp;gt;=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length){
+printf(&lt;span style="color:#e6db74">&amp;#34;error! cannot delete!&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//删除头部，直接将头部右移
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>){
+ListNode&lt;span style="color:#f92672">*&lt;/span> free_head &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+free(free_head);
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">--&lt;/span>;
+&lt;span style="color:#66d9ef">return&lt;/span>;
+}
+&lt;span style="color:#75715e">//删除尾部，将尾部指针左移，方法为遍历到尾结点的前一个结点，然后定义其为尾结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(index &lt;span style="color:#f92672">==&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>){
+ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+ListNode&lt;span style="color:#f92672">*&lt;/span> free_tail &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail;
+&lt;span style="color:#66d9ef">while&lt;/span>(ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">!=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail){
+ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">=&lt;/span> ptr;
+free(free_tail);
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">--&lt;/span>;
+}
+&lt;span style="color:#75715e">//删除中间结点，将要删除的结点的左节点的next指向它的右结点即可
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">else&lt;/span>{
+ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> index&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
+ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+ListNode&lt;span style="color:#f92672">*&lt;/span> free_del &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+ListNode&lt;span style="color:#f92672">*&lt;/span> aft &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> aft;
+free(free_del);
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length&lt;span style="color:#f92672">--&lt;/span>;
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="释放内存">释放内存&lt;/h1>
+&lt;p>链表使用完之后，及时将它的马飞掉&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">myLinkedListFree&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj) {
+ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+&lt;span style="color:#66d9ef">while&lt;/span>(obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+ptr &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+free(ptr);
+}
+free(obj);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="实例测试">实例测试&lt;/h1>
+&lt;p>为了验证写的这些功能是否正确，写一个main函数来跑跑看测试一下。&lt;br>
+比如：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//写一个打印链表的函数
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">printMyLinkedList&lt;/span>(MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj){
+ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head;
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length; i&lt;span style="color:#f92672">++&lt;/span>){
+printf(&lt;span style="color:#e6db74">&amp;#34;%d &amp;#34;&lt;/span>, ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val);
+ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+}
+&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>(){
+&lt;span style="color:#75715e">//从上到下依次把注释去掉，运行一次，观察长度、头尾节点、打印链表的输出，来判断函数是否正常工作
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> MyLinkedList&lt;span style="color:#f92672">*&lt;/span> obj &lt;span style="color:#f92672">=&lt;/span> myLinkedListCreate();
+myLinkedListAddAtHead(obj, &lt;span style="color:#ae81ff">2&lt;/span>);
+&lt;span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 1);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtHead(obj, 2);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtHead(obj, 7);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtHead(obj, 3);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtHead(obj, 2);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtHead(obj, 5);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListAddAtTail(obj, 5);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//int a = myLinkedListGet(obj, 5);printf(&amp;#34;get: %d\n&amp;#34;, a);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 6);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//myLinkedListDeleteAtIndex(obj, 4);
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> printf(&lt;span style="color:#e6db74">&amp;#34;length: %d&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>, obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> length);
+printf(&lt;span style="color:#e6db74">&amp;#34;head: %d, tail: %d&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>, obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val, obj &lt;span style="color:#f92672">-&amp;gt;&lt;/span> tail &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val);
+printMyLinkedList(obj);
+myLinkedListFree(obj);
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlist/ -</description></item><item><title>链表题目本</title><link>https://kanajin.github.io/datastructure/linkedlistquestion/</link><pubDate>Wed, 09 Jun 2021 21:57:29 +0800</pubDate><guid>https://kanajin.github.io/datastructure/linkedlistquestion/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/linkedlistquestion/ -&lt;h1 id="反转链表">反转链表&lt;/h1>
+&lt;h2 id="题目">题目&lt;/h2>
+&lt;p>定义一个函数，输入一个链表的头节点，反转该链表并输出反转后链表的头节点。&lt;/p>
+&lt;h2 id="示例">示例&lt;/h2>
+&lt;pre tabindex="0">&lt;code>输入: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5-&amp;gt;NULL
+输出: 5-&amp;gt;4-&amp;gt;3-&amp;gt;2-&amp;gt;1-&amp;gt;NULL
+&lt;/code>&lt;/pre>&lt;h2 id="解法">解法&lt;/h2>
+&lt;p>此题有两种解法——迭代法和递归法，分别介绍。&lt;/p>
+&lt;h3 id="迭代法">迭代法&lt;/h3>
+&lt;p>思路：遍历链表，在遍历过程中逐个改变所遍历到的节点的指针域，使其指向前一个节点。&lt;br>
+实现方法：使用三指针法。图片与解法摘自&lt;a href="http://c.biancheng.net/view/8105.html">http://c.biancheng.net/view/8105.html&lt;/a>
+首先定义三个指针并分别命名为beg、mid、end，初始指向如下图：&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_1.gif" alt="reverselist_loop_1">&lt;/p>
+&lt;p>遍历方式为：三个指针各自向后移动一个节点，直至mid指针指向最后一个节点(此时end指针指向NULL)。在指针移动前，将mid所指节点的指针域指向节点指向beg指针指向的节点，如下图&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_2.gif" alt="reverselist_loop_2">&lt;/p>
+&lt;p>一开始mid指向的值改为初始beg指向(即为NULL)，然后三个指针右移。接下来同理：&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_3.gif" alt="reverselist_loop_2">&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_4.gif" alt="reverselist_loop_2">&lt;br>
+&lt;img src="https://kanajin.github.io/LinkedListQuestion/reverselist_loop_5.gif" alt="reverselist_loop_2">&lt;/p>
+&lt;p>最后改变head指针指向，使其与mid相同，反转完成。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">reverseList&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#75715e">//如果是空链表或只有一个元素，无需操作直接返回
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#75715e">//定义三个指针
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> beg &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> mid &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> end &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+&lt;span style="color:#75715e">//遍历链表
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">while&lt;/span>(&lt;span style="color:#ae81ff">1&lt;/span>){
+&lt;span style="color:#75715e">//使mid指针域指向beg
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> mid &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> beg;
+&lt;span style="color:#66d9ef">if&lt;/span>(end &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+&lt;span style="color:#75715e">//使指针后移一位
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> beg &lt;span style="color:#f92672">=&lt;/span> mid;
+mid &lt;span style="color:#f92672">=&lt;/span> end;
+end &lt;span style="color:#f92672">=&lt;/span> end &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#75715e">//重新定义头结点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">=&lt;/span> mid;
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="递归法">递归法&lt;/h3>
+&lt;p>递归法可以理解成从尾节点开始，依次向前遍历，过程中改变节点指向，使其指向前一个节点.&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">reverseList&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#75715e">//当为空链表或抵达递归出口(尾结点)时，递归结束
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#75715e">//递归至尾节点，根据递归出口，此时head指针指向最后一个节点，在原本链表尾部定义一个新的头结点ptr
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> reverseList(head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next);
+&lt;span style="color:#75715e">//使head指针指向的节点的指针域指向head
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#75715e">//将head节点的指针域指空，否则会出现互指的情况
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
+&lt;span style="color:#75715e">//返回新的头结点供递归使用
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> ptr;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="链表中倒数第k个节点">链表中倒数第k个节点&lt;/h1>
+&lt;h2 id="题目-1">题目&lt;/h2>
+&lt;p>输入一个链表，输出该链表中倒数第k个节点。&lt;br>
+为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。&lt;br>
+例如：一个链表有&lt;code>6&lt;/code>个节点，从头节点开始，它们的值依次是&lt;code>1、2、3、4、5、6&lt;/code>。这个链表的倒数第&lt;code>3&lt;/code>个节点是值为&lt;code>4&lt;/code>的节点。&lt;/p>
+&lt;h2 id="示例-1">示例&lt;/h2>
+&lt;pre tabindex="0">&lt;code>给定一个链表: 1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5, 和 k = 2。
+返回链表 4-&amp;gt;5。
+&lt;/code>&lt;/pre>&lt;h2 id="解法-1">解法&lt;/h2>
+&lt;h3 id="正向遍历法">正向遍历法&lt;/h3>
+&lt;p>先遍历一次链表，获得链表长度&lt;code>n&lt;/code>，然后再遍历到第&lt;code>n - k + 1&lt;/code>个位置，即为倒数第k个。
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">getKthFromEnd&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> k){
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#75715e">//遍历链表，查看长度
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#66d9ef">while&lt;/span>(head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+i&lt;span style="color:#f92672">++&lt;/span>;
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#75715e">//算出正数第几个，正攻。
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> i &lt;span style="color:#f92672">-&lt;/span> k; j&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(ptr &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+ptr &lt;span style="color:#f92672">=&lt;/span> ptr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ptr;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="双指针法">双指针法&lt;/h3>
+&lt;p>本解法参考&lt;a href="https://zhuanlan.zhihu.com/p/59564074">https://zhuanlan.zhihu.com/p/59564074&lt;/a>
+思路为建立两个指针指向链表头部，其中一个指针遍历到第k个时，第二个指针开始和第一个指针同时遍历。这样，两个指针之间的距离始终为k-1，当第一个指针遍历到链表尾部时，第二个指针刚好遍历到倒数第k个位置。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">getKthFromEnd&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> k){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(k &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr_1 &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ptr_2 &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> k; i&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(ptr_1 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> NULL;
+}
+ptr_1 &lt;span style="color:#f92672">=&lt;/span> ptr_1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">while&lt;/span>(ptr_1 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+ptr_1 &lt;span style="color:#f92672">=&lt;/span> ptr_1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+ptr_2 &lt;span style="color:#f92672">=&lt;/span> ptr_2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ptr_2;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="合并两个排序的链表">合并两个排序的链表&lt;/h1>
+&lt;h2 id="题目-2">题目&lt;/h2>
+&lt;p>输入两个递增排序的链表，合并这两个链表并使新链表中的节点仍然是递增排序的。&lt;/p>
+&lt;h2 id="示例-2">示例&lt;/h2>
+&lt;p>输入：1-&amp;gt;2-&amp;gt;4, 1-&amp;gt;3-&amp;gt;4&lt;br>
+输出：1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;4&lt;/p>
+&lt;h2 id="解法-2">解法&lt;/h2>
+&lt;p>与归并排序相同的思路，代码也类似。根据链表特性调整了冗余。
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">mergeTwoLists&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l1, &lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l2){
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> l2;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l2 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> l1;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l3;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> l4;
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">&amp;lt;=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val){
+l3 &lt;span style="color:#f92672">=&lt;/span> l1;
+l1 &lt;span style="color:#f92672">=&lt;/span> l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+l3 &lt;span style="color:#f92672">=&lt;/span> l2;
+l2 &lt;span style="color:#f92672">=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+l4 &lt;span style="color:#f92672">=&lt;/span> l3;
+&lt;span style="color:#66d9ef">while&lt;/span>(&lt;span style="color:#ae81ff">1&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> l2 &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">break&lt;/span>;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">&amp;lt;=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l1;
+l3 &lt;span style="color:#f92672">=&lt;/span> l1;
+l1 &lt;span style="color:#f92672">=&lt;/span> l1 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">else&lt;/span>{
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l2;
+l3 &lt;span style="color:#f92672">=&lt;/span> l2;
+l2 &lt;span style="color:#f92672">=&lt;/span> l2 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l1 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l1;
+}
+&lt;span style="color:#66d9ef">if&lt;/span>(l2 &lt;span style="color:#f92672">!=&lt;/span> NULL){
+l3 &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> l2;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> l4;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="链表的中间结点">链表的中间结点&lt;/h1>
+&lt;h2 id="题目-3">题目&lt;/h2>
+&lt;p>给定一个头结点为&lt;code>head&lt;/code>的非空单链表，返回链表的中间结点。&lt;br>
+如果有两个中间结点，则返回第二个中间结点。&lt;/p>
+&lt;h2 id="示例-3">示例&lt;/h2>
+&lt;ol>
+&lt;li>输入：&lt;code>[1,2,3,4,5]&lt;/code>&lt;br>
+输出：此列表中的结点&lt;code>3&lt;/code>(序列化形式：&lt;code>[3,4,5]&lt;/code>)&lt;br>
+返回的结点值为&lt;code>3&lt;/code>。 (测评系统对该结点序列化表述是 &lt;code>[3,4,5]&lt;/code>)。&lt;br>
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：&lt;br>
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.&lt;/li>
+&lt;li>输入：&lt;code>[1,2,3,4,5,6]&lt;/code>&lt;br>
+输出：此列表中的结点 4 (序列化形式：&lt;code>[4,5,6]&lt;/code>)&lt;br>
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。&lt;/li>
+&lt;/ol>
+&lt;h2 id="解法-3">解法&lt;/h2>
+&lt;h3 id="单指针先遍历法">单指针先遍历法&lt;/h3>
+&lt;p>先遍历一次链表求出链表长度n，然后再求出中点值。&lt;br>
+代码:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">middleNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#66d9ef">int&lt;/span> n &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> ans &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">while&lt;/span>(head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+n&lt;span style="color:#f92672">++&lt;/span>;
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> (n &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
+ans &lt;span style="color:#f92672">=&lt;/span> ans &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> ans;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="快慢指针法">快慢指针法&lt;/h3>
+&lt;p>&lt;em>快慢指针是极度重要的思路！&lt;/em>&lt;br>
+定义两个指针分别遍历链表，其中一个一次遍历一个节点(慢)，另一个一次遍历两个节点(快)。这样当一个遍历到链表末端后，另一个刚好到一半。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">middleNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL &lt;span style="color:#f92672">||&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> slow &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> fast &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">while&lt;/span>(fast &lt;span style="color:#f92672">!=&lt;/span> NULL &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> fast &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">!=&lt;/span> NULL){
+slow &lt;span style="color:#f92672">=&lt;/span> slow &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+fast &lt;span style="color:#f92672">=&lt;/span> fast &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> slow;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h1 id="删除链表的结点">删除链表的结点&lt;/h1>
+&lt;h2 id="题目-4">题目&lt;/h2>
+&lt;p>给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。&lt;br>
+返回删除后的链表的头节点。&lt;/p>
+&lt;h2 id="示例-4">示例&lt;/h2>
+&lt;p>输入: head = [4,5,1,9], val = 5&lt;br>
+输出: [4,1,9]&lt;br>
+解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&amp;gt; 1 -&amp;gt; 9&lt;/p>
+&lt;h2 id="解法-4">解法&lt;/h2>
+&lt;p>将选定值所在结点的左节点与右结点连接即可。&lt;br>
+代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">deleteNode&lt;/span>(&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> head, &lt;span style="color:#66d9ef">int&lt;/span> val){
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">==&lt;/span> NULL){
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> newhead &lt;span style="color:#f92672">=&lt;/span> head;
+&lt;span style="color:#66d9ef">if&lt;/span>(head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">==&lt;/span> val){
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+&lt;span style="color:#66d9ef">return&lt;/span> head;
+}
+&lt;span style="color:#66d9ef">while&lt;/span>((head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> val &lt;span style="color:#f92672">!=&lt;/span> val) &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> head &lt;span style="color:#f92672">!=&lt;/span> NULL){
+head &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+}
+&lt;span style="color:#66d9ef">struct&lt;/span> ListNode&lt;span style="color:#f92672">*&lt;/span> aft &lt;span style="color:#f92672">=&lt;/span> head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next;
+head &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> aft;
+&lt;span style="color:#66d9ef">return&lt;/span> newhead;
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/linkedlistquestion/ -</description></item><item><title>快速排序</title><link>https://kanajin.github.io/datastructure/quicksort/</link><pubDate>Wed, 09 Jun 2021 17:31:17 +0800</pubDate><guid>https://kanajin.github.io/datastructure/quicksort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/quicksort/ -&lt;h1 id="简介">简介&lt;/h1>
 &lt;p>&lt;strong>快速排序&lt;/strong>(Quicksort)，又称&lt;strong>分区交换排序&lt;/strong>(partition-exchange sort)，简称&lt;strong>快排&lt;/strong>。在平均情况下，排序$n$个项目要$O(n\log_{}{n} )$次比较。在最坏情况下则需要$O(n^2)$次比较，但这种情况并不常见。事实上，快速排序通常比其他算法更快，因为它的内部循环(inner loop)可以在大部分的架构上很有效率地达成。&lt;/p>
 &lt;h1 id="思路">思路&lt;/h1>
 &lt;ul>
@@ -59,28 +495,28 @@ quick_sort(a, m &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color
 &lt;h3 id="如果你是macos用户或者linux用户可直接用包管理器安装">如果你是&lt;code>macOS&lt;/code>用户或者&lt;code>Linux&lt;/code>用户，可直接用包管理器安装&lt;/h3>
 &lt;h3 id="如果你是windows用户访问hugo的github官网releasehttpsgithubcomgohugoiohugoreleases">如果你是&lt;code>Windows&lt;/code>用户，访问Hugo的github&lt;a href="https://github.com/gohugoio/hugo/releases">官网release&lt;/a>&lt;/h3>
 &lt;p>下载成功一个zip压缩包，在你喜欢的地方解压，然后将含有&lt;code>hugo.exe&lt;/code>的目录添加进&lt;code>PATH&lt;/code>环境变量中，启动WindowsTerminal，输入以下指令：&lt;/p>
-&lt;pre>&lt;code>hugo version
+&lt;pre tabindex="0">&lt;code>hugo version
 &lt;/code>&lt;/pre>&lt;p>如果成功，则终端将显示以下内容：&lt;em>这里以撰写文章时的最新版本为例&lt;/em>&lt;/p>
-&lt;pre>&lt;code>$ hugo version
+&lt;pre tabindex="0">&lt;code>$ hugo version
 hugo v0.83.1-5AFE0A57 windows/amd64 BuildDate=2021-05-02T14:38:05Z VendorInfo=gohugoio
 &lt;/code>&lt;/pre>&lt;blockquote>
 &lt;p>可能遇到的问题：&lt;/p>
 &lt;ul>
 &lt;li>终端反馈无法识别&lt;code>hugo&lt;/code>指令，原因是存放&lt;code>hugo.exe&lt;/code>的目录未成功添加至&lt;code>PATH&lt;/code>中，在终端输入：&lt;/li>
 &lt;/ul>
-&lt;pre>&lt;code>write-host $env:Path
+&lt;pre tabindex="0">&lt;code>write-host $env:Path
 &lt;/code>&lt;/pre>&lt;p>　　看看输出中是否有该目录，如果没有，重新加入，重启终端。&lt;/p>
 &lt;/blockquote>
 &lt;h2 id="使用hugo建立一个新网站实例">使用Hugo建立一个新网站实例&lt;/h2>
 &lt;p>当Hugo安装成功后，就可以创建一个网站目录了&lt;br>
 在任意位置创建一个存放网站的目录，以&lt;code>D:\WebSite&lt;/code>为例，在终端下输入：&lt;/p>
-&lt;pre>&lt;code>hugo new site D:\WebSite
+&lt;pre tabindex="0">&lt;code>hugo new site D:\WebSite
 &lt;/code>&lt;/pre>&lt;p>hugo将会在D盘自动生成一个名为WebSite的文件夹，里面存放了建立网站需要的资源。包括&lt;code>content&lt;/code>目录以及&lt;code>config.toml&lt;/code>文件，前者用于存放你写的md文件，后者则是网站的配置文件。&lt;/p>
 &lt;h2 id="建立本地仓库并连接到github">建立本地仓库并连接到github&lt;/h2>
 &lt;p>如果要使用github托管网站，现在就先将这个网站文件夹建成git仓库。在当前目录下使用命令&lt;code>git init&lt;/code>建立仓库，之后的步骤与&lt;a href="https://kanajin.github.io/git/start/">初次使用Git&lt;/a>这篇文章相同，不再赘述。&lt;/p>
 &lt;h2 id="下载一个主题">下载一个主题&lt;/h2>
 &lt;p>Hugo必须选定主题后才能正常使用，因此先去主题站&lt;a href="https://themes.gohugo.io">https://themes.gohugo.io&lt;/a>选择一个你喜欢的主题，并前往该主题的github页面，根据&lt;code>README&lt;/code>的指导安装主题，命令行格式为：&lt;/p>
-&lt;pre>&lt;code>git submodule add https://github.com/&amp;lt;theme_name&amp;gt;
+&lt;pre tabindex="0">&lt;code>git submodule add https://github.com/&amp;lt;theme_name&amp;gt;
 &lt;/code>&lt;/pre>&lt;p>安装完成后，在&lt;code>config.toml&lt;/code>里添加一行：&lt;code>theme = &amp;quot;&amp;lt;theme_name&amp;gt;&amp;quot;&lt;/code>，主题就安装成功了。&lt;br>
 &lt;strong>注意！一次只能安装一个主题！否则会出错&lt;/strong>&lt;/p>
 &lt;blockquote>
@@ -88,10 +524,10 @@ hugo v0.83.1-5AFE0A57 windows/amd64 BuildDate=2021-05-02T14:38:05Z VendorInfo=go
 &lt;/blockquote>
 &lt;h2 id="撰写并发表你的第一篇文章">撰写并发表你的第一篇文章&lt;/h2>
 &lt;p>终端cd到网站目录下，使用命令：&lt;code>hugo new&lt;/code>来创建一篇markdown文章，具体格式为：&lt;/p>
-&lt;pre>&lt;code>hugo new 文件夹名\文章名.md
+&lt;pre tabindex="0">&lt;code>hugo new 文件夹名\文章名.md
 &lt;/code>&lt;/pre>&lt;p>该命令会在&lt;code>content&lt;/code>文件夹下创建一个新的文件夹，新文件夹名为你输入的名字（如果没有指定文件夹名，则markdown文件直接生成在content目录下）。
 你会看到markdown文件头部有以下内容：&lt;/p>
-&lt;pre>&lt;code>---
+&lt;pre tabindex="0">&lt;code>---
 title: &amp;quot;文件名&amp;quot;
 date: &amp;lt;date&amp;gt;
 draft: true
@@ -111,7 +547,7 @@ draft: true
 仓库名字严格使用&amp;lt;你的github名字&amp;gt;.github.io，这是托管网站的前提条件。&lt;/li>
 &lt;li>在网站目录下新建一个文件夹&lt;code>.github&lt;/code>，在其中创建一个新文件&lt;code>main.yml&lt;/code>并填写如下内容：&lt;/li>
 &lt;/ol>
-&lt;pre>&lt;code>name: github pages
+&lt;pre tabindex="0">&lt;code>name: github pages
 on:
 push:
 branches:
@@ -286,22 +722,22 @@ a[k] &lt;span style="color:#f92672">=&lt;/span> b[k];
 &lt;h2 id="制作图表vizable">制作图表：Vizable&lt;/h2>
 - https://kanajin.github.io/ipad/apps/ -</description></item><item><title>初次使用Git</title><link>https://kanajin.github.io/git/start/</link><pubDate>Mon, 07 Jun 2021 13:13:28 +0800</pubDate><guid>https://kanajin.github.io/git/start/</guid><description>Suzuki's Blog https://kanajin.github.io/git/start/ -&lt;h1 id="初次使用git">初次使用git：&lt;/h1>
 &lt;p>提交用户信息，通过以下两行指令提交用户名和邮箱（蓝色字体为自定义输入）&lt;/p>
-&lt;pre>&lt;code>$ git config --global user.name &amp;quot;Suzuki&amp;quot;
+&lt;pre tabindex="0">&lt;code>$ git config --global user.name &amp;quot;Suzuki&amp;quot;
 $ git config --global user.email ekanajin@gmail.com
 &lt;/code>&lt;/pre>&lt;p>&lt;em>注意：邮箱建议和你的代码托管网站所用邮箱相同，否则commit会有问题&lt;/em>&lt;/p>
 &lt;p>通过以下命令来确认是否提交：&lt;/p>
-&lt;pre>&lt;code>$ git config –list
+&lt;pre tabindex="0">&lt;code>$ git config –list
 user.name= Suzuki
 user.email=ekanajin@gmail.com
 &lt;/code>&lt;/pre>&lt;p>这个命令会返回很多变量，也可以用
 &lt;code>git config &amp;lt;key&amp;gt;&lt;/code>
 指定返回变量：&lt;/p>
-&lt;pre>&lt;code>$ git config user.name
+&lt;pre tabindex="0">&lt;code>$ git config user.name
 user.name=Suzuki
 &lt;/code>&lt;/pre>&lt;p>在想要建立git仓库的空目录下执行&lt;/p>
-&lt;pre>&lt;code>$ git init
+&lt;pre tabindex="0">&lt;code>$ git init
 &lt;/code>&lt;/pre>&lt;p>如果是一个非空文件夹，通过 git add 命令添加所需文件，并提交。例如：&lt;/p>
-&lt;pre>&lt;code>$ git add *.c
+&lt;pre tabindex="0">&lt;code>$ git add *.c
 $ git add LICENSE
 $ git commit -m ‘say something’
 &lt;/code>&lt;/pre>&lt;h1 id="添加ssh公钥使用ed25519加密">添加SSH公钥（使用ed25519加密）：&lt;/h1>
@@ -311,7 +747,7 @@ $ git commit -m ‘say something’
 然后就会在&lt;code>~/.ssh/&lt;/code>目录下生成两个文件，公钥&lt;code>id_ed25519.pub&lt;/code>和私钥&lt;code>id_ed25519&lt;/code>，公钥用于粘贴到代码托管网站，私钥一定不能给别人。&lt;/p>
 &lt;h1 id="clone已有仓库">clone已有仓库：&lt;/h1>
 &lt;p>在代码托管网站，找到SSH地址，然后输入以下命令（标蓝为SSH地址）&lt;/p>
-&lt;pre>&lt;code>$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
+&lt;pre tabindex="0">&lt;code>$git clone git@github.com:&amp;lt;your_github_username&amp;gt;/repositories.git
 &lt;/code>&lt;/pre>- https://kanajin.github.io/git/start/ -</description></item><item><title>插入排序</title><link>https://kanajin.github.io/datastructure/insertsort/</link><pubDate>Mon, 07 Jun 2021 11:24:43 +0800</pubDate><guid>https://kanajin.github.io/datastructure/insertsort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/insertsort/ -&lt;h1 id="插入排序">插入排序&lt;/h1>
 &lt;p>从左到右开始，先将第一个数标记为已排序，然后将他的下一个数取出，逐个与前面的数字比较。如果取出的数字更小，则继续往左比较，直到遇到一个比他小的数字，将取出的数插入到这个数的右边&lt;/p>
 &lt;h2 id="代码">代码：&lt;/h2>
@@ -326,40 +762,4 @@ a[j &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&
 }
 }
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>注意&lt;/strong> 程序中的 a[j + 1] = a[j] 的意思是将更大的数字右移一格&lt;/p>
-- https://kanajin.github.io/datastructure/insertsort/ -</description></item><item><title>选择排序</title><link>https://kanajin.github.io/datastructure/selectionsort/</link><pubDate>Mon, 07 Jun 2021 11:00:36 +0800</pubDate><guid>https://kanajin.github.io/datastructure/selectionsort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/selectionsort/ -&lt;h1 id="选择排序">选择排序：&lt;/h1>
-&lt;p>遍历一遍数组，选择最小的数（做法：先指定遍历的第一个数为最小，遍历一遍数组，如果发现比他小的，则记录这个最小值），将最小的数与遍历的第一个数对调，完成一次操作。然后从下一个数开始遍历，直到完成。&lt;/p>
-&lt;h2 id="内循环">内循环：&lt;/h2>
-&lt;p>遍历一遍数组，找到最小值（第n次遍历就从数组第n个数开始），然后将最小值与遍历的第一个数对调&lt;/p>
-&lt;h2 id="外循环">外循环：&lt;/h2>
-&lt;p>指定内循环次数，值为数组长度。&lt;/p>
-&lt;h2 id="代码">代码：&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> size; i&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">int&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> a[i];
-&lt;span style="color:#66d9ef">int&lt;/span> probe &lt;span style="color:#f92672">=&lt;/span> i;
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> size; j&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">if&lt;/span>(a[j] &lt;span style="color:#f92672">&amp;lt;&lt;/span> temp){
-temp &lt;span style="color:#f92672">=&lt;/span> a[j];
-probe &lt;span style="color:#f92672">=&lt;/span> j;
-}
-}
-swap(&lt;span style="color:#f92672">&amp;amp;&lt;/span>a[i], &lt;span style="color:#f92672">&amp;amp;&lt;/span>a[probe]);
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/selectionsort/ -</description></item><item><title>冒泡排序</title><link>https://kanajin.github.io/datastructure/bubblesort/</link><pubDate>Mon, 07 Jun 2021 10:38:35 +0800</pubDate><guid>https://kanajin.github.io/datastructure/bubblesort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/bubblesort/ -&lt;h1 id="冒泡排序">冒泡排序&lt;/h1>
-&lt;p>逐步比较相邻的两个数，如果前一个比后一个大，就对调他们的位置。&lt;/p>
-&lt;h2 id="内循环">内循环：&lt;/h2>
-&lt;p>遍历一次数组，比较a[n]与a[n+1]的大小，根据情况执行对调，然后n+1，重复&lt;/p>
-&lt;h2 id="外循环">外循环：&lt;/h2>
-&lt;p>需要遍历几次数组（执行几次内循环）才可以完成冒泡排序。值为数组长度（上界）&lt;/p>
-&lt;h2 id="代码">代码：&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>; j&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
-&lt;span style="color:#66d9ef">if&lt;/span>(a[i] &lt;span style="color:#f92672">&amp;gt;&lt;/span> a[i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>]){
-swap(a &lt;span style="color:#f92672">+&lt;/span> i, a &lt;span style="color:#f92672">+&lt;/span> i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>);
-}
-}
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/bubblesort/ -</description></item></channel></rss>
+- https://kanajin.github.io/datastructure/insertsort/ -</description></item></channel></rss>

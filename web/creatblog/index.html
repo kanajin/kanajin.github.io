@@ -240,28 +240,28 @@ brightness_7
 <h3 id=如果你是macos用户或者linux用户可直接用包管理器安装>如果你是<code>macOS</code>用户或者<code>Linux</code>用户，可直接用包管理器安装</h3>
 <h3 id=如果你是windows用户访问hugo的github官网releasehttpsgithubcomgohugoiohugoreleases>如果你是<code>Windows</code>用户，访问Hugo的github<a href=https://github.com/gohugoio/hugo/releases>官网release</a></h3>
 <p>下载成功一个zip压缩包，在你喜欢的地方解压，然后将含有<code>hugo.exe</code>的目录添加进<code>PATH</code>环境变量中，启动WindowsTerminal，输入以下指令：</p>
-<pre><code>hugo version
+<pre tabindex=0><code>hugo version
 </code></pre><p>如果成功，则终端将显示以下内容：<em>这里以撰写文章时的最新版本为例</em></p>
-<pre><code>$ hugo version
+<pre tabindex=0><code>$ hugo version
 hugo v0.83.1-5AFE0A57 windows/amd64 BuildDate=2021-05-02T14:38:05Z VendorInfo=gohugoio
 </code></pre><blockquote>
 <p>可能遇到的问题：</p>
 <ul>
 <li>终端反馈无法识别<code>hugo</code>指令，原因是存放<code>hugo.exe</code>的目录未成功添加至<code>PATH</code>中，在终端输入：</li>
 </ul>
-<pre><code>write-host $env:Path
+<pre tabindex=0><code>write-host $env:Path
 </code></pre><p>　　看看输出中是否有该目录，如果没有，重新加入，重启终端。</p>
 </blockquote>
 <h2 id=使用hugo建立一个新网站实例>使用Hugo建立一个新网站实例</h2>
 <p>当Hugo安装成功后，就可以创建一个网站目录了<br>
 在任意位置创建一个存放网站的目录，以<code>D:\WebSite</code>为例，在终端下输入：</p>
-<pre><code>hugo new site D:\WebSite
+<pre tabindex=0><code>hugo new site D:\WebSite
 </code></pre><p>hugo将会在D盘自动生成一个名为WebSite的文件夹，里面存放了建立网站需要的资源。包括<code>content</code>目录以及<code>config.toml</code>文件，前者用于存放你写的md文件，后者则是网站的配置文件。</p>
 <h2 id=建立本地仓库并连接到github>建立本地仓库并连接到github</h2>
 <p>如果要使用github托管网站，现在就先将这个网站文件夹建成git仓库。在当前目录下使用命令<code>git init</code>建立仓库，之后的步骤与<a href=https://kanajin.github.io/git/start/>初次使用Git</a>这篇文章相同，不再赘述。</p>
 <h2 id=下载一个主题>下载一个主题</h2>
 <p>Hugo必须选定主题后才能正常使用，因此先去主题站<a href=https://themes.gohugo.io>https://themes.gohugo.io</a>选择一个你喜欢的主题，并前往该主题的github页面，根据<code>README</code>的指导安装主题，命令行格式为：</p>
-<pre><code>git submodule add https://github.com/&lt;theme_name&gt;
+<pre tabindex=0><code>git submodule add https://github.com/&lt;theme_name&gt;
 </code></pre><p>安装完成后，在<code>config.toml</code>里添加一行：<code>theme = "&lt;theme_name>"</code>，主题就安装成功了。<br>
 <strong>注意！一次只能安装一个主题！否则会出错</strong></p>
 <blockquote>
@@ -269,10 +269,10 @@ hugo v0.83.1-5AFE0A57 windows/amd64 BuildDate=2021-05-02T14:38:05Z VendorInfo=go
 </blockquote>
 <h2 id=撰写并发表你的第一篇文章>撰写并发表你的第一篇文章</h2>
 <p>终端cd到网站目录下，使用命令：<code>hugo new</code>来创建一篇markdown文章，具体格式为：</p>
-<pre><code>hugo new 文件夹名\文章名.md
+<pre tabindex=0><code>hugo new 文件夹名\文章名.md
 </code></pre><p>该命令会在<code>content</code>文件夹下创建一个新的文件夹，新文件夹名为你输入的名字（如果没有指定文件夹名，则markdown文件直接生成在content目录下）。
 你会看到markdown文件头部有以下内容：</p>
-<pre><code>---
+<pre tabindex=0><code>---
 title: &quot;文件名&quot;
 date: &lt;date&gt;
 draft: true
@@ -292,7 +292,7 @@ draft: true
 仓库名字严格使用&lt;你的github名字>.github.io，这是托管网站的前提条件。</li>
 <li>在网站目录下新建一个文件夹<code>.github</code>，在其中创建一个新文件<code>main.yml</code>并填写如下内容：</li>
 </ol>
-<pre><code>name: github pages
+<pre tabindex=0><code>name: github pages
 
 on:
   push:

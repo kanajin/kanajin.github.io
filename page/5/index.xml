@@ -1,0 +1,37 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 03 Sep 2021 12:29:54 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>选择排序</title><link>https://kanajin.github.io/datastructure/selectionsort/</link><pubDate>Mon, 07 Jun 2021 11:00:36 +0800</pubDate><guid>https://kanajin.github.io/datastructure/selectionsort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/selectionsort/ -&lt;h1 id="选择排序">选择排序：&lt;/h1>
+&lt;p>遍历一遍数组，选择最小的数（做法：先指定遍历的第一个数为最小，遍历一遍数组，如果发现比他小的，则记录这个最小值），将最小的数与遍历的第一个数对调，完成一次操作。然后从下一个数开始遍历，直到完成。&lt;/p>
+&lt;h2 id="内循环">内循环：&lt;/h2>
+&lt;p>遍历一遍数组，找到最小值（第n次遍历就从数组第n个数开始），然后将最小值与遍历的第一个数对调&lt;/p>
+&lt;h2 id="外循环">外循环：&lt;/h2>
+&lt;p>指定内循环次数，值为数组长度。&lt;/p>
+&lt;h2 id="代码">代码：&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> size; i&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">int&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> a[i];
+&lt;span style="color:#66d9ef">int&lt;/span> probe &lt;span style="color:#f92672">=&lt;/span> i;
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> size; j&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(a[j] &lt;span style="color:#f92672">&amp;lt;&lt;/span> temp){
+temp &lt;span style="color:#f92672">=&lt;/span> a[j];
+probe &lt;span style="color:#f92672">=&lt;/span> j;
+}
+}
+swap(&lt;span style="color:#f92672">&amp;amp;&lt;/span>a[i], &lt;span style="color:#f92672">&amp;amp;&lt;/span>a[probe]);
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/selectionsort/ -</description></item><item><title>冒泡排序</title><link>https://kanajin.github.io/datastructure/bubblesort/</link><pubDate>Mon, 07 Jun 2021 10:38:35 +0800</pubDate><guid>https://kanajin.github.io/datastructure/bubblesort/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/bubblesort/ -&lt;h1 id="冒泡排序">冒泡排序&lt;/h1>
+&lt;p>逐步比较相邻的两个数，如果前一个比后一个大，就对调他们的位置。&lt;/p>
+&lt;h2 id="内循环">内循环：&lt;/h2>
+&lt;p>遍历一次数组，比较a[n]与a[n+1]的大小，根据情况执行对调，然后n+1，重复&lt;/p>
+&lt;h2 id="外循环">外循环：&lt;/h2>
+&lt;p>需要遍历几次数组（执行几次内循环）才可以完成冒泡排序。值为数组长度（上界）&lt;/p>
+&lt;h2 id="代码">代码：&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">sort&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#f92672">*&lt;/span>a, &lt;span style="color:#66d9ef">int&lt;/span> size){
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; j &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>; j&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">for&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; i &lt;span style="color:#f92672">&amp;lt;&lt;/span> size &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>; i&lt;span style="color:#f92672">++&lt;/span>){
+&lt;span style="color:#66d9ef">if&lt;/span>(a[i] &lt;span style="color:#f92672">&amp;gt;&lt;/span> a[i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>]){
+swap(a &lt;span style="color:#f92672">+&lt;/span> i, a &lt;span style="color:#f92672">+&lt;/span> i &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>);
+}
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/datastructure/bubblesort/ -</description></item></channel></rss>

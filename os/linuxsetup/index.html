@@ -495,7 +495,7 @@ fdisk命令行大概长这样：<code>Command (m for help):</code><br>
 <p>我们目前其实处于U盘的Linux系统下，如果要对分好区、格式化完毕的新磁盘进行操作，就需要将这些分区挂载到U盘上，就要用到mount命令。<br>
 在U盘上创建两个文件夹：<br>
 <code>mkdir -p /mnt/boot</code>以及<code>mkdir -p /mnt/home</code>，然后执行：</p>
-<pre><code>mount /dev/efi_partition /mnt/boot
+<pre tabindex=0><code>mount /dev/efi_partition /mnt/boot
 mount /dev/root_partition /mnt
 mount /dev/home_partition /mnt/home
 </code></pre><p>将各分区挂载到相应的文件夹。</p>
@@ -547,7 +547,7 @@ mount /dev/home_partition /mnt/home
 <code># vim /etc/hostname</code><br>
 <code>myhostname</code>(写上自己喜欢的名字即可，为本机名)<br>
 <code># vim /etc/hosts</code>并填入以下内容：</p>
-<pre><code>127.0.0.1 localhost
+<pre tabindex=0><code>127.0.0.1 localhost
 ::1 localhost
 127.0.1.1 myhostname.localdomain myhostname
 </code></pre><p>其中的<code>myhostname</code>改为自己设置的。</p>
@@ -571,14 +571,14 @@ mount /dev/home_partition /mnt/home
 <p>编辑<code>/etc/default/grub</code>文件：<br>
 <code>vim /etc/default/grub</code><br>
 在底下加入如下内容：</p>
-<pre><code>#enable osprober
+<pre tabindex=0><code>#enable osprober
 GRUB_DISABLE_OS_PROBER=false
 </code></pre><p>然后执行：<br>
 <code># grub-mkconfig -o /boot/grub/grub.cfg</code>
 查看一下<code>grub.cfg</code>文件：<br>
 <code>#vim /boot/grub/grub.cfg</code><br>
 应该能找到如下内容：</p>
-<pre><code>### BEGIN /etc/grub.d/30_os-prober ###
+<pre tabindex=0><code>### BEGIN /etc/grub.d/30_os-prober ###
 menuentry 'Windows Boot Manager (on ***)'
 </code></pre><p>这样的内容，说明成功了</p>
 <h3 id=创建普通用户>创建普通用户</h3>
