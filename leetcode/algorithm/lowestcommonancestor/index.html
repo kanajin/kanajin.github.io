@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>二叉搜索树中的插入操作</title>
+<title>二叉搜索树的最近公共祖先</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -50,13 +50,13 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 </li>
 <ul>
 <li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
+<a href=#%e4%b8%89%e6%95%b0%e7%bb%84 onclick="onNavClick(`#三数组-nav`)" id=三数组-nav>
+三数组
 </a>
 </li>
 <li>
-<a href=#%e6%a8%a1%e6%8b%9f%e6%b3%95 onclick="onNavClick(`#模拟法-nav`)" id=模拟法-nav>
-模拟法
+<a href=#%e4%b8%80%e6%ac%a1%e9%81%8d%e5%8e%86 onclick="onNavClick(`#一次遍历-nav`)" id=一次遍历-nav>
+一次遍历
 </a>
 </li>
 </ul>
@@ -97,13 +97,13 @@ brightness_7
 </li>
 <ul>
 <li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
+<a href=#%e4%b8%89%e6%95%b0%e7%bb%84 onclick="onNavClick(`#三数组-nav`)" id=三数组-nav>
+三数组
 </a>
 </li>
 <li>
-<a href=#%e6%a8%a1%e6%8b%9f%e6%b3%95 onclick="onNavClick(`#模拟法-nav`)" id=模拟法-nav>
-模拟法
+<a href=#%e4%b8%80%e6%ac%a1%e9%81%8d%e5%8e%86 onclick="onNavClick(`#一次遍历-nav`)" id=一次遍历-nav>
+一次遍历
 </a>
 </li>
 </ul>
@@ -147,10 +147,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-二叉搜索树中的插入操作
+二叉搜索树的最近公共祖先
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-09-03 12:29
+2021-09-04 15:54
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -161,67 +161,92 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。</p>
-<p>注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。</p>
+<p>给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。</p>
+<p>百度百科中最近公共祖先的定义为：“对于有根树 T 的两个结点 p、q，最近公共祖先表示为一个结点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</p>
+<p>例如，给定如下二叉搜索树: root = [6,2,8,0,4,7,9,null,null,3,5]</p>
+<p>示例 1:</p>
+<blockquote>
+<p>输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8<br>
+输出: 6<br>
+解释: 节点 2 和节点 8 的最近公共祖先是 6。</p>
+</blockquote>
+<p>示例 2：</p>
+<blockquote>
+<p>输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4<br>
+输出: 2<br>
+解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。</p>
+</blockquote>
 <h1 id=解法>解法</h1>
-<h2 id=递归法>递归法</h2>
-<p>如果比当前根值大，递归左子树，如果左子树为空，插入<br>
-反之</p>
+<h2 id=三数组>三数组</h2>
+<p>仿照哈夫曼树，搜索两个结点，返回其搜索序列，左子树为0， 右子树为1</p>
+<p>他们的最近公共祖先，就是他们两个搜索序列最后一个重复的元素，该元素与前面序列组成的新序列就是该祖先的搜索序列</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * Definition for a binary tree node.
 </span><span style=color:#75715e> * public class TreeNode {
 </span><span style=color:#75715e> *     int val;
 </span><span style=color:#75715e> *     TreeNode left;
 </span><span style=color:#75715e> *     TreeNode right;
-</span><span style=color:#75715e> *     TreeNode() {}
-</span><span style=color:#75715e> *     TreeNode(int val) { this.val = val; }
-</span><span style=color:#75715e> *     TreeNode(int val, TreeNode left, TreeNode right) {
-</span><span style=color:#75715e> *         this.val = val;
-</span><span style=color:#75715e> *         this.left = left;
-</span><span style=color:#75715e> *         this.right = right;
-</span><span style=color:#75715e> *     }
+</span><span style=color:#75715e> *     TreeNode(int x) { val = x; }
 </span><span style=color:#75715e> * }
 </span><span style=color:#75715e> */</span>
+
 <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>insertIntoBST</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>=</span> insertIntoBST<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>,</span> val<span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&gt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>=</span> insertIntoBST<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>,</span> val<span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> root<span style=color:#f92672>;</span>
-    <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><h2 id=模拟法>模拟法</h2>
-<p>创建一个探索结点pos，和val进行大小比较，如果 val &lt; pos.val，pos就向左子树移动，如果是null，就将val插入</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>insertIntoBST</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        TreeNode pos <span style=color:#f92672>=</span> root<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>pos <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&lt;</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-                    <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-                <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
+    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>lowestCommonAncestor</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> TreeNode p<span style=color:#f92672>,</span> TreeNode q<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        ArrayList<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> p_arr <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;();</span>
+        ArrayList<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> q_arr <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;();</span>
+        ArrayList<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> total_arr <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ArrayList<span style=color:#f92672>&lt;&gt;();</span>
+        search<span style=color:#f92672>(</span>p_arr<span style=color:#f92672>,</span> root<span style=color:#f92672>,</span> p<span style=color:#f92672>);</span>
+        search<span style=color:#f92672>(</span>q_arr<span style=color:#f92672>,</span> root<span style=color:#f92672>,</span> q<span style=color:#f92672>);</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> Math<span style=color:#f92672>.</span><span style=color:#a6e22e>min</span><span style=color:#f92672>(</span>p_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>size</span><span style=color:#f92672>(),</span> q_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>size</span><span style=color:#f92672>());</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span>p_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>==</span> q_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>i<span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+                total_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>p_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>i<span style=color:#f92672>));</span>
             <span style=color:#f92672>}</span>
             <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-                    <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-                <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
+                <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+        TreeNode pos <span style=color:#f92672>=</span> root<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>for</span> <span style=color:#f92672>(</span><span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> 0<span style=color:#f92672>;</span> i <span style=color:#f92672>&lt;</span> total_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>size</span><span style=color:#f92672>();</span> i<span style=color:#f92672>++)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>total_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>==</span> 0<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>total_arr<span style=color:#f92672>.</span><span style=color:#a6e22e>get</span><span style=color:#f92672>(</span>i<span style=color:#f92672>)</span> <span style=color:#f92672>==</span> 1<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> pos<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>search</span><span style=color:#f92672>(</span>ArrayList<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>&gt;</span> arr<span style=color:#f92672>,</span> TreeNode root<span style=color:#f92672>,</span> TreeNode search_node<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>search_node<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>==</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>search_node<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                arr<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>0<span style=color:#f92672>);</span>
+                root <span style=color:#f92672>=</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+                arr<span style=color:#f92672>.</span><span style=color:#a6e22e>add</span><span style=color:#f92672>(</span>1<span style=color:#f92672>);</span>
+                root <span style=color:#f92672>=</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><h2 id=一次遍历>一次遍历</h2>
+<p>如果两个结点的值均小于当前结点，则当前结点左移。反之右移。</p>
+<p>如果一大一小，则出现了分岔，这就是最近公共祖先，返回即可。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>lowestCommonAncestor</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> TreeNode p<span style=color:#f92672>,</span> TreeNode q<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>p<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&amp;&amp;</span> q<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                root <span style=color:#f92672>=</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>p<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&gt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&amp;&amp;</span> q<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span> <span style=color:#f92672>&gt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                root <span style=color:#f92672>=</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>;</span>
+            <span style=color:#f92672>}</span>
+            <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span> root<span style=color:#f92672>;</span>
             <span style=color:#f92672>}</span>
         <span style=color:#f92672>}</span>
         <span style=color:#66d9ef>return</span> root<span style=color:#f92672>;</span>
@@ -229,15 +254,15 @@ brightness_7
 <span style=color:#f92672>}</span>
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-09-03</p>
+<p style=color:#777>Last modified on 2021-09-04</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/isvalidbst/>
-Next<br>验证二叉搜索树
+<a class=newer-posts>
+Next<br>No newer posts.
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/smallestk/>
-Previous<br>最小K个数
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/findtarget/>
+Previous<br>两数之和-BST
 </a>
 </nav>
 <div class=post-comment-wrapper>

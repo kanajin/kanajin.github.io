@@ -1,5 +1,5 @@
 <!doctype html><html><head>
-<title>二叉搜索树中的插入操作</title>
+<title>两数之和-BST</title>
 <meta charset=utf-8>
 <meta name=X-UA-Compatible content="IE=edge">
 <meta name=google-site-verification content>
@@ -48,17 +48,6 @@ Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">M
 解法
 </a>
 </li>
-<ul>
-<li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
-</a>
-</li>
-<li>
-<a href=#%e6%a8%a1%e6%8b%9f%e6%b3%95 onclick="onNavClick(`#模拟法-nav`)" id=模拟法-nav>
-模拟法
-</a>
-</li>
 </ul>
 </div>
 </div>
@@ -93,17 +82,6 @@ brightness_7
 <li>
 <a href=#%e8%a7%a3%e6%b3%95 onclick="onNavClick(`#解法-nav`)" id=解法-nav>
 解法
-</a>
-</li>
-<ul>
-<li>
-<a href=#%e9%80%92%e5%bd%92%e6%b3%95 onclick="onNavClick(`#递归法-nav`)" id=递归法-nav>
-递归法
-</a>
-</li>
-<li>
-<a href=#%e6%a8%a1%e6%8b%9f%e6%b3%95 onclick="onNavClick(`#模拟法-nav`)" id=模拟法-nav>
-模拟法
 </a>
 </li>
 </ul>
@@ -147,10 +125,10 @@ brightness_7
 <div class=post>
 <div class=post-head-wrapper-text-only>
 <div class=post-title>
-二叉搜索树中的插入操作
+两数之和-BST
 <div class=post-meta>
 <time itemprop=datePublished>
-2021-09-03 12:29
+2021-09-04 15:09
 </time>
 <i class=material-icons>folder</i>
 <a href=/categories/>[力扣算法]</a>
@@ -161,12 +139,9 @@ brightness_7
 <div class=post-body-wrapper>
 <div class=post-body v-pre>
 <h1 id=题目描述>题目描述</h1>
-<p>给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 保证 ，新值和原始二叉搜索树中的任意节点值都不同。</p>
-<p>注意，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 任意有效的结果 。</p>
+<p>给定一个二叉搜索树 root 和一个目标结果 k，如果 BST 中存在两个元素且它们的和等于给定的目标结果，则返回 true。</p>
 <h1 id=解法>解法</h1>
-<h2 id=递归法>递归法</h2>
-<p>如果比当前根值大，递归左子树，如果左子树为空，插入<br>
-反之</p>
+<p>深度优先遍历结合哈希表，像数组那样解</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>/**
 </span><span style=color:#75715e> * Definition for a binary tree node.
 </span><span style=color:#75715e> * public class TreeNode {
@@ -183,61 +158,29 @@ brightness_7
 </span><span style=color:#75715e> * }
 </span><span style=color:#75715e> */</span>
 <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>insertIntoBST</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>=</span> insertIntoBST<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>,</span> val<span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&gt;</span> root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>=</span> insertIntoBST<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>,</span> val<span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> root<span style=color:#f92672>;</span>
-    <span style=color:#f92672>}</span>
-<span style=color:#f92672>}</span>
-</code></pre></div><h2 id=模拟法>模拟法</h2>
-<p>创建一个探索结点pos，和val进行大小比较，如果 val &lt; pos.val，pos就向左子树移动，如果是null，就将val插入</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span> <span style=color:#f92672>{</span>
-    <span style=color:#66d9ef>public</span> TreeNode <span style=color:#a6e22e>insertIntoBST</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> val<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-        <span style=color:#f92672>}</span>
-        TreeNode pos <span style=color:#f92672>=</span> root<span style=color:#f92672>;</span>
-        <span style=color:#66d9ef>while</span> <span style=color:#f92672>(</span>pos <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>val <span style=color:#f92672>&lt;</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-                    <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-                <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
+    Map<span style=color:#f92672>&lt;</span>Integer<span style=color:#f92672>,</span> Integer<span style=color:#f92672>&gt;</span> dic <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> HashMap<span style=color:#f92672>&lt;&gt;();</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>boolean</span> <span style=color:#a6e22e>findTarget</span><span style=color:#f92672>(</span>TreeNode root<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> k<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>root <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>dic<span style=color:#f92672>.</span><span style=color:#a6e22e>containsKey</span><span style=color:#f92672>(</span>k<span style=color:#f92672>-</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>))</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>;</span>
             <span style=color:#f92672>}</span>
-            <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                <span style=color:#66d9ef>if</span> <span style=color:#f92672>(</span>pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
-                    pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> TreeNode<span style=color:#f92672>(</span>val<span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>,</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>);</span>
-                    <span style=color:#66d9ef>break</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-                <span style=color:#66d9ef>else</span> <span style=color:#f92672>{</span>
-                    pos <span style=color:#f92672>=</span> pos<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>;</span>
-                <span style=color:#f92672>}</span>
-            <span style=color:#f92672>}</span>
+            dic<span style=color:#f92672>.</span><span style=color:#a6e22e>put</span><span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>val</span><span style=color:#f92672>,</span> 1<span style=color:#f92672>);</span>
+            <span style=color:#66d9ef>return</span> findTarget<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>left</span><span style=color:#f92672>,</span> k<span style=color:#f92672>)</span> <span style=color:#f92672>||</span> findTarget<span style=color:#f92672>(</span>root<span style=color:#f92672>.</span><span style=color:#a6e22e>right</span><span style=color:#f92672>,</span> k<span style=color:#f92672>);</span>
         <span style=color:#f92672>}</span>
-        <span style=color:#66d9ef>return</span> root<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>false</span><span style=color:#f92672>;</span>
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
 <hr width=100% id=EOF>
-<p style=color:#777>Last modified on 2021-09-03</p>
+<p style=color:#777>Last modified on 2021-09-04</p>
 </div>
 </div>
 <nav class=post-pagination>
-<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/isvalidbst/>
-Next<br>验证二叉搜索树
+<a class=newer-posts href=https://kanajin.github.io/leetcode/algorithm/lowestcommonancestor/>
+Next<br>二叉搜索树的最近公共祖先
 </a>
-<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/smallestk/>
-Previous<br>最小K个数
+<a class=older-posts href=https://kanajin.github.io/leetcode/algorithm/isvalidbst/>
+Previous<br>验证二叉搜索树
 </a>
 </nav>
 <div class=post-comment-wrapper>

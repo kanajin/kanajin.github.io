@@ -1,4 +1,247 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 03 Sep 2021 12:29:54 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>数组中的第K个最大元素</title><link>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</link><pubDate>Fri, 20 Aug 2021 19:28:15 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/findkthlargest/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 04 Sep 2021 15:54:27 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>重塑矩阵</title><link>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</link><pubDate>Thu, 26 Aug 2021 00:42:11 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/matrixreshape/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>在 MATLAB 中，有一个非常有用的函数 reshape ，它可以将一个 m x n 矩阵重塑为另一个大小不同（r x c）的新矩阵，但保留其原始数据。&lt;/p>
+&lt;p>给你一个由二维数组 mat 表示的 m x n 矩阵，以及两个正整数 r 和 c ，分别表示想要的重构的矩阵的行数和列数。&lt;/p>
+&lt;p>重构后的矩阵需要将原始矩阵的所有元素以相同的 行遍历顺序 填充。&lt;/p>
+&lt;p>如果具有给定参数的 reshape 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>二维矩阵一维化：&lt;br>
+对于一个行为 r, 列为 c 二位数组，我们可以将其下角标 i, j 映射为一维的 x，映射规则为：&lt;/p>
+&lt;p>$x = ci + j$&lt;/p>
+&lt;p>要转化回原始坐标时，关系如下：&lt;/p>
+&lt;ol>
+&lt;li>$i = x / c$&lt;/li>
+&lt;li>$j = x % c$&lt;/li>
+&lt;/ol>
+&lt;p>原因是：&lt;/p>
+&lt;p>因为 j 必定小于 c，因此做除法时一定会被舍去，只剩下 i；而取余时必定只留下 j&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> &lt;span style="color:#a6e22e">matrixReshape&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> mat&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> r&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> c&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>mat&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">*&lt;/span> mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> r&lt;span style="color:#f92672">*&lt;/span>c&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> mat&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> reshape &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>r&lt;span style="color:#f92672">][&lt;/span>c&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> r &lt;span style="color:#f92672">*&lt;/span> c&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+reshape&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>c&lt;span style="color:#f92672">][&lt;/span>i&lt;span style="color:#f92672">%&lt;/span>c&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> mat&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">][&lt;/span>i&lt;span style="color:#f92672">%&lt;/span>mat&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> reshape&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/matrixreshape/ -</description></item><item><title>最大子序和</title><link>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</link><pubDate>Mon, 23 Aug 2021 16:34:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/maxsubarray/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/maxsubarray/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>&lt;em>假设数组名nums&lt;/em>&lt;/p>
+&lt;h2 id="动态规划法">动态规划法&lt;/h2>
+&lt;p>假设以角标为 i 的元素结尾的子序列中，最大和的值为f(i)；那么 f(i) 有以下两种取值可能：&lt;/p>
+&lt;ol>
+&lt;li>f(i-1)+nums[i]，即上一个最大子序列和 f(i-1) 的值加上 nums[i] 比 nums[i] 本身大&lt;/li>
+&lt;li>nums[i]，即 f(i-1) + nums[i] &amp;lt; nums[i]&lt;/li>
+&lt;/ol>
+&lt;p>即 f(i) = max{f(i-1) + nums[i], nums[i]}&lt;/p>
+&lt;p>因此我们需要一个变量来存储f(i-1)，并从0遍历数组不断动态规划&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">maxSubArray&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> nums&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e">//在初始状态下，pre从0开始规划
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> pre &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#75715e">//假设数组的第一个子集为最大和
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> max &lt;span style="color:#f92672">=&lt;/span> nums&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">:&lt;/span> nums&lt;span style="color:#f92672">){&lt;/span>
+&lt;span style="color:#75715e">//将思路翻译为代码
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> pre &lt;span style="color:#f92672">=&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>pre &lt;span style="color:#f92672">+&lt;/span> i&lt;span style="color:#f92672">,&lt;/span> i&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#75715e">//若f(i)比存储的最大值大，更新他
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> max &lt;span style="color:#f92672">=&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>pre&lt;span style="color:#f92672">,&lt;/span> max&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> max&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="分治法">分治法&lt;/h2>
+&lt;p>首先分治算法的基本架构：将大问题分解为两个或多个同样模型，但是规模较小的小问题，然后基于小问题的解得出原问题的解。&lt;/p>
+&lt;h3 id="设计过程">设计过程&lt;/h3>
+&lt;p>&lt;a href="https://leetcode-cn.com/problems/maximum-subarray/solution/divide-and-conquer-fen-zhi-suan-fa-she-j-4sbv/">参考网址&lt;/a>&lt;br>
+假定我们现在期望求区间 M:[l,r] 上的最大子序列 M.m_sum, 按照分治算法的思路，我们会把这个区间分为 L:[l,m] 和 R:[m+1,r] 两部分。那么 M:[l,r] 上的最大子序列出现的位置共有以下三种可能：&lt;/p>
+&lt;ol>
+&lt;li>M.m_sum 完全在 L 内，即 M.m_sum = L.m_sum&lt;/li>
+&lt;li>M.m_sum 完全在 R 内，即 M.m_sum = R.m_sum&lt;/li>
+&lt;li>M.m_sum 横跨两个区间&lt;/li>
+&lt;/ol>
+&lt;p>对于第三种情况，则 M.m_sum 必定从左序列的某个右边界延续到右序列的某个左边界，容易得出结论，该序列必定是 L 序列以右边界结尾的最大子序列，与 R 序列的以左边界开头的最大子序列之和，因此我们需要维护 l_sum 和 r_sum 两个变量，并可以得出以下结论：&lt;/p>
+&lt;blockquote>
+&lt;p>M.m_sum = Max{Max{L.m_sum, R.m_sum}, L.r_sum + R.l_sum}&lt;/p>
+&lt;/blockquote>
+&lt;p>接下来分析如何维护 l_sum 与 r_sum，由于是对偶的，只需分析一边即可：&lt;/p>
+&lt;p>对于 M 序列，其 l_sum 必定从左边界开始&lt;/p>
+&lt;blockquote>
+&lt;p>如果没有蔓延到中点右边，则有 M.l_sum = L.l_sum&lt;br>
+如果蔓延到了中点右边，则有 M.l_sum = 整个 L 序列 + R.l_sum&lt;/p>
+&lt;/blockquote>
+&lt;p>因此，我们还需要维护一个表示整个序列的变量 t_sum。维护这个变量的方式很简单，当分治递归到最底层时， t_sum 即为单元素序列的元素值&lt;/p>
+&lt;p>至此，我们一共有了四个变量，分别为：&lt;/p>
+&lt;blockquote>
+&lt;p>l_sum：当前序列以左边界为起点的最大子序列和&lt;br>
+r_sum：当前序列以右边界为终点的最大子序列和&lt;br>
+m_sum：当前序列的最大子序列和&lt;br>
+t_sum：当前序列所有元素和&lt;/p>
+&lt;/blockquote>
+&lt;p>这四个变量，开始分析算法&lt;/p>
+&lt;p>当分治法递归到底层时，每个序列只有一个元素 n，因此，我们可以另这四个变量都等于 n，并跳出本次递归，开始合并&lt;/p>
+&lt;p>考察两个序列 L、R 合并成的新序列 M，考察其四个变量：&lt;/p>
+&lt;blockquote>
+&lt;p>l_sum：M.l_sum = Max{L.l_sum, L.t_sum + R.l_sum}&lt;br>
+r_sum: M.r_sum = Max{R.r_sum, l.r_sum + R.t_sum}&lt;br>
+m_sum: M.m_sum = Max{Max{L.m_sum, R.m_sum}, L.r_sum + R.l_sum}&lt;br>
+t_sum: M.t_sum = L.t_sum + R.t_sum&lt;/p>
+&lt;/blockquote>
+&lt;p>维护好每个子序列的四个变量后，逐渐合并递归即可得到整个数组的四个变量，可以开始着手写代码了&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">ArrInfo&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e">//四个变量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> l_sum&lt;span style="color:#f92672">,&lt;/span> r_sum&lt;span style="color:#f92672">,&lt;/span> m_sum&lt;span style="color:#f92672">,&lt;/span> t_sum&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#75715e">//初始化四个变量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#a6e22e">ArrInfo&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> l_sum&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> r_sum&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> m_sum&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> t_sum&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">l_sum&lt;/span> &lt;span style="color:#f92672">=&lt;/span> l_sum&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">r_sum&lt;/span> &lt;span style="color:#f92672">=&lt;/span> r_sum&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">m_sum&lt;/span> &lt;span style="color:#f92672">=&lt;/span> m_sum&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">this&lt;/span>&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">t_sum&lt;/span> &lt;span style="color:#f92672">=&lt;/span> t_sum&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//算法总接口
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">maxSubArray&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> nums&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+ArrInfo sol &lt;span style="color:#f92672">=&lt;/span> get&lt;span style="color:#f92672">(&lt;/span>nums&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">,&lt;/span> nums&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span>&lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> sol&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">m_sum&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//合
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> ArrInfo &lt;span style="color:#a6e22e">merge&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ArrInfo l_sub&lt;span style="color:#f92672">,&lt;/span> ArrInfo r_sub&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e">//合并后维护四个变量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> l_sum &lt;span style="color:#f92672">=&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">l_sum&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">t_sum&lt;/span> &lt;span style="color:#f92672">+&lt;/span> r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">l_sum&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> r_sum &lt;span style="color:#f92672">=&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">r_sum&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">r_sum&lt;/span> &lt;span style="color:#f92672">+&lt;/span> r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">t_sum&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> m_sum &lt;span style="color:#f92672">=&lt;/span> Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>Math&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">max&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">m_sum&lt;/span>&lt;span style="color:#f92672">,&lt;/span> r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">m_sum&lt;/span>&lt;span style="color:#f92672">),&lt;/span> l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">r_sum&lt;/span> &lt;span style="color:#f92672">+&lt;/span> r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">l_sum&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> t_sum &lt;span style="color:#f92672">=&lt;/span> l_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">t_sum&lt;/span> &lt;span style="color:#f92672">+&lt;/span> r_sub&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">t_sum&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrInfo&lt;span style="color:#f92672">(&lt;/span>l_sum&lt;span style="color:#f92672">,&lt;/span> r_sum&lt;span style="color:#f92672">,&lt;/span> m_sum&lt;span style="color:#f92672">,&lt;/span> t_sum&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//分
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> ArrInfo &lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> nums&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> l&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> r&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#75715e">//递归到底层时，另每个变量都为该元素
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l &lt;span style="color:#f92672">==&lt;/span> r&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrInfo&lt;span style="color:#f92672">(&lt;/span>nums&lt;span style="color:#f92672">[&lt;/span>l&lt;span style="color:#f92672">],&lt;/span> nums&lt;span style="color:#f92672">[&lt;/span>l&lt;span style="color:#f92672">],&lt;/span> nums&lt;span style="color:#f92672">[&lt;/span>l&lt;span style="color:#f92672">],&lt;/span> nums&lt;span style="color:#f92672">[&lt;/span>l&lt;span style="color:#f92672">]);&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//获得序列中点
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> m &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l &lt;span style="color:#f92672">+&lt;/span> r&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#75715e">//递归左序列
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> ArrInfo l_sub &lt;span style="color:#f92672">=&lt;/span> get&lt;span style="color:#f92672">(&lt;/span>nums&lt;span style="color:#f92672">,&lt;/span> l&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#75715e">//递归右序列
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> ArrInfo r_sub &lt;span style="color:#f92672">=&lt;/span> get&lt;span style="color:#f92672">(&lt;/span>nums&lt;span style="color:#f92672">,&lt;/span> m&lt;span style="color:#f92672">+&lt;/span>1&lt;span style="color:#f92672">,&lt;/span> r&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#75715e">//返回合并序列
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> merge&lt;span style="color:#f92672">(&lt;/span>l_sub&lt;span style="color:#f92672">,&lt;/span> r_sub&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/maxsubarray/ -</description></item><item><title>两数相加</title><link>https://kanajin.github.io/leetcode/algorithm/addtwonumbers/</link><pubDate>Fri, 20 Aug 2021 21:38:20 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/addtwonumbers/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/addtwonumbers/ -&lt;h1 id="题目">题目&lt;/h1>
+&lt;p>给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。&lt;/p>
+&lt;p>请你将两个数相加，并以相同形式返回一个表示和的链表。&lt;/p>
+&lt;p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>逐位相加，如果加和的值大于10，则记录进一，下一次的逐位相加应加上该进位，如果最高一位溢出，则再新建一个尾结点，值为1&lt;/p>
+&lt;h2 id="自己的解法">自己的解法&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-Java" data-lang="Java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for singly-linked list.
+&lt;/span>&lt;span style="color:#75715e"> * public class ListNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode next;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+ListNode head &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+ListNode tail &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">addTwoNumbers&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode l1&lt;span style="color:#f92672">,&lt;/span> ListNode l2&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> overflow &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//记录进位
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">while&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">||&lt;/span> l2 &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">){&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> l2 &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">){&lt;/span>
+ListNode temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow&lt;span style="color:#f92672">)%&lt;/span>10&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+addAtTail&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 10&lt;span style="color:#f92672">){&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//溢出，进位
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> &lt;span style="color:#75715e">//若不再溢出，复原进位
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">}&lt;/span>
+l1 &lt;span style="color:#f92672">=&lt;/span> l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+l2 &lt;span style="color:#f92672">=&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">){&lt;/span>
+ListNode temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow&lt;span style="color:#f92672">)%&lt;/span>10&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+addAtTail&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 10&lt;span style="color:#f92672">){&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+l2 &lt;span style="color:#f92672">=&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+ListNode temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow&lt;span style="color:#f92672">)%&lt;/span>10&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+addAtTail&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> overflow &lt;span style="color:#f92672">&amp;gt;=&lt;/span> 10&lt;span style="color:#f92672">){&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+overflow &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+l1 &lt;span style="color:#f92672">=&lt;/span> l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>overflow &lt;span style="color:#f92672">==&lt;/span> 1&lt;span style="color:#f92672">){&lt;/span>
+ListNode temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">(&lt;/span>1&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+addAtTail&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> head&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//尾插
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">private&lt;/span> &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">addAtTail&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode ele&lt;span style="color:#f92672">){&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span>&lt;span style="color:#f92672">(&lt;/span>head &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> tail &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">){&lt;/span>
+head &lt;span style="color:#f92672">=&lt;/span> ele&lt;span style="color:#f92672">;&lt;/span>
+tail &lt;span style="color:#f92672">=&lt;/span> ele&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">else&lt;/span>&lt;span style="color:#f92672">{&lt;/span>
+tail&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span> &lt;span style="color:#f92672">=&lt;/span> ele&lt;span style="color:#f92672">;&lt;/span>
+tail &lt;span style="color:#f92672">=&lt;/span> tail&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="递归法">递归法&lt;/h2>
+&lt;p>思路也是诸位相加，使用了递归&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for singly-linked list.
+&lt;/span>&lt;span style="color:#75715e"> * public class ListNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode next;
+&lt;/span>&lt;span style="color:#75715e"> * ListNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">addTwoNumbers&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode l1&lt;span style="color:#f92672">,&lt;/span> ListNode l2&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">,&lt;/span> 0&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> ListNode &lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>ListNode l1&lt;span style="color:#f92672">,&lt;/span> ListNode l2&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> l2 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">&amp;gt;&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">(&lt;/span>addOne&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l2 &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>addOne &lt;span style="color:#f92672">+&lt;/span> l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ListNode&lt;span style="color:#f92672">((&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">%&lt;/span> 10&lt;span style="color:#f92672">,&lt;/span> add&lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">next&lt;/span>&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#f92672">(&lt;/span>l1&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> l2&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span> &lt;span style="color:#f92672">+&lt;/span> addOne&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">/&lt;/span> 10&lt;span style="color:#f92672">));&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/addtwonumbers/ -</description></item><item><title>数组中的第K个最大元素</title><link>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</link><pubDate>Fri, 20 Aug 2021 19:28:15 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/findkthlargest/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/findkthlargest/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;/p>
 &lt;p>请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。&lt;/p>
 &lt;h1 id="解法">解法&lt;/h1>
@@ -461,373 +704,4 @@ $((a+(b*(c-d)))-(e/f))$&lt;/li>
 &lt;li>无序树：树中结点的各棵子树之间的次序是不重要的，可以互相交换位置。&lt;/li>
 &lt;li>森林(forest)：m$(m\geq0)$棵树的集合。在数据结构中，删去一棵非空树的根结点，树就变成森林(不排除空的森林)；反之，若增加一个根结点，让森林中每一棵树的根结点都变成它的子女，森林就成为一棵树。&lt;/li>
 &lt;/ol>
-- https://kanajin.github.io/datastructure/tree_term/ -</description></item><item><title>哈希表</title><link>https://kanajin.github.io/datastructure/hashtable/</link><pubDate>Sat, 10 Jul 2021 13:57:15 +0800</pubDate><guid>https://kanajin.github.io/datastructure/hashtable/</guid><description>Suzuki's Blog https://kanajin.github.io/datastructure/hashtable/ -&lt;h1 id="简介">简介&lt;/h1>
-&lt;p>链表散列法的哈希表本质上是一个元素为链表的数组。key值通过哈希函数转化成一个特定值，安插进数组的特定位置，当查找时，只需要计算出哈希值，就可以立刻定位到数组相对应的位置，从而实现时间复杂度为O(1)的查找。当出现计算结果一样的key值时，对应位置的链表增长。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//成员链表的结构定义，包含了要储存的内容
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_ele{
-&lt;span style="color:#66d9ef">int&lt;/span> key;
-&lt;span style="color:#66d9ef">int&lt;/span> value;
-&lt;span style="color:#66d9ef">struct&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> next;
-} hash_ele;
-&lt;span style="color:#75715e">//数组的定义，成员为指向链表的指针
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">typedef&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> hash_array{
-hash_ele&lt;span style="color:#f92672">*&lt;/span> arr[&lt;span style="color:#ae81ff">30&lt;/span>];
-} hash_array;
-&lt;span style="color:#75715e">//哈希函数的一个示例，该函数让key值对29取模
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">hashCode&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key){
-&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> key &lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#ae81ff">29&lt;/span>;
-&lt;span style="color:#66d9ef">return&lt;/span> index;
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
-&lt;p>hash_array的用法：&lt;br>
-hash_array的成员为&lt;code>hash_ele* arr[30]&lt;/code>，原因是哈希函数为key值对29取模，因此数组下标可取值为0~29，长度最高为30。&lt;br>
-结构定义方式也可以使用&lt;code>hash_ele** arr&lt;/code>&lt;br>
-当&lt;code>hashCode(key)&lt;/code>计算出值时(假设值为index)，将元素插入&lt;code>arr -&amp;gt; arr[index]&lt;/code>&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;em>&lt;strong>由于成员为链表，操作方面和链表几乎一样，接下来仅记录实现过程中遇到的问题&lt;/strong>&lt;/em>&lt;/p>
-&lt;h1 id="注意事项">注意事项&lt;/h1>
-&lt;ol>
-&lt;li>
-&lt;p>上述的结构体定义方式，在创建时需要使用calloc申请内存空间并初始化。如果使用malloc，将不会进行初始化，使用时会遇到segmentation fault。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#75715e">//创建数组，由于成员为hash_ele*且长度为30，因此申请30*sizeof(hash_ele*)的空间并初始化
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_array&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashArrayCreate&lt;/span>(){
-hash_array&lt;span style="color:#f92672">*&lt;/span> arr &lt;span style="color:#f92672">=&lt;/span> (hash_array&lt;span style="color:#f92672">*&lt;/span>)calloc(&lt;span style="color:#ae81ff">30&lt;/span>, &lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele&lt;span style="color:#f92672">*&lt;/span>));
-&lt;span style="color:#66d9ef">return&lt;/span> arr;
-}
-&lt;span style="color:#75715e">//创建元素，由于创建后会进行赋值，因此不需要使用calloc进行初始化
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>hash_ele&lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#a6e22e">hashElementCreate&lt;/span>(&lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
-hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> (hash_ele&lt;span style="color:#f92672">*&lt;/span>)malloc(&lt;span style="color:#66d9ef">sizeof&lt;/span>(hash_ele));
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> key &lt;span style="color:#f92672">=&lt;/span> key;
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> NULL;
-&lt;span style="color:#66d9ef">return&lt;/span> element;
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>在创建并插入元素之前，应先使用search函数查找该key值是否存在。&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C" data-lang="C">&lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#a6e22e">hashUpdate&lt;/span>(hash_array&lt;span style="color:#f92672">*&lt;/span> arr, &lt;span style="color:#66d9ef">int&lt;/span> key, &lt;span style="color:#66d9ef">int&lt;/span> value){
-&lt;span style="color:#75715e">//判断是否存在，若存在，更新值
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> hash_ele&lt;span style="color:#f92672">*&lt;/span> judge &lt;span style="color:#f92672">=&lt;/span> hashSearch(arr, key);
-&lt;span style="color:#66d9ef">if&lt;/span>(judge &lt;span style="color:#f92672">!=&lt;/span> NULL){
-printf(&lt;span style="color:#e6db74">&amp;#34;element is already exist! update it.&lt;/span>&lt;span style="color:#ae81ff">\n&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>);
-judge &lt;span style="color:#f92672">-&amp;gt;&lt;/span> value &lt;span style="color:#f92672">=&lt;/span> value;
-&lt;span style="color:#66d9ef">return&lt;/span>;
-}
-hash_ele&lt;span style="color:#f92672">*&lt;/span> element &lt;span style="color:#f92672">=&lt;/span> hashElementCreate(key, value);
-&lt;span style="color:#66d9ef">int&lt;/span> index &lt;span style="color:#f92672">=&lt;/span> hashCode(key);
-hash_ele&lt;span style="color:#f92672">*&lt;/span> ptr &lt;span style="color:#f92672">=&lt;/span> arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index];
-&lt;span style="color:#66d9ef">if&lt;/span>(ptr &lt;span style="color:#f92672">==&lt;/span> NULL){
-arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
-}
-&lt;span style="color:#66d9ef">else&lt;/span>{
-element &lt;span style="color:#f92672">-&amp;gt;&lt;/span> next &lt;span style="color:#f92672">=&lt;/span> ptr;
-arr &lt;span style="color:#f92672">-&amp;gt;&lt;/span> arr[index] &lt;span style="color:#f92672">=&lt;/span> element;
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;/ol>
-- https://kanajin.github.io/datastructure/hashtable/ -</description></item><item><title>流量检测仪表</title><link>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</link><pubDate>Thu, 17 Jun 2021 21:17:25 +0800</pubDate><guid>https://kanajin.github.io/chemicalindustry/flowmeasurementtester/</guid><description>Suzuki's Blog https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -&lt;h1 id="流量测量仪表">流量测量仪表&lt;/h1>
-&lt;p>学习目标：&lt;/p>
-&lt;ol>
-&lt;li>从外观上能辨别常见仪表类型&lt;/li>
-&lt;li>初步判断仪表故障产生的原因&lt;/li>
-&lt;/ol>
-&lt;h2 id="流量的定义与基本物理参数">流量的定义与基本物理参数&lt;/h2>
-&lt;p>&lt;em>本节先介绍几个基本物理概念&lt;/em>&lt;/p>
-&lt;h3 id="流量的定义">流量的定义&lt;/h3>
-&lt;p>体积流量：&lt;br>
-指单位时间内流过一定横截面积的流体的&lt;code>体积Q&lt;/code>。&lt;br>
-质量流量：&lt;br>
-指单位时间内流过一定横截面积的流体的&lt;code>质量M&lt;/code>。&lt;br>
-根据质量与体积的关系，我们有${M=Q\times\rho}$——式中$\rho$为流体的密度，质量流量与体积流量也有此对应关系。&lt;/p>
-&lt;blockquote>
-&lt;p>扩展介绍：雷诺数
-雷诺数是流体惯性力与粘性力的比值，反应了流体在管道中的流动状态，其计算式如下：
-$$
-Re=\dfrac{du\rho}{\mu}
-$$
-式中：&lt;/p>
-&lt;ul>
-&lt;li>$d$-管直径&lt;/li>
-&lt;li>$u$-平均流速&lt;/li>
-&lt;li>$\rho$-流体密度&lt;/li>
-&lt;li>$\mu$-流体动力粘度&lt;/li>
-&lt;/ul>
-&lt;p>因此，雷诺数是一个无量纲数。&lt;br>
-雷诺数与流体流动状态的关系为：&lt;br>
-Re &amp;lt; 2000 时，层流。流体流动时，流线之间没有质点交换，轨迹有条不紊，层次分明。&lt;br>
-2000 &amp;lt; Re &amp;lt; 4000 时，过渡态。流线波动，但流线之间仍然没有质点交换。&lt;br>
-Re &amp;gt; 4000 时，湍流。流体流动时，流线间有质点交换，流动迹象极不规律。&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="流量测量仪表的分类">流量测量仪表的分类&lt;/h3>
-&lt;p>常见的流量计分类如下所示：&lt;/p>
-&lt;ol>
-&lt;li>速度式流量计
-&lt;ul>
-&lt;li>差压式流量计&lt;/li>
-&lt;li>转子流量计&lt;/li>
-&lt;li>涡街流量计&lt;/li>
-&lt;li>电磁流量计&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>容积式流量计
-&lt;ul>
-&lt;li>椭圆齿轮流量计&lt;/li>
-&lt;li>罗茨流量计&lt;/li>
-&lt;li>刮板流量计&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>质量式流量计
-&lt;ul>
-&lt;li>质量流量计&lt;/li>
-&lt;li>热质流量计&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;p>接下来将选择五个常见流量计介绍其测量原理与故障分析&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>差压流量计&lt;/p>
-&lt;ul>
-&lt;li>实物展示：&lt;br>
-&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter1.jpg" alt="Differential_Pressure_Flowmeter1">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter2.jpg" alt="Differential_Pressure_Flowmeter2">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter3.jpg" alt="Differential_Pressure_Flowmeter3">&lt;/li>
-&lt;li>测量原理：介质流动的流量越大，在&lt;code>节流件&lt;/code>前后产生的压差就越大。所以差压流量计可以通过测量压差（平方根）来衡量流体流量的大小。&lt;br>
-$Q=K\sqrt{\dfrac{\Delta P}{\rho}}$&lt;br>
-式中：&lt;br>
-为了避免弯管、变径、阀门等产生的压降误差，要求节流元件前后要保持一定的直管段，最小值管段长度要求如图所示：&lt;br>
-&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/Differential_Pressure_Flowmeter4.jpg" alt="image">&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>差压流量计故障原因分析：&lt;/p>
-&lt;ul>
-&lt;li>介质密度发生变化&lt;/li>
-&lt;li>压力测量管路异常(取压装置或取压管路冻/堵，在非真空压力测量时，容易造成指示偏低。在真空测量时，容易造成指示偏高&lt;/li>
-&lt;li>变送器本体发生故障&lt;/li>
-&lt;li>工艺管线中含有大量两相流体介质（排气）&lt;/li>
-&lt;li>孔板安装方向错误（会导致流量值偏小）&lt;/li>
-&lt;li>孔板前后直管段不满足安装要求&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;/li>
-&lt;li>
-&lt;p>涡街流量计&lt;/p>
-&lt;ul>
-&lt;li>实物展示：&lt;br>
-&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX1.jpg" alt="VORTEX1">&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX2.jpg" alt="VORTEX1">&lt;/li>
-&lt;li>测量原理：&lt;br>
-卡门涡街：流体流过旋涡发生体时会产生两串规则地交错排列的旋涡，这些漩涡称为卡门涡街。实验证明：漩涡的频率$f$和流体的平均速度$u$成正比。当雷诺数在$Re = 2\times 10^{4}$ ~ $7\times 10^{6}$范围内， $S_{t}$可视为常数。&lt;br>
-$f=S_{t}\dfrac{u}{d}$&lt;br>
-涡街流量计基于卡门涡街原理，通常由漩涡发生体、检测器（也称传感器）和转换器组成。漩涡发生体是涡街流量计的关键部件，由它产生卡门涡街。检测器检测通过热敏式、差压式、超声波式、应变式等方法检测出漩涡频率信号，再通过转换器计算出流量大小。&lt;br>
-根据流体连续性定律，涡街流量计流量与漩涡频率有如右关系：
-$Q=\dfrac{f}{K}$&lt;br>
-式中$K$为流量系数，物理意义是流过每立方米体积流量产生的涡街脉冲数，此系数是仪表出厂前经实验标定得出的。&lt;br>
-同样，为了保证旋涡的正常产生，涡街流量计安装也对管道有一定的要求：&lt;br>
-&lt;img src="https://kanajin.github.io/static/FlowMeasurementTester/VORTEX3.jpg" alt="VORTEX3">&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>涡街流量计故障分析:&lt;/p>
-&lt;ul>
-&lt;li>实际工况（压力，流速）不满足仪表要求&lt;/li>
-&lt;li>涡街发生体被异物卡住（管道清洁度异常）&lt;/li>
-&lt;li>工艺管道的振动超出仪表的要求&lt;/li>
-&lt;li>安装条件（前后直管段长度、安装方向）不满足仪表要求&lt;/li>
-&lt;li>工艺管线中含有大量两相流体介质&lt;/li>
-&lt;li>流量计本体发生故障&lt;/li>
-&lt;/ul>
-&lt;/blockquote>
-&lt;/li>
-&lt;/ol>
-- https://kanajin.github.io/chemicalindustry/flowmeasurementtester/ -</description></item><item><title>安装archlinux双系统</title><link>https://kanajin.github.io/os/linuxsetup/</link><pubDate>Thu, 17 Jun 2021 14:13:59 +0800</pubDate><guid>https://kanajin.github.io/os/linuxsetup/</guid><description>Suzuki's Blog https://kanajin.github.io/os/linuxsetup/ -&lt;blockquote>
-&lt;h1 id="前言">前言：&lt;/h1>
-&lt;p>原本打算购置一台macbook来体验类Unix系统的开发环境，谁知今年的WWDC实在令人有些失望，最后转而买了一块ssd来打算装archlinux玩。在L君的帮助下花了两天时间总算是弄下来了(说，谢谢L君)，以下记录一下折腾的过程。&lt;/p>
-&lt;/blockquote>
-&lt;p>参考了的&lt;a href="https://wiki.archlinux.org/title/Installation_guide">安装指南&lt;/a>和知乎用户“飞我去月球”的文章&lt;a href="https://zhuanlan.zhihu.com/p/348370646">2021.02. Arch Linux 安装小记&lt;/a>。&lt;/p>
-&lt;h1 id="准备工作">准备工作&lt;/h1>
-&lt;h2 id="分配磁盘">分配磁盘&lt;/h2>
-&lt;p>&lt;em>首先默认已经拥有可用的Windows系统&lt;/em>&lt;/p>
-&lt;h3 id="使用原有磁盘">使用原有磁盘&lt;/h3>
-&lt;p>如果你打算在你正在使用的磁盘上安装Linux&amp;hellip;说实话我不知道，但猜想应该通过分区工具获得一块连续的分区空间，可以和下文的新磁盘同样的操作步骤，关于分区工具的使用，我没有系统地学习过，以后如果用上了再写总结。&lt;/p>
-&lt;h3 id="使用全新磁盘">使用全新磁盘&lt;/h3>
-&lt;p>提前备好塑料片和螺丝刀(我忘了买塑料片上了金属555幸好没刮花)，安装好之后右键计算机-管理-储存-磁盘管理，找到新装上去的磁盘。此时Windows会提醒你格式化，先不格式化，确认识别到了就行。&lt;/p>
-&lt;h2 id="制作启动u盘">制作启动U盘&lt;/h2>
-&lt;p>首先下载ArchLinux辅助安装系统：&lt;a href="https://archlinux.org/download/">下载链接&lt;/a>&lt;br>
-注：往下翻到&lt;code>HTTP Direct Downloads&lt;/code>这一栏，然后选择国内的链接就行。&lt;br>
-然后下载Windows下的PE制作工具，我个人使用Etcher。&lt;a href="https://www.balena.io/etcher/">官网链接&lt;/a> | &lt;a href="https://github.com/balena-io/etcher">Github链接&lt;/a>&lt;br>
-选择下载的iso镜像以及U盘，制作即可。&lt;/p>
-&lt;h2 id="进入pe系统">进入PE系统&lt;/h2>
-&lt;p>启动U盘制作完成之后，就可以重启电脑了。进入BIOS选择U盘启动，即可看到命令行界面(液，你已经装好Linux了(并不))。&lt;/p>
-&lt;blockquote>
-&lt;p>在这里我遇到了无法使用U盘启动的问题，原因BIOS是没有开启允许&lt;code>external drive&lt;/code>引导，在BIOS中找到&lt;code>Secure Boot&lt;/code>选项，将值设为&lt;code>disable&lt;/code>即可。&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="连接网络">连接网络&lt;/h2>
-&lt;p>此处分为有线网与无线网，强烈建议使用有线网，简单方便。我安装过程使用的有线网，关于无线网连接的方式参考知乎文章。&lt;/p>
-&lt;h3 id="有线网">有线网&lt;/h3>
-&lt;p>&lt;del>插上网线，完了&lt;/del>&lt;br>
-&lt;del>不是，还得ping一下baidu.com看看&lt;/del>&lt;br>
-插上网线，输入&lt;code>ip link&lt;/code>，输出值中有一个 *** state up的，是一个很奇怪的名字，就是有线网卡的名称，说明有线网卡已经起了。&lt;br>
-然后输入&lt;code>ip addr&lt;/code>获取ipv4地址，返回值中的&lt;code>inet&lt;/code>即为ipv4地址，成功后输入&lt;code>ping baidu.com&lt;/code>看是否连通(记得ctrl+C退出)。&lt;/p>
-&lt;h3 id="无线网络">无线网络&lt;/h3>
-&lt;p>Archiso默认使用iwd作为无线网络管理器。&lt;br>
-命令行输入&lt;code>iwctl&lt;/code>进入iwd命令行&lt;br>
-&lt;code>[iwd]#&lt;/code>长这样&lt;br>
-输入命令：&lt;code>[iwd]# device list&lt;/code>以查询网卡设备。通常无线网卡名称是wlan0，在有线网一栏&lt;code>ip link&lt;/code>也可以看到它。&lt;br>
-使用这个命令扫描WiFi：&lt;code>[iwd#] station &amp;lt;devicename&amp;gt; scan&lt;/code>，假设查到的无线网卡名称为&lt;code>wlan0&lt;/code>，则命令为：&lt;code>[iwd#] station wlan0 scan&lt;/code>&lt;br>
-输出扫描结果：&lt;code>[iwd#] station &amp;lt;devicename&amp;gt; get-networks&lt;/code>&lt;br>
-找到要链接的WiFi的SSID，并输入：&lt;code>[iwd#] station &amp;lt;devicename&amp;gt; connect &amp;lt;wifi-ssid&amp;gt;&lt;/code>，然后根据提示输入密码即可。&lt;br>
-退出iwd命令行：&lt;code>[iwd#] exit&lt;/code>&lt;br>
-然后执行：&lt;code># dhcpd&lt;/code>分配ip，并&lt;code>ping baidu.com&lt;/code>看一下网络是否连上。&lt;/p>
-&lt;h2 id="更新系统时间">更新系统时间&lt;/h2>
-&lt;p>&lt;code># timedatectl set-ntp true&lt;/code>&lt;br>
-验证时间是否正确：&lt;br>
-&lt;code># timedatectl status&lt;/code>&lt;/p>
-&lt;h2 id="硬盘分区">硬盘分区&lt;/h2>
-&lt;p>使用命令&lt;code>fdisk -l&lt;/code>来列出所有磁盘，在这里也可以找到Windows系统的磁盘。&lt;/p>
-&lt;blockquote>
-&lt;p>一般来说：&lt;br>
-/dev/sd 指非NVMe的储存设备&lt;br>
-/dev/nvme 指NVMe固态硬盘&lt;/p>
-&lt;/blockquote>
-&lt;p>在输出的&lt;code>Disk model&lt;/code>中可以看到磁盘的名称，用来判断你是否是你需要的磁盘。&lt;/p>
-&lt;blockquote>
-&lt;p>Linux三分区法：将一个磁盘分成三个分区&lt;br>
-第一个为efi分区，用于Linux的启动引导&lt;br>
-第二个为根目录分区(/)，用来存放包管理器安装的软件&lt;br>
-第三个为家分区(/home)，用来存放用户个人数据&lt;br>
-如果硬盘空间足够大的话，建议给efi分区1Gb的空间，根目录150Gb的空间，剩下的给家目录&lt;br>
-如果购买的硬盘空间不够，或者是用原本的硬盘划过来的分区，则efi分区200Mb足够，根目录尽量保证70~100Gb的空间，剩下的再给家目录。&lt;br>
-建议在操作前先规划好分区，记在纸上，一会操作方便&lt;/p>
-&lt;/blockquote>
-&lt;p>当规划完分区后，输入命令&lt;code>fdisk /dev/&amp;lt;yourdisk&amp;gt;&lt;/code>进入fdisk命令行。&lt;!-- raw HTML omitted -->指的是刚刚查出来的你的磁盘名&lt;br>
-fdisk命令行大概长这样：&lt;code>Command (m for help):&lt;/code>&lt;br>
-&lt;strong>注意：在使用&lt;code>w&lt;/code>命令之前，所有的操作都不会被写入磁盘，但一旦执行了&lt;code>w&lt;/code>命令，就基本无力回天了，三思而行！&lt;/strong>&lt;br>
-创建GPT分区表：&lt;code>Command (m for help): g&lt;/code>&lt;br>
-&lt;em>注：MBR分区表过于古老，不再使用&lt;/em>&lt;/p>
-&lt;blockquote>
-&lt;p>两个概念：分区表和文件系统&lt;br>
-分区表：一个在磁盘最前面的表，记录了这个磁盘被分成了几块。&lt;br>
-文件系统：某个分区(由分区表记录)上记录文件的“格式”&lt;br>
-以Windows磁盘分区为例，分为两个步骤：&lt;br>
-第一步：在分区表里记录下磁盘这个位置(通常由用户、分区软件指定)，现在是一个独立分区&lt;br>
-第二步：按照文件系统的“格式”，对新建的分区进行初始化(也就是常见到的格式化)。&lt;/p>
-&lt;/blockquote>
-&lt;p>创建新分区：&lt;code>Command (m for help): n&lt;/code>&lt;br>
-会提示你输入这个分区的序号(单纯就是序号，可以根据自己的喜欢给上述三个分区设定特定的序号)；设定完序号后会提示输入磁盘的首扇区，我没有这方面知识，默认走天下，&lt;del>反正是首扇区&lt;/del>；设定完首扇区后会要求输入尾扇区，这里猜测首尾扇区决定了该分区大小，但fdisk允许你在这里直接输入分区的大小，如&lt;code>+1G&lt;/code>。&lt;br>
-当三个分区都创建完毕后(tips：最后一个分区的尾扇区可以直接使用默认值，也就是最大扇区，表示将剩余空间全部分配给该分区)，需要更改分区的类型。&lt;br>
-查看目前三个分区的类型：&lt;code>Command (m for help): p&lt;/code>&lt;br>
-目标为把efi分区的类型改为“EFI System”，根目录和家目录的类型为“Linux filesystem”。&lt;br>
-查看分区类型编号：&lt;code>Command (m for help): l&lt;/code>&lt;br>
-输出中会给出各种类型编号，找到需要的类型，记录下编号，以“EFI System”的编号为&lt;code>1&lt;/code>举例：&lt;br>
-更改分区类型：&lt;code>Command (m for help): t&lt;/code>&lt;br>
-然后会要求输入分区序号，这个为之前个人设定，然后输入&lt;code>1&lt;/code>将类型更改为“EFI System”。&lt;br>
-以上操作确认完没问题后，&lt;code>Command (m for help): w&lt;/code>保存。&lt;strong>一定三思！&lt;/strong>&lt;br>
-重新&lt;code>fdisk -l&lt;/code>可以查看到，现在你的新磁盘已经多了三个分区了，并且也有了新名字&lt;br>
-然后格式化分区：&lt;code>mkfs.fat -F32 /dev/&amp;lt;efi_partition&amp;gt;&lt;/code>(注意加上分区号)，这个命令用于&lt;code>efi&lt;/code>分区，然后这个命令&lt;code>mkfs.ext4 /dev/&amp;lt;rootandhome_partition&amp;gt;&lt;/code>用于根目录和家目录，&lt;del>不要用错，否则无力回天&lt;/del>&lt;/p>
-&lt;h2 id="挂载分区">挂载分区&lt;/h2>
-&lt;p>我们目前其实处于U盘的Linux系统下，如果要对分好区、格式化完毕的新磁盘进行操作，就需要将这些分区挂载到U盘上，就要用到mount命令。&lt;br>
-在U盘上创建两个文件夹：&lt;br>
-&lt;code>mkdir -p /mnt/boot&lt;/code>以及&lt;code>mkdir -p /mnt/home&lt;/code>，然后执行：&lt;/p>
-&lt;pre tabindex="0">&lt;code>mount /dev/efi_partition /mnt/boot
-mount /dev/root_partition /mnt
-mount /dev/home_partition /mnt/home
-&lt;/code>&lt;/pre>&lt;p>将各分区挂载到相应的文件夹。&lt;/p>
-&lt;h2 id="安装archlinux">安装ArchLinux&lt;/h2>
-&lt;blockquote>
-&lt;p>网上教程中会让你修改&lt;code>/etc/pacman.d/mirrorlist&lt;/code>这个文件，但事实上，如果使用这个方法安装ArchLinux，刚连上网络时，pacman就已经自己更新了20个最快的源，因此不需要对这个文件做任何操作。&lt;/p>
-&lt;/blockquote>
-&lt;p>使用该命令安装最新软件包：&lt;code>pacstrap /mnt base linux linux-firmware&lt;/code>&lt;br>
-因为是在线安装系统，所以会需要一点时间，等待结束后，ArchLinux就已经安装到你的新硬盘中了。但是先别急着重启，首先在U盘下对新系统进行初步配置&lt;/p>
-&lt;h2 id="配置系统">配置系统&lt;/h2>
-&lt;h3 id="转移到新系统">转移到新系统&lt;/h3>
-&lt;p>首先要让系统启动时把分区挂在上来，通过生成fstab文件实现&lt;br>
-命令：&lt;code>genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab&lt;/code>&lt;br>
-然后Change root进入到新安装的系统：&lt;br>
-&lt;code># arch-chroot /mnt&lt;/code>&lt;br>
-执行完上面的命令后，你就在新的系统里了&lt;del>神奇&lt;/del>&lt;/p>
-&lt;h3 id="时区与地区设置">时区与地区设置&lt;/h3>
-&lt;p>设置时区(在中国，使用以下命令来设置时区)：&lt;br>
-&lt;code># ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime&lt;/code>&lt;br>
-然后&lt;code># hwclock --systohc&lt;/code>&lt;br>
-由于在新系统中，没有安装vim，因此需要使用pacman进行安装：
-&lt;code># pacman -S vim&lt;/code>&lt;br>
-然后我们需要编辑地区：&lt;br>
-&lt;code># vim /etc/locale.gen&lt;/code>&lt;br>
-这里个人配置为将&lt;code>en_US.UTF-8&lt;/code>和&lt;code>zh_CN.UTF-8&lt;/code>取消注释&lt;br>
-然后生成locale信息：
-&lt;code># locale-gen&lt;/code>&lt;br>
-创建&lt;code>locale.conf&lt;/code>文件并编辑&lt;code>LANG&lt;/code>变量：&lt;br>
-&lt;code># vim /etc/locale.conf&lt;/code>&lt;br>
-在新文件中添加一行&lt;code>LANG=en_US.UTF-8&lt;/code>&lt;/p>
-&lt;blockquote>
-&lt;p>对于中文用户，有如下tips：&lt;/p>
-&lt;ul>
-&lt;li>用户可以设置自己的locale，详情参阅&lt;a href="https://wiki.archlinux.org/title/Locale_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E8%AE%BE%E7%BD%AE_locale">Wiki内容&lt;/a>&lt;/li>
-&lt;li>将系统&lt;code>locale&lt;/code>设置为&lt;code>en_US.UTF-8&lt;/code>，系统的log就会用英文显示，这样更容易判断和处理问题&lt;/li>
-&lt;li>也可以设置为&lt;code>en_GB.UTF-8&lt;/code>或&lt;code>en_SG.UTF-8&lt;/code>，优点如下：
-&lt;ul>
-&lt;li>进入桌面环境后以24小时制显示时间&lt;/li>
-&lt;li>LibreOffice等办公软件的纸张尺寸会默认为A4而非Letter(US)&lt;/li>
-&lt;li>可尽量避免不必要且可能造成处理麻烦的英制单位&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>事实上这些优点对于编程开发几乎无用，大部分需要这些特性的情况下建议使用Windows，而本博客也正是建立在Windows和ArchLinux双系统的大前提下的。&lt;br>
-&lt;strong>警告&lt;/strong>: 不推荐在此设置任何中文 locale，会导致 tty 乱码。&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="网络配置">网络配置&lt;/h3>
-&lt;p>创建文件：&lt;br>
-&lt;code># vim /etc/hostname&lt;/code>&lt;br>
-&lt;code>myhostname&lt;/code>(写上自己喜欢的名字即可，为本机名)&lt;br>
-&lt;code># vim /etc/hosts&lt;/code>并填入以下内容：&lt;/p>
-&lt;pre tabindex="0">&lt;code>127.0.0.1 localhost
-::1 localhost
-127.0.1.1 myhostname.localdomain myhostname
-&lt;/code>&lt;/pre>&lt;p>其中的&lt;code>myhostname&lt;/code>改为自己设置的。&lt;/p>
-&lt;h3 id="设置root密码">设置root密码&lt;/h3>
-&lt;p>&lt;code># passwd&lt;/code>&lt;br>
-按照引导输入密码，不会有回显&lt;/p>
-&lt;h3 id="安装引导程序">安装引导程序&lt;/h3>
-&lt;h4 id="安装双系统引导">安装双系统引导&lt;/h4>
-&lt;p>使用&lt;code>grub2&lt;/code>进行双系统引导&lt;br>
-安装os-prober：&lt;br>
-&lt;code># pacman -S os-prober&lt;/code>&lt;br>
-然后安装grub：&lt;br>
-&lt;code># grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB&lt;/code>&lt;br>
-&lt;em>注：&lt;code>/boot&lt;/code>这个位置，若之前挂载时创建文件夹使用了别的名字来做efi的挂载目录，则替换为正确的目录名&lt;/em>&lt;/p>
-&lt;h4 id="挂载windows启动分区">挂载Windows启动分区&lt;/h4>
-&lt;p>&lt;code># fdisk -l&lt;/code>找到Windows的efi分区，记下设备号&lt;br>
-在&lt;code>/mnt&lt;/code>下新建一个目录，将Windows的efi分区挂载上去,示例如下：&lt;br>
-&lt;code>mkdir -p /mnt/winefi&lt;/code>&lt;br>
-&lt;code>mount /dev/&amp;lt;yourwinefi_partition&amp;gt; /mnt/winefi&lt;/code>&lt;/p>
-&lt;h4 id="配置引导程序">配置引导程序&lt;/h4>
-&lt;p>编辑&lt;code>/etc/default/grub&lt;/code>文件：&lt;br>
-&lt;code>vim /etc/default/grub&lt;/code>&lt;br>
-在底下加入如下内容：&lt;/p>
-&lt;pre tabindex="0">&lt;code>#enable osprober
-GRUB_DISABLE_OS_PROBER=false
-&lt;/code>&lt;/pre>&lt;p>然后执行：&lt;br>
-&lt;code># grub-mkconfig -o /boot/grub/grub.cfg&lt;/code>
-查看一下&lt;code>grub.cfg&lt;/code>文件：&lt;br>
-&lt;code>#vim /boot/grub/grub.cfg&lt;/code>&lt;br>
-应该能找到如下内容：&lt;/p>
-&lt;pre tabindex="0">&lt;code>### BEGIN /etc/grub.d/30_os-prober ###
-menuentry 'Windows Boot Manager (on ***)'
-&lt;/code>&lt;/pre>&lt;p>这样的内容，说明成功了&lt;/p>
-&lt;h3 id="创建普通用户">创建普通用户&lt;/h3>
-&lt;p>通过&lt;br>
-&lt;code># useradd -m -G wheel username&lt;/code>&lt;br>
-&lt;code># passwd username&lt;/code>&lt;br>
-两个命令来创建新用户并设置密码，避免使用root登录新系统&lt;/p>
-&lt;blockquote>
-&lt;p>&lt;code>-m&lt;/code>命令会在创建用户同时在&lt;code>/home&lt;/code>目录下创建一个与用户名同名的文件夹&lt;br>
-&lt;code>-G&lt;/code>代表把用户加入一个组，wheel组拥有root的权限，方便sudo&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="安装网络管理软件">安装网络管理软件&lt;/h3>
-&lt;p>&lt;del>新系统中没有网络管理软件，如果此时重启进入新系统就会因为没有网络什么也做不了&lt;/del>&lt;br>
-&lt;code># pacman -S NetworkManager&lt;/code>&lt;br>
-&lt;code># pacman -S dhcpcd&lt;/code>&lt;/p>
-&lt;h3 id="安装sudo">安装sudo&lt;/h3>
-&lt;p>&lt;code># pacman -S sudo&lt;/code>&lt;/p>
-&lt;h2 id="尾声">尾声&lt;/h2>
-&lt;p>至此，准备工作完成，使用命令&lt;code>exit&lt;/code>退出chroot，然后使用命令&lt;code>poweroff&lt;/code>关机或&lt;code>reboot&lt;/code>重启&lt;br>
-拔掉U盘，进入BIOS，把grub的引导顺序调到最前，保存并重启，就可以进入grub的引导界面，选择ArchLinux，进入新系统。&lt;/p>
-- https://kanajin.github.io/os/linuxsetup/ -</description></item></channel></rss>
+- https://kanajin.github.io/datastructure/tree_term/ -</description></item></channel></rss>
