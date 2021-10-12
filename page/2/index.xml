@@ -1,4 +1,98 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 04 Sep 2021 15:54:27 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>用栈实现队列</title><link>https://kanajin.github.io/leetcode/algorithm/myqueue/</link><pubDate>Mon, 30 Aug 2021 13:02:09 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/myqueue/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/myqueue/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Suzuki's Blog</title><link>https://kanajin.github.io/</link><description>Recent content on Suzuki's Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 11 Oct 2021 22:13:55 +0800</lastBuildDate><atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>二叉树的层序遍历</title><link>https://kanajin.github.io/leetcode/algorithm/levelorder/</link><pubDate>Wed, 01 Sep 2021 20:55:59 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/levelorder/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/levelorder/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。&lt;/p>
+&lt;h1 id="解法">解法&lt;/h1>
+&lt;p>层序遍历，即广度优先遍历。&lt;/p>
+&lt;p>与之相对的，先序、中序、后续遍历称为深度优先遍历，即先一条路走到头，再回来遍历其他的。&lt;/p>
+&lt;p>广度优先遍历使用队列来解决：同一层的结点进入队列，然后取出的同时放入他的子结点。由于队列的先进先出特性，父结点会比子结点先遍历完毕。&lt;/p>
+&lt;p>既然是同时取出并插入，那就需要判断父结点的数目，以确定需要取出几次：在进行下一次迭代前，先记录下当前队列的长度，该长度值即为父结点数量，迭代相应次数即可。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#75715e">/**
+&lt;/span>&lt;span style="color:#75715e"> * Definition for a binary tree node.
+&lt;/span>&lt;span style="color:#75715e"> * public class TreeNode {
+&lt;/span>&lt;span style="color:#75715e"> * int val;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode left;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode right;
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode() {}
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val) { this.val = val; }
+&lt;/span>&lt;span style="color:#75715e"> * TreeNode(int val, TreeNode left, TreeNode right) {
+&lt;/span>&lt;span style="color:#75715e"> * this.val = val;
+&lt;/span>&lt;span style="color:#75715e"> * this.left = left;
+&lt;/span>&lt;span style="color:#75715e"> * this.right = right;
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> * }
+&lt;/span>&lt;span style="color:#75715e"> */&lt;/span>
+&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> List&lt;span style="color:#f92672">&amp;lt;&lt;/span>List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> &lt;span style="color:#a6e22e">levelOrder&lt;/span>&lt;span style="color:#f92672">(&lt;/span>TreeNode root&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&amp;gt;&lt;/span> level_List &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>root &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> level_List&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#75715e">//这行为java生成队列的代码
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> Queue&lt;span style="color:#f92672">&amp;lt;&lt;/span>TreeNode&lt;span style="color:#f92672">&amp;gt;&lt;/span> que &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> LinkedList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>root&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> 0&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+List&lt;span style="color:#f92672">&amp;lt;&lt;/span>Integer&lt;span style="color:#f92672">&amp;gt;&lt;/span> temp &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> ArrayList&lt;span style="color:#f92672">&amp;lt;&amp;gt;();&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span> level &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">size&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> level&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+TreeNode node &lt;span style="color:#f92672">=&lt;/span> que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">poll&lt;/span>&lt;span style="color:#f92672">();&lt;/span>
+temp&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">val&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">left&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">null&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+que&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">offer&lt;/span>&lt;span style="color:#f92672">(&lt;/span>node&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">right&lt;/span>&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+level_List&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">add&lt;/span>&lt;span style="color:#f92672">(&lt;/span>temp&lt;span style="color:#f92672">);&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> level_List&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/levelorder/ -</description></item><item><title>航班预定统计</title><link>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</link><pubDate>Tue, 31 Aug 2021 16:14:26 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/corpflightbookings/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -&lt;p>&lt;a href="https://leetcode-cn.com/problems/corporate-flight-bookings/">原网址&lt;/a>&lt;/p>
+&lt;h1 id="题目描述">题目描述&lt;/h1>
+&lt;p>这里有 n 个航班，它们分别从 1 到 n 进行编号。&lt;/p>
+&lt;p>有一份航班预订表 bookings ，表中第 i 条预订记录 bookings[i] = [firsti, lasti, seatsi] 意味着在从 firsti 到 lasti （包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。&lt;/p>
+&lt;p>请你返回一个长度为 n 的数组 answer，其中 answer[i] 是航班 i 上预订的座位总数。&lt;/p>
+&lt;p>示例 1：&lt;/p>
+&lt;pre tabindex="0">&lt;code>输入：bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+输出：[10,55,45,25,25]
+解释：
+航班编号 1 2 3 4 5
+预订记录 1 ： 10 10
+预订记录 2 ： 20 20
+预订记录 3 ： 25 25 25 25
+总座位数： 10 55 45 25 25
+因此，answer = [10,55,45,25,25]
+&lt;/code>&lt;/pre>&lt;p>示例 2：&lt;/p>
+&lt;pre tabindex="0">&lt;code>输入：bookings = [[1,2,10],[2,2,15]], n = 2
+输出：[10,25]
+解释：
+航班编号 1 2
+预订记录 1 ： 10 10
+预订记录 2 ： 15
+总座位数： 10 25
+因此，answer = [10,25]
+&lt;/code>&lt;/pre>&lt;h1 id="解法">解法&lt;/h1>
+&lt;h2 id="差分法">差分法：&lt;/h2>
+&lt;p>差分数组的性质：&lt;br>
+对一个数组如 [1,2,3,4]，其差分数组为 [1,1,1,1]，即该位元素减去前一位元素形成的新数组。要从差分数组变回原数组，只需从左到右依次加回去即可。&lt;/p>
+&lt;p>若要在差分数组的 [l,r] 区间上增加一个增量 ins，只需将 l 位元素增加 ins，对应 r+1 位元素减去 ins，就可以完成操作。&lt;/p>
+&lt;p>利用这种性质，本体可以转换成制作差分数组，可以在 O(1) 的复杂度内完成数值加减。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> &lt;span style="color:#a6e22e">corpFlightBookings&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> bookings&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> n&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> answer &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[&lt;/span>n&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> books &lt;span style="color:#f92672">:&lt;/span> bookings&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>0&lt;span style="color:#f92672">]-&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> books&lt;span style="color:#f92672">[&lt;/span>2&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> n&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>books&lt;span style="color:#f92672">[&lt;/span>1&lt;span style="color:#f92672">]]&lt;/span> &lt;span style="color:#f92672">-=&lt;/span> books&lt;span style="color:#f92672">[&lt;/span>2&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> n&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+answer&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> answer&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">-&lt;/span>1&lt;span style="color:#f92672">];&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> answer&lt;span style="color:#f92672">;&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;span style="color:#f92672">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/corpflightbookings/ -</description></item><item><title>用栈实现队列</title><link>https://kanajin.github.io/leetcode/algorithm/myqueue/</link><pubDate>Mon, 30 Aug 2021 13:02:09 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/myqueue/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/myqueue/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
 &lt;p>请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：&lt;/p>
 &lt;p>实现 MyQueue 类：&lt;/p>
 &lt;ul>
@@ -342,72 +436,4 @@ map_magzine&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e2
 &lt;p>$$a+(n+1)b+nc=2(a+b)⟹a=c+(n−1)(b+c)$$&lt;/p>
 &lt;p>有了 $a=c+(n-1)(b+c)$ 的等量关系，我们会发现：从相遇点到入环点的距离加上 $n-1$ 圈的环长，恰好等于从链表头部到入环点的距离。&lt;/p>
 &lt;p>因此，当发现 slow 与 fast 相遇时，我们再额外使用一个指针 ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。&lt;/p>
-- https://kanajin.github.io/leetcode/algorithm/detectcycle/ -</description></item><item><title>有效的数独</title><link>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</link><pubDate>Thu, 26 Aug 2021 11:03:39 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。&lt;/p>
-&lt;ul>
-&lt;li>数字 1-9 在每一行只能出现一次。&lt;/li>
-&lt;li>数字 1-9 在每一列只能出现一次。&lt;/li>
-&lt;li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。&lt;/li>
-&lt;/ul>
-&lt;p>数独部分空格内已填入了数字，空白格用 &amp;lsquo;.&amp;rsquo; 表示。&lt;/p>
-&lt;p>注意：&lt;/p>
-&lt;ul>
-&lt;li>一个有效的数独（部分已被填充）不一定是可解的。&lt;/li>
-&lt;li>只需要根据以上规则，验证已经填入的数字是否有效即可。&lt;/li>
-&lt;/ul>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>解答的突破口在于如何获得子矩阵的编号，参考&lt;a href="https://kanajin.github.io/leetcode/algorithm/matrixreshape/">重塑矩阵&lt;/a>中提到的二维矩阵一维化的思路，写出如下表达式：&lt;/p>
-&lt;p>matrix_index = (row/3)*3 + (column/3)&lt;/p>
-&lt;p>然后用哈希表存储每行、每列的元素，观察是否重复&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#a6e22e">isValidSudoku&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">char&lt;/span>&lt;span style="color:#f92672">[][]&lt;/span> board&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> row &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> column &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-HashMap&lt;span style="color:#f92672">&amp;lt;&lt;/span>Character&lt;span style="color:#f92672">,&lt;/span> Integer&lt;span style="color:#f92672">&amp;gt;[]&lt;/span> matrix &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">[&lt;/span>9&lt;span style="color:#f92672">];&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-column&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-matrix&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">new&lt;/span> HashMap&lt;span style="color:#f92672">();&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> i &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> i &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> i&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span> j &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span> j &lt;span style="color:#f92672">&amp;lt;&lt;/span> 9&lt;span style="color:#f92672">;&lt;/span> j&lt;span style="color:#f92672">++)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#e6db74">&amp;#39;.&amp;#39;&lt;/span>&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">continue&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">put&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">getOrDefault&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">],&lt;/span> 0&lt;span style="color:#f92672">)+&lt;/span>1&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>row&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> column&lt;span style="color:#f92672">[&lt;/span>j&lt;span style="color:#f92672">].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1 &lt;span style="color:#f92672">||&lt;/span> matrix&lt;span style="color:#f92672">[(&lt;/span>i&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)*&lt;/span>3&lt;span style="color:#f92672">+(&lt;/span>j&lt;span style="color:#f92672">/&lt;/span>3&lt;span style="color:#f92672">)].&lt;/span>&lt;span style="color:#a6e22e">get&lt;/span>&lt;span style="color:#f92672">(&lt;/span>board&lt;span style="color:#f92672">[&lt;/span>i&lt;span style="color:#f92672">][&lt;/span>j&lt;span style="color:#f92672">])&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span> 1&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/isvalidsudoku/ -</description></item><item><title>救生艇</title><link>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</link><pubDate>Thu, 26 Aug 2021 10:03:57 +0800</pubDate><guid>https://kanajin.github.io/leetcode/algorithm/numrescueboats/</guid><description>Suzuki's Blog https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -&lt;h1 id="题目描述">题目描述&lt;/h1>
-&lt;p>第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。&lt;/p>
-&lt;p>每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。&lt;/p>
-&lt;p>返回载到每一个人所需的最小船数。(保证每个人都能被船载)。&lt;/p>
-&lt;h1 id="解法">解法&lt;/h1>
-&lt;p>贪心算法：
-先对数组进行排序&lt;/p>
-&lt;p>考察最轻的人，如果他可以和最重的人同乘一艘船，那么从数组中把他们扣掉，船数+1&lt;/p>
-&lt;p>如果他不可以和最重的人同乘一艘船，那么没有人可以和最重的人同乘，因此将最重的人扣除，船数+1&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-java" data-lang="java">&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Solution&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">public&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">numRescueBoats&lt;/span>&lt;span style="color:#f92672">(&lt;/span>&lt;span style="color:#66d9ef">int&lt;/span>&lt;span style="color:#f92672">[]&lt;/span> people&lt;span style="color:#f92672">,&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-Arrays&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">sort&lt;/span>&lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">);&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> lightest &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> heavyest &lt;span style="color:#f92672">=&lt;/span> people&lt;span style="color:#f92672">.&lt;/span>&lt;span style="color:#a6e22e">length&lt;/span> &lt;span style="color:#f92672">-&lt;/span> 1&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">int&lt;/span> times &lt;span style="color:#f92672">=&lt;/span> 0&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#66d9ef">while&lt;/span> &lt;span style="color:#f92672">(&lt;/span>lightest &lt;span style="color:#f92672">&amp;lt;=&lt;/span> heavyest&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">(&lt;/span>people&lt;span style="color:#f92672">[&lt;/span>lightest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">+&lt;/span> people&lt;span style="color:#f92672">[&lt;/span>heavyest&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;lt;=&lt;/span> limit&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-lightest&lt;span style="color:#f92672">++;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-heavyest&lt;span style="color:#f92672">--;&lt;/span>
-times&lt;span style="color:#f92672">++;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> times&lt;span style="color:#f92672">;&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;span style="color:#f92672">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>- https://kanajin.github.io/leetcode/algorithm/numrescueboats/ -</description></item></channel></rss>
+- https://kanajin.github.io/leetcode/algorithm/detectcycle/ -</description></item></channel></rss>

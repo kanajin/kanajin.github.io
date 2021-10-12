@@ -1,0 +1,267 @@
+<!doctype html><html><head>
+<title>HTTP协议</title>
+<meta charset=utf-8>
+<meta name=X-UA-Compatible content="IE=edge">
+<meta name=google-site-verification content>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name=viewport>
+<meta content="telephone=no" name=format-detection>
+<meta name=description content>
+<meta name=renderer content="webkit">
+<meta name=theme-color content="#ffffff">
+<link type=text/css rel=stylesheet href=/vendor/css/bootstrap.min.css>
+<script src=/vendor/js/vue.min.js></script>
+<link rel=stylesheet href=https://kanajin.github.io/scss/journal.min.3f72a5fc8f5b5dd732a4b476aced0eece2156958d9d414316494ddb10593ddf7.css integrity="sha256-P3Kl/I9bXdcypLR2rO0O7OIVaVjZ1BQxZJTdsQWT3fc=" media=screen>
+<link rel=stylesheet href=https://kanajin.github.io/scss/dark-mode.min.c0082f0b082177f6fb3768ff91439a097de49689bd26f4d49f76d94ebb81e02d.css integrity="sha256-wAgvCwghd/b7N2j/kUOaCX3klom9JvTUn3bZTruB4C0=" media=screen>
+<script src=/js/loadCSS.js></script>
+<script>loadCSS("https://fonts.googleapis.com/css?family=Fira+Mono|Material+Icons")</script>
+<script src=/js/toc.js></script>
+</head>
+<body>
+<div id=app><div ref=sideContainer class=side-container>
+<a class="a-block nav-head false" href=https://kanajin.github.io/>
+<div class=nav-title>
+Suzuki's Blog
+</div>
+</a>
+<div class=nav-link-list>
+</div>
+<div class=nav-footer>
+Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://amazingrise.net>Rise</a>
+<br>
+Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a> <br>
+<br>
+&copy;
+2021 Suzuki's Blog
+</div>
+</div><div ref=extraContainer class=extra-container>
+<div class="toc animated-visibility" :class="{ invisible: scrollY <= 140 }">
+</div>
+<div class=pagination>
+<a id=globalBackToTop class="pagination-action animated-visibility" href=#top :class="{ invisible: scrollY == 0 }">
+<i class="material-icons pagination-action-icon">
+keyboard_arrow_up
+</i>
+</a>
+<a class=pagination-action v-on:click=toggleDarkMode>
+<i class="material-icons pagination-action-icon" v-if=isDarkMode>
+brightness_4
+</i>
+<i class="material-icons pagination-action-icon" v-else=isDarkMode>
+brightness_7
+</i>
+</a>
+</div>
+</div>
+<div class=single-column-drawer-container ref=drawer v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+<div class=drawer-content>
+<div class=drawer-menu>
+<div class=toc>
+</div>
+</div>
+</div>
+</div>
+<transition name=fade>
+<div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if=isDrawerOpen v-on:click=toggleDrawer></div>
+</transition>
+<nav ref=navBar class="navbar sticky-top navbar-light single-column-nav-container">
+<div ref=navBackground class=nav-background></div>
+<div class="container container-narrow nav-content">
+<button id=nav_dropdown_btn class=nav-dropdown-toggle type=button v-on:click=toggleDrawer>
+<i class=material-icons>
+menu
+</i>
+</button>
+<a ref=navTitle class=navbar-brand href=https://kanajin.github.io/>
+Suzuki's Blog
+</a>
+<button type=button class=nav-darkmode-toggle v-on:click=toggleDarkMode>
+<i class=material-icons v-if=isDarkMode>
+brightness_4
+</i>
+<i class=material-icons v-else=isDarkMode>
+brightness_7
+</i>
+</button>
+</div>
+</nav>
+<div class=single-column-header-container ref=pageHead v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+<a href=https://kanajin.github.io/>
+<div class=single-column-header-title>Suzuki's Blog</div>
+</a>
+</div>
+<div id=content>
+<div ref=streamContainer class=stream-container>
+<div class="post-list-container post-list-container-shadow">
+<div class=post>
+<div class=post-head-wrapper-text-only>
+<div class=post-title>
+HTTP协议
+<div class=post-meta>
+<time itemprop=datePublished>
+2021-10-11 22:13
+</time>
+<i class=material-icons>folder</i>
+<a href=/categories/>[计网笔记]</a>
+&nbsp;
+</div>
+</div>
+</div>
+<div class=post-body-wrapper>
+<div class=post-body v-pre>
+<ul>
+<li>
+<p>HTTP服务器不保存关于客户的任何信息，加入某个特定的客户在几秒内连续两次请求同一对象，服务器将会重新发送对象，就像它完全不记得刚刚发生过的事情那样。因此，称HTTP是一个无状态协议。</p>
+</li>
+<li>
+<p>持续连接和非持续连接</p>
+<ul>
+<li>非持续连接：每个请求/相应经过一个单独的TCP连接发送</li>
+<li>持续连接：每个请求/相应经过同一个TCP连接发送</li>
+</ul>
+</li>
+<li>
+<p>HTTP请求报文</p>
+<blockquote>
+<p>GET /somedir/page.html HTPP/1.1</p>
+<p>Host: <a href=http://www.someschool.edu>www.someschool.edu</a></p>
+<p>Connection: close</p>
+<p>User-agent: Mozilla/5.0</p>
+<p>Accept-language: fr</p>
+</blockquote>
+<p>该报文由 5 行组成，每行由一个回车换行符结束，最后一行再附加一个回车换行符。</p>
+<p>一个请求报文能够具有更多行，或者至少一行</p>
+<p>第一行叫请求行，其后继叫首部行</p>
+<ul>
+<li>请求行
+<ul>
+<li>请求行有三个字段：方法字段，URL 字段和 HTTP 版本字段。</li>
+<li>方法字段可以取：GET、POST、HEAD、PUT 和 DELETE。绝大部分 HTTP 请求报文使用 GET 方法。</li>
+</ul>
+</li>
+<li>首部行，以上述报文为例
+<ul>
+<li>Host: <a href=http://www.someschool.edu>www.someschool.edu</a>
+<ul>
+<li>指明了对象所在的主机</li>
+<li>虽然该主机中已经存在了 TCP 连接，但该首部行提供的信息是 Web 代理高速缓存所要求的的</li>
+</ul>
+</li>
+<li>Connection: close
+<ul>
+<li>通过包含该首部行，该浏览器告诉服务器不使用持续连接，它要求服务器在发送完被请求的对象后就关闭这条连接</li>
+</ul>
+</li>
+<li>User-agent: Mozilla/5.0
+<ul>
+<li>该首部行用来指明用户代理，即向服务器发送请求的浏览器类型。</li>
+</ul>
+</li>
+<li>Accept-language: fr
+<ul>
+<li>该首部行表示用户想得到该对象的法语版本(如果服务器中有这个对象的话，如果没有，发送默认版本)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>请求报文通用格式：</p>
+<p><img src=../../static/http/A_Http_request_message.jpg alt=Http_Message></p>
+<p>首部行的空行后有一个实体体，使用 GET 方法时实体体为空，而使用 POST 方法时才使用该实体体。</p>
+<ul>
+<li>
+<p>请求行方法</p>
+<ul>
+<li>
+<p>当用户提交表单时，HTTP 客户常使用 POST 方法，如当用户向搜索引擎提交搜索关键词时。</p>
+</li>
+<li>
+<p>但用表单生成请求报文并非一定要用 POST，HTML 表单经常使用 GET 方法，并在所请求的 URL 中包括输入的数据。</p>
+<p>例如，一个表单使用 GET 方法，它有两个字段，分别填写“monkeys"和”bananas“，这样，该 URL 结构为：www.somesite.com/animalsearch?monkeys&bananas</p>
+</li>
+<li>
+<p>HEAD 方法类似于 GET 方法。当服务器收到一个 HEAD 方法的请求时，将会用一个 HTTP 报文进行响应，但不返回请求对象。</p>
+<p>应用程序开发者常用 HEAD 方法进行调试跟踪。</p>
+</li>
+<li>
+<p>PUT 方法常与 Web 发行工具联合使用，他允许用户上传对象到指定的 Web 服务器上指定路径。</p>
+</li>
+<li>
+<p>DELETE 方法允许用户或者应用程序删除 Web 服务器上的对象</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>HTTP 响应报文</p>
+<blockquote>
+<p>HTTP/1.1 200 OK</p>
+<p>Connection: close</p>
+<p>Date: Tue, 18 Aug 2015 15:44:04 GMT</p>
+<p>Server: Apache/2.2.3 (CentOS)</p>
+<p>Last-Modified: Tue, 18 Aug 2015 15:11:03 GMT</p>
+<p>Content-Length: 6821</p>
+<p>Content-Type: text/html</p>
+<p>(data &mldr;)</p>
+</blockquote>
+<p>这个响应报文有三个部分：</p>
+<ul>
+<li>1 个初始状态行，有 3 个字段
+<ul>
+<li>协议版本字段</li>
+<li>状态码
+<ul>
+<li>200 OK：请求成功，信息在返回的响应报文中</li>
+<li>301 Moved Permanently：请求的对象已经被永久转移了</li>
+<li>400 Bad Request：一个通用的差错代码，指示该请求不能被服务器理解</li>
+<li>404 Not Found：被请求的文档不在服务器上</li>
+<li>505 Http Version Not Supported：服务器不支持请求报文使用的 HTTP 协议版本</li>
+</ul>
+</li>
+<li>相应状态信息</li>
+</ul>
+</li>
+<li>6 个首部行
+<ul>
+<li>服务器用 <code>Connection: close</code> 首部行告诉客户，发送完报文后将关闭该 TCP 连接。</li>
+<li>Date：指示服务器产生并发送该报文的时间</li>
+<li>Server：指示该报文是由一台 Apache Web 服务器产生的，类似于请求报文中的 User-agent</li>
+<li>Last-Modified：指示了对象创建或者最后修改的时间</li>
+<li>Content-Length：指示了被发送对象的<code>字节数</code></li>
+<li>Content-Type：指示了实体体中的对象是 HTML 文本</li>
+</ul>
+</li>
+<li>实体体：报文的主要部分，即它包含了所请求对象本身。</li>
+</ul>
+<p><img src=../../static/http/Http_respond.jpg alt=Http_respond></p>
+</li>
+</ul>
+<hr width=100% id=EOF>
+<p style=color:#777>Last modified on 2021-10-11</p>
+</div>
+</div>
+<nav class=post-pagination>
+<a class=newer-posts>
+Next<br>No newer posts.
+</a>
+<a class=older-posts href=https://kanajin.github.io/computernetwork/layers/>
+Previous<br>五个层次级其作用
+</a>
+</nav>
+<div class=post-comment-wrapper>
+</div>
+</div>
+</div>
+</div>
+</div><div id=single-column-footer>
+Hugo Theme <a href=https://github.com/amazingrise/hugo-theme-diary>Diary</a> by <a href=https://amazingrise.net>Rise</a>
+<br>
+Ported from <a href=https://mak1t0.cc/ target=_blank rel="noreferrer noopener">Makito</a>'s <a href=https://github.com/SumiMakito/hexo-theme-journal/ target=_blank rel="noreferrer noopener">Journal.</a> <br>
+<br>
+&copy;
+2021 Suzuki's Blog
+</div>
+</div>
+<script>let app;app=new Vue({el:'#app',data:{scrollY:0,navOpacity:0,isDrawerOpen:!1,mounted:!1,isDarkMode:!1},methods:{sgn(a,b){let c=1/(1-2*a);return b<=a?0:b>=1-a?1:c*(b-a)},handleScroll(){this.scrollY=window.scrollY,this.navOpacity=this.sgn(0,Math.min(1,Math.max(0,window.scrollY/(this.pageHeadHeight()-this.navBarHeight()*.8))));const{navBar:c,navBackground:a,navTitle:b,extraContainer:d,streamContainer:e}=this.$refs;this.navOpacity>=1?(a.style.opacity=1,b.style.opacity=1):(a.style.opacity=0,b.style.opacity=0)},handleResize(){const{navBar:c,navBackground:d,navTitle:e,extraContainer:a,streamContainer:b}=this.$refs;a.style.left=b.offsetWidth-a.offsetWidth+'px'},navBarHeight(){return this.$refs.navBar.offsetHeight},pageHeadHeight(){return this.$refs.pageHead.offsetHeight},toggleDrawer(){this.isDrawerOpen=!this.isDrawerOpen,document.getElementsByTagName('html')[0].style.overflow=this.isDrawerOpen?'hidden':'unset'},closeDrawer(){this.isDrawerOpen=!1,document.getElementsByTagName('html')[0].style.overflow=this.isDrawerOpen?'hidden':'unset'},toggleDarkMode(){this.isDarkMode=!this.isDarkMode,this.isDarkMode==!0?(document.cookie="night=1;path=/",document.body.classList.add("night")):(document.cookie="night=0;path=/",document.body.classList.remove("night"))},debounce(t,b,f){let e,g,l,d,a,c,i=0,q=!1,h=!1,n=!0;const s=!b&&b!==0&&typeof root.requestAnimationFrame=='function';if(typeof t!='function')throw new TypeError('Expected a function');function w(a){const b=typeof a;return a!=null&&(b==='object'||b==='function')}b=+b||0,w(f)&&(q=!!f.leading,h='maxWait'in f,l=h?Math.max(+f.maxWait||0,b):l,n='trailing'in f?!!f.trailing:n);function o(a){const b=e,c=g;return e=g=void 0,i=a,d=t.apply(c,b),d}function k(b,c){return s?(root.cancelAnimationFrame(a),root.requestAnimationFrame(b)):setTimeout(b,c)}function v(a){if(s)return root.cancelAnimationFrame(a);clearTimeout(a)}function A(c){return i=c,a=k(m,b),q?o(c):d}function u(a){const e=a-c,f=a-i,d=b-e;return h?Math.min(d,l-f):d}function r(a){const d=a-c,e=a-i;return c===void 0||d>=b||d<0||h&&e>=l}function m(){const b=Date.now();if(r(b))return p(b);a=k(m,u(b))}function p(b){return a=void 0,n&&e?o(b):(e=g=void 0,d)}function x(){a!==void 0&&v(a),i=0,e=c=g=a=void 0}function y(){return a===void 0?d:p(Date.now())}function z(){return a!==void 0}function j(...i){const f=Date.now(),j=r(f);if(e=i,g=this,c=f,j){if(a===void 0)return A(c);if(h)return a=k(m,b),o(c)}return a===void 0&&(a=k(m,b)),d}return j.cancel=x,j.flush=y,j.pending=z,j}},created(){window.addEventListener('scroll',this.handleScroll),window.addEventListener('resize',this.handleResize),window._nonDesktop=function(){let a=!1;return function(b){(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(b)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(b.substr(0,4)))&&(a=!0)}(navigator.userAgent||navigator.vendor||window.opera),a};var a=document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/,"$1");a==""?window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches:a=="1"&&this.toggleDarkMode()},mounted(){this.handleScroll(),this.handleResize(),this.mounted=!0,document.querySelectorAll("table").forEach(function(a){a.classList.add("table-striped"),a.classList.add("table"),a.classList.add("table-responsive"),a.classList.add("table-hover")}),spy(),window.addEventListener('scroll',this.debounce(spy,250,{maxWait:250}),!1)},destroyed(){window.removeEventListener('scroll',this.handleScroll),window.removeEventListener('resize',this.handleResize)}})</script>
+</body>
+</html>
