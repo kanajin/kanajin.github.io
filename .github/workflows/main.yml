@@ -15,12 +15,6 @@ jobs:
           submodules: 'recursive'
           lfs: true
 
-      - name: Checkout specific branch of submodule
-        run: |
-          cd themes/PaperMod
-          git fetch origin
-          git checkout -b theme origin/theme
-
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
