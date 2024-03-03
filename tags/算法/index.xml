@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>算法 on Alea jacta est!</title>
+    <link>https://kanajin.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on Alea jacta est!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 07 Jan 2023 10:38:35 +0800</lastBuildDate>
+    <atom:link href="https://kanajin.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>排序算法</title>
+      <link>https://kanajin.github.io/posts/cs/algorithm/sorts/</link>
+      <pubDate>Sat, 07 Jan 2023 10:38:35 +0800</pubDate>
+      <guid>https://kanajin.github.io/posts/cs/algorithm/sorts/</guid>
+      <description>冒泡排序 重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来，因小元素会经由交换慢慢“浮”到数列的顶端而得名
+代码 func bubbleSort[T constraints.Ordered](arr []T) { for i := 0; i &amp;lt; len(arr); i++ { for j := i; j &amp;lt; len(arr); j++ { if arr[i] &amp;gt; arr[j] { arr[i], arr[j] = arr[j], arr[i] //swap } } } } 插入排序 从第二个元素(index=1)开始，不断向前“插队”到第一个比他小的元素之后
+代码 func insertionSort[T constraints.Ordered](arr []T) { for i := 1; i &amp;lt; len(arr); i++ { j := i - 1 key := arr[i] for ; j &amp;gt;= 0 &amp;amp;&amp;amp; arr[j] &amp;gt; key; j-- { arr[j+1] = arr[j] } arr[j+1] = key } } 选择排序 反复遍历数组，每次选出最小的元素移动至合适的位置</description>
+    </item>
+  </channel>
+</rss>
