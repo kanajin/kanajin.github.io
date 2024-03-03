@@ -1,0 +1,95 @@
+# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
+# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
+baseURL: "https://kanajin.github.io"
+title: "Alea jacta est!"
+paginate: 5
+theme: [PaperMod]
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+mainsections: ["posts"]
+# googleAnalytics: UA-123-45
+defaultContentLanguage: "zh"
+
+minify:
+  disableXML: true
+  # minifyOutput: true
+
+languages:
+  zh:
+    languageName: "简体中文"
+    weight: 1
+    taxonomies:
+      category: categories
+      tag: tags
+      series: series
+    menu:
+      main:
+        - name: 归档
+          url: archives
+          weight: 5
+        - name: 搜索
+          url: search/
+          weight: 10
+        - name: 分类
+          url: categories
+          weight: 10
+        - name: 标签
+          url: tags
+          weight: 10
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  # description: "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
+  author: 铃兰怜雪
+  # author: ["Me", "You"] # multiple authors
+
+  defaultTheme: auto
+  # disableThemeToggle: true
+  ShowShareButtons: false
+  ShowReadingTime: true
+  # disableSpecial1stPost: true
+  displayFullLangName: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowAllPagesInArchive: true
+  ShowPageNums: true
+  ShowToc: true
+  # comments: false
+  # images: ["images/papermod-cover.png"]
+
+  CustomCSS: ["css/code_font.css"]
+
+  homeInfoParams:
+    Title: "铃兰怜雪"
+    Content: >
+      👋 welcome
+
+      - 春江烟雨映楼台，万种风情次第开
+
+      - 劝君且赏花一朵，再叹此生不枉来
+
+  socialIcons:
+    - name: github
+      title: My Github Homepage
+      url: "https://github.com/kanajin"
+    - name: email
+      title: Email Address
+      url: "mailto:ekanajin@gmail.com"
+    - name: qq
+      url: "img/blog/qq.jpg"
+    - name: wechat
+      url: "img/blog/wechat.jpg"
