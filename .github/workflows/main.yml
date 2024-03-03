@@ -18,7 +18,8 @@ jobs:
       - name: Checkout specific branch of submodule
         run: |
           cd themes/PaperMod
-          git checkout theme
+          git fetch origin
+          git checkout -b theme origin/theme
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
