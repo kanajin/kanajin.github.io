@@ -12,11 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          submodules: 'false'
+          submodules: 'true'
           lfs: true
       - name: Checkout submodules
         run: |
-          git submodule update --init --recursive
           cd themes/PaperMod
           git fetch --all
           git checkout -t origin/theme
