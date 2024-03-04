@@ -20,7 +20,7 @@ jobs:
           cd themes/PaperMod
           git fetch --all
           git pull origin theme
-          git checkout theme
+          git checkout -b theme origin/theme
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
