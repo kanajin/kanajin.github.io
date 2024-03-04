@@ -19,8 +19,7 @@ jobs:
           git submodule update --init --recursive
           cd themes/PaperMod
           git fetch --all
-          git pull origin theme
-          git checkout -b theme origin/theme
+          ggit checkout -t origin/theme
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
