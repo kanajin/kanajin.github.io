@@ -19,6 +19,7 @@ jobs:
           cd themes/PaperMod
           git submodule update --remote
           git fetch --all
+          git pull
           git checkout theme
 
       - name: Setup Hugo
