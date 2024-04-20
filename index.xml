@@ -6,8 +6,31 @@
     <description>Recent content on Alea jacta est!</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 15 Apr 2024 23:40:30 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 20 Apr 2024 16:47:45 +0800</lastBuildDate>
     <atom:link href="https://kanajin.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>群晖nas本地部署Bitwarden服务器管理密码</title>
+      <link>https://kanajin.github.io/posts/life/bitwarden/</link>
+      <pubDate>Sat, 20 Apr 2024 16:47:45 +0800</pubDate>
+      <guid>https://kanajin.github.io/posts/life/bitwarden/</guid>
+      <description>本笔记记录如何使用docker部署bitwarden服务端和acme自签证书，请保证前置条件： 1.已经购买一个域名 2.关闭群晖的二步验证(我没有将群晖放到公网，内网访问环境下不需要二步验证) 3.在路由器中把nas的内网ip设置成固定ip
+部署bitwarden服务端 安装并启动镜像 官方提供的docker部署方案面向企业，功能更全面但对资源的要求更高，镜像也大得多
+对于个人使用vaultwarden即可。中文wiki
+在群晖container manager中搜索vaultwarden，安装vaultwarden/server:latest 把端口映射保持默认即可，即容器内的80和3012端口需要映射出来虽然3012端口我不知道有什么用，但默认给了就映射一下吧。注意nas上的80端口可能会被占用。 80端口映射出来的端口不直接用，后面用反向代理。 存储空间(volume)选一个用来存放数据库的文件夹，映射到容器内的/data，读写权限都开 点击启动即可，但现在还没配置http所以只能打开登录界面，不能正常使用
+配置反代 群晖：控制面板-登陆门户-高级-反向代理，如果找不到直接在控制面板搜索反向代理 新增一项 来源协议选https，端口自己指定，主机名保持* 目的地协议选http，端口为刚刚在容器中映射出来的host端口，主机名为localhost 然后访问https://nasip:&amp;lt;反代https端口&amp;gt;来使用
+此时已经可以注册并登录了，但浏览器会提示证书问题，接下来安装证书
+自动签名与安装证书 添加解析 给自己的域名中添加一条A类型解析，ip地址为nas的内网ip
+部署自签服务 自签证书只能签域名，先在自己的域名中
+container manager搜索acme，安装neilpang/acme.sh:latest，镜像文档 设置几个环境变量 AUTO_UPGRADE: 1 SYNO_Username: &amp;lt;nas用户名&amp;gt; SYNO_Password: &amp;lt;nas密码&amp;gt; 创建一个文件夹，存放acme的配置 在改文件夹下新建一个文本文档account.conf，内容如下，以腾讯云为例，注意不能照抄
+export DP_Id=&amp;#34;域名解析商提供的TOKENid&amp;#34; export DP_Key=&amp;#34;域名解析商提供的TOKEN&amp;#34; AUTO_UPGRADE=&amp;#39;1&amp;#39; # 所有提供商都加这行，不加可能会遇到神奇的bug，反正加了也没问题 各个域名提供商的api用法查阅acme wiki
+每个提供商在这里export的东西不一样，请查看wiki
+每个提供商注册api token的方式也不同，去对应官网搜索api或者token之类的就能找到
+将该文件夹映射到容器的/acme.sh里，读写权限都开
+在执行命令中填入daemon
+容器名要记住，不需要其他配置，点运行
+启动自动签名脚本 在刚刚存放acme配置的文件夹下，新建一个.sh的脚本，注意替换尖括号中的容器名称，内容如下，不要照抄
+#!/bin/bash docker exec &amp;lt;替换成你自己的容器名字&amp;gt; acme.sh --force --log --issue --server letsencrypt --dns dns_dp --dnssleep 120 -d example.</description>
+    </item>
     <item>
       <title>UI设计</title>
       <link>https://kanajin.github.io/posts/designer/ui/</link>

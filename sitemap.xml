@@ -3,13 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://kanajin.github.io/</loc>
-    <lastmod>2024-04-15T23:40:30+08:00</lastmod>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
   </url><url>
     <loc>https://kanajin.github.io/categories/</loc>
-    <lastmod>2024-04-15T23:40:30+08:00</lastmod>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
   </url><url>
     <loc>https://kanajin.github.io/posts/</loc>
-    <lastmod>2024-04-15T23:40:30+08:00</lastmod>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://kanajin.github.io/tags/</loc>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://kanajin.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://kanajin.github.io/posts/life/bitwarden/</loc>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://kanajin.github.io/categories/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
+  </url><url>
+    <loc>https://kanajin.github.io/posts/life/</loc>
+    <lastmod>2024-04-20T16:47:45+08:00</lastmod>
   </url><url>
     <loc>https://kanajin.github.io/posts/designer/ui/</loc>
     <lastmod>2024-04-15T23:40:30+08:00</lastmod>
@@ -17,19 +32,7 @@
     <loc>https://kanajin.github.io/categories/%E7%AD%96%E5%88%92%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2024-04-15T23:40:30+08:00</lastmod>
   </url><url>
-    <loc>https://kanajin.github.io/tags/</loc>
-    <lastmod>2024-03-02T14:51:02+08:00</lastmod>
-  </url><url>
-    <loc>https://kanajin.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2024-03-02T14:51:02+08:00</lastmod>
-  </url><url>
     <loc>https://kanajin.github.io/tags/%E5%BB%BA%E7%AB%99/</loc>
-    <lastmod>2024-03-02T14:51:02+08:00</lastmod>
-  </url><url>
-    <loc>https://kanajin.github.io/categories/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2024-03-02T14:51:02+08:00</lastmod>
-  </url><url>
-    <loc>https://kanajin.github.io/posts/life/</loc>
     <lastmod>2024-03-02T14:51:02+08:00</lastmod>
   </url><url>
     <loc>https://kanajin.github.io/posts/life/build-blog/</loc>
